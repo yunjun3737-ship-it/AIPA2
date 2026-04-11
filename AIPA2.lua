@@ -9001,4 +9001,49 @@ task.spawn(function()
         AutoSitBlobman()
     end
 end)
-
+-- ================== 자동 Plot 보호막 (내 집 자동 보호) ==================
+task.spawn(function()
+    task.wait(5)
+    
+    while true do
+        task.wait(1)
+        
+        local char = plr.Character
+        if not char or not char:FindFirstChild("HumanoidRootPart") then continue end
+        
+        -- 내가 Plot 안에 있는지 확인
+        local inPlot = plr:FindFirstChild("InPlot")
+        if not inPlot or not inPlot.Value then continue end
+        
+        -- 내 Plot 찾기
+        for _, plot in ipairs(workspace.Plots:GetChildren()) do
+            local sign = plot:FindFirstChild("PlotSign")
+            if sign then
+                local owners = sign:FindFirstChild("ThisPlotsOwners")
+                if owners then
+                    local isMyPlot = false
+                    for _, owner in ipairs(owners:GetChildren()) do
+                        if owner.Value == plr.Name then
+                            isMyPlot = true
+                            break
+                        end
+                    end
+                    
+                    if isMyPlot then
+                        -- Plot 안에 있는 다른 플레이어 강제 이동
+                        for _, other in ipairs(game.Players:GetPlayers()) do
+                            if other \~= plr and other.Character then
+                                local otherChar = other.Character
+                                local otherHRP = otherChar:FindFirstChild("HumanoidRootPart")
+                                if otherHRP and otherHRP.Position.Y > -50 then
+                                    -- Plot 바깥으로 강제 이동
+                                    otherHRP.CFrame = otherHRP.CFrame + Vector3.new(0, 50, 0)
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
