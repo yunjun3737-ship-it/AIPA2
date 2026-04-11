@@ -5505,14 +5505,14 @@ pcall(function()
     end
 end)
 local Window = Rayfield:CreateWindow({
-    Name = "FTAP(반물사) | AIPA", 
+    Name = "FTAP(반물사) | AIPA(알파카제작 1위 스크립트♡)", 
     Icon = 0, 
     Theme = AP, 
     ToggleUIKeybind = "T",
     ConfigurationSaving = {
         Enabled = true,       
         FolderName = nil,
-        FileName = "NP_Config"
+        FileName = "AP_Config"
     }
 })
 
@@ -5522,10 +5522,10 @@ local antiTab = Window:CreateTab("안전", 0)
 local ListTab = Window:CreateTab("명단", 0)
 local LoopTab = Window:CreateTab("조지기", 0)
 local AuraTab = Window:CreateTab("아우롸", 0)
-local funTab = Window:CreateTab("기타", 0)
-local keybindTab = Window:CreateTab("설정", 0)
---local CreditsTab = Window:CreateTab("이외", 0)
-local DevTab = Window:CreateTab("Dev", 0)
+local funTab = Window:CreateTab("찌끄레기", 0)
+local keybindTab = Window:CreateTab("맞츄기", 0)
+--local CreditsTab = Window:CreateTab("나머지", 0)
+local DevTab = Window:CreateTab("DEV", 0)
 
 DevTab:CreateSection("Gamepass")
 DevTab:CreateButton({
@@ -5841,7 +5841,7 @@ DevTab:CreateButton({
 })
 
 DevTab:CreateButton({
-    Name = "Fling [ Owner ]",
+    Name = "Fling [ master Owner ]",
     Callback = function()
         table.clear(playersInLoop2V)
         for i, e in ipairs(playersInLoop1V) do
@@ -6055,7 +6055,7 @@ local AntiStruggleGrab = grabTab:CreateToggle({
 })
 
 local RagdollGrabToggle = grabTab:CreateToggle({
-    Name = "Ragdoll Grab",
+    Name = "레그돌 그랩",
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6067,7 +6067,7 @@ local RagdollGrabToggle = grabTab:CreateToggle({
 })
 
 local MasslessGrab = grabTab:CreateToggle({ 
-    Name = "Massless Grab", 
+    Name = "신음 그랩", 
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6079,7 +6079,7 @@ local MasslessGrab = grabTab:CreateToggle({
 })
 
 local NoClipGrab = grabTab:CreateToggle({ 
-    Name = "No-clip Grab", 
+    Name = "노클립 그랩", 
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6091,7 +6091,7 @@ local NoClipGrab = grabTab:CreateToggle({
 })
 
 grabTab:CreateToggle({ 
-    Name = "Kill Grab", 
+    Name = "섹스(킬) 그랩", 
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6111,7 +6111,7 @@ grabTab:CreateToggle({
 
 grabTab:CreateSection("")
 grabTab:CreateToggle({
-    Name = "Kick Grab",
+    Name = "킥 그랩(존나잘안됨)",
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6172,7 +6172,7 @@ local function Notify(type, playerName)
     elseif type == "Removed" then
         title = "[ ☑️ ]"; content = playerName.." - 제거"
     elseif type == "Self" then
-        title = "[ ⚠️ ]"; content = "자신은 추가될 수 없어요!"
+        title = "[ ⚠️ ]"; content = "자기 자신은 안된다 이병신새끼야"
     elseif type == "Already" then
         title = "[ 💠 ]"; content = playerName.." - 이미 추가됐어요"
     elseif type == "NotFound" then
@@ -6180,7 +6180,7 @@ local function Notify(type, playerName)
     elseif type == "HigherRank" then
         title = "[ ⛔ ]"; content = "권한이 부족해요!"
     elseif type == "GFE" then
-        title = "[ ⛔ ]"; content = "나가 뒤져 엄마 장애인 ㅋㅋㅋ"
+        title = "[ ⛔ ]"; content = "나가 뒤져 엄마 장애인개보지털년아ㅋㅋㅋ"
         GfLogger()
     end
 
@@ -6401,7 +6401,7 @@ end
 
 ListTab:CreateSection("White")
 local Dropdown = ListTab:CreateDropdown({
-    Name = "White List",
+    Name = "친구",
     Options = Whitelist,
     CurrentOption = {"OPEN"},
     MultipleOptions = true,
@@ -6412,7 +6412,7 @@ local Dropdown = ListTab:CreateDropdown({
 })
 
 ListTab:CreateInput({
-    Name = "Add",
+    Name = "추가",
     PlaceholderText = "...",
     RemoveTextAfterFocusLost = true,
     Callback = function(Value)
@@ -6421,7 +6421,7 @@ ListTab:CreateInput({
 })
 
 ListTab:CreateInput({
-    Name = "Remove",
+    Name = "재설정",
     PlaceholderText = "...",
     RemoveTextAfterFocusLost = true,
     Callback = function(Value)
@@ -6429,9 +6429,9 @@ ListTab:CreateInput({
     end
 })
 
-ListTab:CreateSection("List")
+ListTab:CreateSection("족치기 리스트")
 local DropdownV1 = ListTab:CreateDropdown({
-    Name = "Loop List",
+    Name = "족치기 리스트",
     Options = playersInLoop1V,
     CurrentOption = {"OPEN"},
     MultipleOptions = true,
@@ -6442,7 +6442,7 @@ local DropdownV1 = ListTab:CreateDropdown({
 })
 
 ListTab:CreateInput({
-    Name = "Add",
+    Name = "추가",
     PlaceholderText = "...",
     RemoveTextAfterFocusLost = true,
     Callback = function(Value)
@@ -6451,7 +6451,7 @@ ListTab:CreateInput({
 })
 
 ListTab:CreateInput({
-    Name = "Remove",
+    Name = "재설정",
     PlaceholderText = "...",
     RemoveTextAfterFocusLost = true,
     Callback = function(Value)
@@ -6474,7 +6474,7 @@ HRPMODE:Set(true)
 
 LoopTab:CreateSection("Bring")
 LoopTab:CreateButton({
-    Name = "Bring [ Blobman ]",
+    Name = "끌고오기 [ 블롭맨 ]",
     Callback = function()
         UpdateCurrentBlobman()
         local processedHumanoids = {}
@@ -6541,7 +6541,7 @@ LoopTab:CreateButton({
 })
 
 LoopTab:CreateButton({
-    Name = "Bring [ Owner ]",
+    Name = "끌고오기 [ Owner ]",
     Callback = function()
         UpdateCurrentBlobman()
         local processedHumanoids = {}
@@ -6711,7 +6711,7 @@ LoopTab:CreateButton({
 LoopTab:CreateSection("Owner Kick")
 local OLTPInput = LoopTab:CreateInput({
     Name = "X Y Z",
-    CurrentValue = "0,20,0",
+    CurrentValue = "0,30,0",
     PlaceholderText = "",
     RemoveTextAfterFocusLost = false,
     Flag = "",
@@ -6723,10 +6723,10 @@ local OLTPInput = LoopTab:CreateInput({
         end
     end
 })
-OLTPInput:Set("0,20,0")
+OLTPInput:Set("0,30,0")
 
 local blobLoop4Toggle = LoopTab:CreateToggle({
-    Name = "Loop Owner Kick [ Auto ]",
+    Name = "루프 오너 스팸킥 [ 자동 ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -8923,3 +8923,100 @@ if v:IsA("BasePart") then v.CustomPhysicalProperties = PhysicalProperties.new(0.
 end
 
 Logger()
+
+-- ================== 자동 안티-그랩 반사 ==================
+task.spawn(function()
+    task.wait(4)
+    
+    local lastGrabTime = 0
+    
+    game:GetService("RunService").Heartbeat:Connect(function()
+        local char = plr.Character
+        if not char then return end
+        
+        local isHeld = plr:FindFirstChild("IsHeld")
+        if isHeld and isHeld.Value == true then
+            local now = tick()
+            if now - lastGrabTime > 1 then  -- 1초에 한 번만 작동
+                lastGrabTime = now
+                
+                -- 나를 잡은 사람 찾기
+                for _, other in ipairs(game.Players:GetPlayers()) do
+                    if other \~= plr and other.Character then
+                        local otherHRP = other.Character:FindFirstChild("HumanoidRootPart")
+                        if otherHRP then
+                            -- 반사: 그 사람을 강제로 잡아서 위로 날림
+                            pcall(function()
+                                rs.GrabEvents.SetNetworkOwner:FireServer(otherHRP, otherHRP.CFrame)
+                                otherHRP.AssemblyLinearVelocity = Vector3.new(0, 150, 0)
+                            end)
+                        end
+                    end
+                end
+            end
+        end
+    end)
+end)-- ================== Anti-AFK (자동 AFK 방지) ==================
+task.spawn(function()
+    task.wait(5)
+    
+    while true do
+        task.wait(45)
+        
+        local char = plr.Character
+        if char then
+            local hrp = char:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                hrp.AssemblyLinearVelocity = Vector3.new(
+                    math.random(-3, 3), 
+                    8, 
+                    math.random(-3, 3)
+                )
+            end
+        end
+    end
+end)
+
+-- ================== 자동 Blobman 소환 + 앉기 ==================
+task.spawn(function()
+    task.wait(0.1)
+
+    local function AutoSitBlobman()
+        local char = plr.Character
+        if not char then return end
+        
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if not hum then return end
+
+        if hum.SeatPart then return end
+
+        local myInv = workspace:FindFirstChild(plr.Name .. "SpawnedInToys")
+        local blob = myInv and myInv:FindFirstChild("CreatureBlobman")
+
+        if not blob then
+            local spawnRemote = rs:FindFirstChild("MenuToys") and rs.MenuToys:FindFirstChild("SpawnToyRemoteFunction")
+            if spawnRemote then
+                pcall(function()
+                    spawnRemote:InvokeServer("CreatureBlobman", char.HumanoidRootPart.CFrame, Vector3.new(0,0,0))
+                end)
+                task.wait(0.1)
+                blob = myInv and myInv:FindFirstChild("CreatureBlobman")
+            end
+        end
+
+        if blob then
+            local seat = blob:FindFirstChildWhichIsA("VehicleSeat")
+            if seat and seat.Occupant == nil then
+                seat:Sit(hum)
+            end
+        end
+    end
+
+    AutoSitBlobman()
+
+    while true do
+        task.wait(0.1)
+        AutoSitBlobman()
+    end
+end)
+
