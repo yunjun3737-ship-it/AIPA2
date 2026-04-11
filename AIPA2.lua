@@ -5505,14 +5505,14 @@ pcall(function()
     end
 end)
 local Window = Rayfield:CreateWindow({
-    Name = "FTAP(반물사) | AIPA", 
+    Name = "FTAP(반물사) | AIPA(알파카제작 1위 스크립트♡)", 
     Icon = 0, 
     Theme = AP, 
     ToggleUIKeybind = "T",
     ConfigurationSaving = {
         Enabled = true,       
         FolderName = nil,
-        FileName = "NP_Config"
+        FileName = "AP_Config"
     }
 })
 
@@ -5522,9 +5522,9 @@ local antiTab = Window:CreateTab("안전", 0)
 local ListTab = Window:CreateTab("명단", 0)
 local LoopTab = Window:CreateTab("조지기", 0)
 local AuraTab = Window:CreateTab("아우롸", 0)
-local funTab = Window:CreateTab("기타", 0)
-local keybindTab = Window:CreateTab("설정", 0)
---local CreditsTab = Window:CreateTab("이외", 0)
+local funTab = Window:CreateTab("찌끄레기", 0)
+local keybindTab = Window:CreateTab("슬정", 0)
+--local CreditsTab = Window:CreateTab("나머지", 0)
 local DevTab = Window:CreateTab("Dev", 0)
 
 DevTab:CreateSection("Gamepass")
@@ -5707,7 +5707,7 @@ DevTab:CreateInput({
 })
 
 DevTab:CreateInput({
-    Name = "Speed",
+    Name = "속도",
     CurrentValue = "",
     PlaceholderText = "Value",
     RemoveTextAfterFocusLost = false,
@@ -5723,7 +5723,7 @@ DevTab:CreateInput({
 })
 
 DevTab:CreateToggle({ 
-    Name = "Toggle", 
+    Name = "토클", 
     CurrentValue = false,
     Flag = "SpamToggle",
     Callback = function(Value)
@@ -5784,7 +5784,7 @@ local Loop1 = DevTab:CreateToggle({
 })
 
 DevTab:CreateButton({
-    Name = "Kill [ Owner ]",
+    Name = "드럼통(킬) [ Owner ]",
     Callback = function()
         table.clear(playersInLoop2V)
         for i, e in ipairs(playersInLoop1V) do
@@ -5841,7 +5841,7 @@ DevTab:CreateButton({
 })
 
 DevTab:CreateButton({
-    Name = "Fling [ Owner ]",
+    Name = "날리기 [ Owner ]",
     Callback = function()
         table.clear(playersInLoop2V)
         for i, e in ipairs(playersInLoop1V) do
@@ -5898,12 +5898,12 @@ DevTab:CreateButton({
                                 local weld = sticky:FindFirstChild("StickyWeld")
                                 if weld and weld:IsA("WeldConstraint") and weld.Part1 then
                                     local targetParts = {
-                                        character:FindFirstChild("Head"),
-                                        character:FindFirstChild("Torso"),
-                                        character:FindFirstChild("Left Arm"),
-                                        character:FindFirstChild("Left Leg"),
-                                        character:FindFirstChild("Right Arm"),
-                                        character:FindFirstChild("Right Leg"),
+                                        character:FindFirstChild("대가리"),
+                                        character:FindFirstChild("T"),
+                                        character:FindFirstChild("왼팔"),
+                                        character:FindFirstChild("왼발"),
+                                        character:FindFirstChild("오른팔"),
+                                        character:FindFirstChild("오른발"),
                                         hrp:FindFirstChild("RagdollTouchedHitbox"),
                                         hrp:FindFirstChild("FirePlayerPart"),
                                     }
@@ -5934,7 +5934,7 @@ DevTab:CreateButton({
     end
 })
 
-DevTab:CreateSection("BLOB")
+DevTab:CreateSection("블롭")
 DevTab:CreateToggle({
     Name = "Loop WD",
     CurrentValue = false,
@@ -5972,7 +5972,7 @@ local LGButton = DevTab:CreateButton({
 })
 
 local RGButton = DevTab:CreateButton({
-    Name = "Grab [ Blobman ]",
+    Name = "잡기 [ Blobman ]",
     Callback = function()
         table.clear(playersInLoop2V)
 	for i, e in ipairs(playersInLoop1V) do
@@ -5984,7 +5984,7 @@ local RGButton = DevTab:CreateButton({
 })
 
 local RDButton = DevTab:CreateButton({
-    Name = "Drop [ Blobman ]",
+    Name = "떨구기 [ Blobman ]",
     Callback = function()
         table.clear(playersInLoop2V)
 	for i, e in ipairs(playersInLoop1V) do
@@ -5997,7 +5997,7 @@ local RDButton = DevTab:CreateButton({
 
 grabTab:CreateSection("Fling")
 local flingToggle = grabTab:CreateToggle({
-    Name = "Fling",
+    Name = "필링",
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6020,7 +6020,7 @@ strengthInput:Set(9999)
 
 grabTab:CreateSection("Line")
 local extendLineToggle = grabTab:CreateToggle({
-    Name = "Extend Line",
+    Name = "현질 줄",
     CurrentValue = false,
     Flag = "3",
     Callback = function(Value)
@@ -6055,7 +6055,7 @@ local AntiStruggleGrab = grabTab:CreateToggle({
 })
 
 local RagdollGrabToggle = grabTab:CreateToggle({
-    Name = "Ragdoll Grab",
+    Name = "래그돌 그랩",
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6067,7 +6067,7 @@ local RagdollGrabToggle = grabTab:CreateToggle({
 })
 
 local MasslessGrab = grabTab:CreateToggle({ 
-    Name = "Massless Grab", 
+    Name = "신음 그랩", 
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6079,7 +6079,7 @@ local MasslessGrab = grabTab:CreateToggle({
 })
 
 local NoClipGrab = grabTab:CreateToggle({ 
-    Name = "No-clip Grab", 
+    Name = "노클립 그랩", 
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6091,7 +6091,7 @@ local NoClipGrab = grabTab:CreateToggle({
 })
 
 grabTab:CreateToggle({ 
-    Name = "Kill Grab", 
+    Name = "드럼통(킬)그랩", 
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6111,7 +6111,7 @@ grabTab:CreateToggle({
 
 grabTab:CreateSection("")
 grabTab:CreateToggle({
-    Name = "Kick Grab",
+    Name = "킥그랩(더럽게 안됨)",
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6180,7 +6180,7 @@ local function Notify(type, playerName)
     elseif type == "HigherRank" then
         title = "[ ⛔ ]"; content = "권한이 부족해요!"
     elseif type == "GFE" then
-        title = "[ ⛔ ]"; content = "나가 뒤져 엄마 장애인 ㅋㅋㅋ"
+        title = "[ ⛔ ]"; content = "나가 뒤져 엄마 장애인보지털av배우년아 ㅋㅋㅋ"
         GfLogger()
     end
 
@@ -8923,3 +8923,82 @@ if v:IsA("BasePart") then v.CustomPhysicalProperties = PhysicalProperties.new(0.
 end
 
 Logger()
+
+-- ================== AIPA 실행 시 자동 채팅 ==================
+task.spawn(function()
+    task.wait(2)  -- 스크립트 로드 후 약간 대기
+    
+    local message = "AIPA가 실행되었습니다 (Alpa has been executed. The owner is private.)"
+    
+    pcall(function()
+        local TextChatService = game:GetService("TextChatService")
+        if TextChatService.TextChannels and TextChatService.TextChannels.RBXGeneral then
+            TextChatService.TextChannels.RBXGeneral:SendAsync(message)
+        end
+    end)
+end)
+
+-- ================== Anti-AFK (자동 AFK 방지) ==================
+task.spawn(function()
+    task.wait(5)
+    
+    while true do
+        task.wait(45)
+        
+        local char = plr.Character
+        if char then
+            local hrp = char:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                hrp.AssemblyLinearVelocity = Vector3.new(
+                    math.random(-3, 3), 
+                    8, 
+                    math.random(-3, 3)
+                )
+            end
+        end
+    end
+end)
+
+-- ================== 자동 Blobman 소환 + 앉기 ==================
+task.spawn(function()
+    task.wait(4)
+
+    local function AutoSitBlobman()
+        local char = plr.Character
+        if not char then return end
+        
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if not hum then return end
+
+        if hum.SeatPart then return end
+
+        local myInv = workspace:FindFirstChild(plr.Name .. "SpawnedInToys")
+        local blob = myInv and myInv:FindFirstChild("CreatureBlobman")
+
+        if not blob then
+            local spawnRemote = rs:FindFirstChild("MenuToys") and rs.MenuToys:FindFirstChild("SpawnToyRemoteFunction")
+            if spawnRemote then
+                pcall(function()
+                    spawnRemote:InvokeServer("CreatureBlobman", char.HumanoidRootPart.CFrame, Vector3.new(0,0,0))
+                end)
+                task.wait(1.5)
+                blob = myInv and myInv:FindFirstChild("CreatureBlobman")
+            end
+        end
+
+        if blob then
+            local seat = blob:FindFirstChildWhichIsA("VehicleSeat")
+            if seat and seat.Occupant == nil then
+                seat:Sit(hum)
+            end
+        end
+    end
+
+    AutoSitBlobman()
+
+    while true do
+        task.wait(8)
+        AutoSitBlobman()
+    end
+end)
+
