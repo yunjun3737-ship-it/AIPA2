@@ -1,4 +1,4 @@
-local FN_BYPASS = true
+local FN_BYPASS = false
 local TESTPP = true
 
 -- ================== 설정 자동 저장 + 중복 실행  방지 ==================
