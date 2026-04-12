@@ -6744,7 +6744,62 @@ local blobLoop4Toggle = LoopTab:CreateToggle({
         end
     end
 })
+-- ================== UI를 맨 마지막에 강제로 추가 (이게 제일 잘 됨) ==================
 
+task.spawn(function()
+    task.wait(1.5)  -- UI가 다 로드된 후에 실행
+    
+    LoopTab:CreateSection("Advanced Loop Kill")
+
+    LoopTab:CreateToggle({
+        Name = "Loop Kill V4 [ Blobman ]",
+        CurrentValue = false,
+        Flag = "LoopKillV4",
+        Callback = function(Value)
+            blobLoopKillT4 = Value
+            if Value then
+                table.clear(playersInLoop2V)
+                for _, e in ipairs(playersInLoop1V) do
+                    local nameOnly = e:match("^(.-) %(") or e
+                    table.insert(playersInLoop2V, nameOnly)
+                end
+                loopPlayerBlobKillV4()
+            else
+                blobLoopKillT4 = false
+            end
+        end
+    })
+
+    LoopTab:CreateToggle({
+        Name = "Loop Kill [ Owner + Ragdoll ]",
+        CurrentValue = false,
+        Flag = "OwnerLoopKill",
+        Callback = function(Value)
+            ownerLoopKillT = Value
+            if Value then
+                table.clear(playersInLoop2V)
+                for _, e in ipairs(playersInLoop1V) do
+                    local nameOnly = e:match("^(.-) %(") or e
+                    table.insert(playersInLoop2V, nameOnly)
+                end
+                ownerLoopKillF()
+            else
+                ownerLoopKillT = false
+            end
+        end
+    })
+
+    LoopTab:CreateToggle({
+        Name = "[ Fast Reset / Ragdoll ]",
+        CurrentValue = true,
+        Flag = "FastResetKill",
+        Callback = function(Value)
+            FastResetKill = Value
+        end
+    })
+
+    Rayfield:Notify({Title = "[ ✅ ]", Content = "Advanced Loop Kill UI 추가 완료", Duration = 4})
+end)
 LoopTab:CreateToggle({
     Name = "[ Anchored ]",
     CurrentValue = false,
