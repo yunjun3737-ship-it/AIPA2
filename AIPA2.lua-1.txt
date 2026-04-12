@@ -6744,6 +6744,69 @@ local blobLoop4Toggle = LoopTab:CreateToggle({
         end
     end
 })
+-- ================== 블롭맨 루프킬 함수 (안정 버전) ==================
+
+local blobLoopKillRunning = false
+
+function BlobLoopKillStart()
+    if blobLoopKillRunning then return end
+    blobLoopKillRunning = true
+
+    task.spawn(function()
+        while blobLoopKillRunning do
+            UpdateCurrentBlobman()
+
+            -- 블롭이 없으면 자동 소환
+            if not currentBlobS then
+                spawnBlobmanF()
+                task.wait(1.8)
+                UpdateCurrentBlobman()
+                if not currentBlobS then 
+                    task.wait(1)
+                    continue 
+                end
+            end
+
+            for _, name in ipairs(playersInLoop1V) do
+                local player = game.Players:FindFirstChild(name)
+                if not player then continue end
+                if PPs:FindFirstChild(name) or inv:FindFirstChild(name) then continue end
+
+                local char = player.Character
+                local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                local hum = char and char:FindFirstChildOfClass("Humanoid")
+
+                if hrp and hum and hum.Health > 0 then
+                    -- 블롭 위치 고정 (튕김 방지)
+                    local blobHRP = currentBlobS:FindFirstChild("HumanoidRootPart")
+                    local myHRP = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
+                    if blobHRP and myHRP then
+                        blobHRP.CFrame = myHRP.CFrame * CFrame.new(0, 7, 0)
+                    end
+
+                    TP(player)           -- 먼저 가까이 이동
+                    task.wait(0.07)
+
+                    BlobGrab(currentBlobS, hrp, "Right")
+                    task.wait(0.05)
+                    BlobRelease(currentBlobS, hrp, "Right")
+                    task.wait(0.12)
+
+                    -- ragdoll 강제
+                    pcall(function()
+                        rs.CharacterEvents.RagdollRemote:FireServer(hrp, 1)
+                    end)
+                end
+                task.wait(0.15)
+            end
+            task.wait(0.08)
+        end
+    end)
+end
+
+function BlobLoopKillStop()
+    blobLoopKillRunning = false
+end
 -- ================== UI를 맨 마지막에 강제로 추가 (이게 제일 잘 됨) ==================
 
 task.spawn(function()
