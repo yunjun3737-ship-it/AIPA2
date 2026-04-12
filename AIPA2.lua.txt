@@ -13,7 +13,7 @@ print("NP FTAP Script 시작 - 설정 저장 활성화")
 -- ================== Rayfield 안정 버전 (Build Mismatch 해결) ==================
 print("Rayfield 로드 시작...")
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-print("Rayfield 로드 완료")
+print("이스크립트는 알파카에의해 만들어졌으며 부제작자는 노프입니다.무단복제시 애미까지 쳐죽여버립니다.")
 Players = game:GetService("Players")
 plr = game.Players.LocalPlayer
 cam = workspace.CurrentCamera
@@ -8928,7 +8928,7 @@ Logger()
 task.spawn(function()
     task.wait(2)  -- 스크립트 로드 후 약간 대기
     
-    local message = "AIPA가 실행되었습니다 (Alpa has been executed. The owner is private.)"
+    local message = "AIPA가 실행되었습니다 made by paca(premium💎)"
     
     pcall(function()
         local TextChatService = game:GetService("TextChatService")
