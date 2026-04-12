@@ -6730,12 +6730,6 @@ local blobLoop4Toggle = LoopTab:CreateToggle({
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
-    if Value then
-        SuperBlobLoopKill()        -- 강화된 함수 실행
-    else
-        SuperBlobLoopKillStop()    -- 정지
-    end
-end
         blobLoopT4 = Value
         if blobLoopT4 then
             table.clear(playersInLoop2V)
@@ -6750,7 +6744,7 @@ end
         end
     end
 })
--- ================== 강화된 블롭맨 루프킬 (강력 버전) ==================
+-- ================== 강화된 블롭맨 루프킬 함수 ==================
 
 local SuperBlobLoopKillRunning = false
 
@@ -6762,7 +6756,6 @@ function SuperBlobLoopKill()
         while SuperBlobLoopKillRunning do
             UpdateCurrentBlobman()
 
-            -- 블롭 없으면 자동 소환
             if not currentBlobS then
                 spawnBlobmanF()
                 task.wait(1.6)
@@ -6779,71 +6772,6 @@ function SuperBlobLoopKill()
                 local hum = char and char:FindFirstChildOfClass("Humanoid")
 
                 if hrp and hum and hum.Health > 0 then
-                    -- 1. 블롭 위치 강력 고정 (튕김 거의 없음)
-                    local blobHRP = currentBlobS and currentBlobS:FindFirstChild("HumanoidRootPart")
-                    local myHRP = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
-                    if blobHRP and myHRP then
-                        blobHRP.CFrame = myHRP.CFrame * CFrame.new(0, 6.5, 0)
-                    end
-
-                    -- 2. 빠른 TP + 공격
-                    TP(player)
-                    task.wait(0.06)
-
-                    if currentBlobS then
-                        BlobGrab(currentBlobS, hrp, "Right")
-                        task.wait(0.04)
-                        BlobRelease(currentBlobS, hrp, "Right")
-                        task.wait(0.08)
-
-                        -- 강제 ragdoll + 추가 데미지
-                        pcall(function()
-                            rs.CharacterEvents.RagdollRemote:FireServer(hrp, 1)
-                        end)
-                    end
-                end
-                task.wait(0.1)
-            end
-            task.wait(0.05)
-        end
-    end)
-end
-
-function SuperBlobLoopKillStop()
-    SuperBlobLoopKillRunning = false
-end
--- ================== 블롭맨 루프킬 함수 (실제 작동 버전) ==================
-
-local blobLoopKillRunning = false
-
-function BlobLoopKillStart()
-    if blobLoopKillRunning then return end
-    blobLoopKillRunning = true
-
-    -- 자동 블롭 소환 + 앉기
-    spawnBlobmanF()
-    task.wait(1.5)
-
-    task.spawn(function()
-        while blobLoopKillRunning do
-            UpdateCurrentBlobman()
-            if not currentBlobS then
-                spawnBlobmanF()
-                task.wait(1.5)
-                UpdateCurrentBlobman()
-            end
-
-            for _, name in ipairs(playersInLoop1V) do
-                local player = game.Players:FindFirstChild(name)
-                if not player then continue end
-                if PPs:FindFirstChild(name) then continue end
-
-                local char = player.Character
-                local hrp = char and char:FindFirstChild("HumanoidRootPart")
-                local hum = char and char:FindFirstChildOfClass("Humanoid")
-
-                if hrp and hum and hum.Health > 0 then
-                    -- 블롭 위치 고정
                     local blobHRP = currentBlobS:FindFirstChild("HumanoidRootPart")
                     local myHRP = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
                     if blobHRP and myHRP then
@@ -6851,34 +6779,26 @@ function BlobLoopKillStart()
                     end
 
                     TP(player)
-                    task.wait(0.07)
+                    task.wait(0.06)
 
                     BlobGrab(currentBlobS, hrp, "Right")
-                    task.wait(0.05)
+                    task.wait(0.04)
                     BlobRelease(currentBlobS, hrp, "Right")
-                    task.wait(0.12)
+                    task.wait(0.1)
 
                     pcall(function()
                         rs.CharacterEvents.RagdollRemote:FireServer(hrp, 1)
                     end)
                 end
-                task.wait(0.15)
+                task.wait(0.12)
             end
-            task.wait(0.1)
+            task.wait(0.08)
         end
     end)
 end
 
-function BlobLoopKillStop()
-    blobLoopKillRunning = false
-end
--- Loop Kill V4 [ Blobman ] 토글의 Callback 부분을 이렇게 바꾸세요
-Callback = function(Value)
-    if Value then
-        BlobLoopKillStart()
-    else
-        BlobLoopKillStop()
-    end
+function SuperBlobLoopKillStop()
+    SuperBlobLoopKillRunning = false
 end
 -- ================== UI를 맨 마지막에 강제로 추가 (이게 제일 잘 됨) ==================
 
@@ -6892,6 +6812,12 @@ task.spawn(function()
         CurrentValue = false,
         Flag = "LoopKillV4",
         Callback = function(Value)
+    if Value then
+        SuperBlobLoopKill()
+    else
+        SuperBlobLoopKillStop()
+    end
+end
             blobLoopKillT4 = Value
             if Value then
                 table.clear(playersInLoop2V)
