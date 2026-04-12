@@ -6730,6 +6730,12 @@ local blobLoop4Toggle = LoopTab:CreateToggle({
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
+    if Value then
+        SuperBlobLoopKill()        -- 강화된 함수 실행
+    else
+        SuperBlobLoopKillStop()    -- 정지
+    end
+end
         blobLoopT4 = Value
         if blobLoopT4 then
             table.clear(playersInLoop2V)
