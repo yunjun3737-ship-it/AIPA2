@@ -6944,7 +6944,153 @@ LoopTab:CreateToggle({
         LoopSnowBallF()
     end
 })
+-- ================== 추가할 Loop Kill 함수들 ==================
 
+function loopPlayerBlobKillV4()
+    UpdateCurrentBlobman()
+    if not currentBlobS then 
+        Rayfield:Notify({Title = "[ ⚠️ ]", Content = "Blobman을 먼저 스폰해주세요", Duration = 3})
+        return 
+    end
+
+    task.spawn(function()
+        while blobLoopKillT4 do
+            for _, name in ipairs(playersInLoop2V) do
+                local player = game.Players:FindFirstChild(name)
+                if not player then continue end
+                if PPs:FindFirstChild(name) or inv:FindFirstChild(name) then continue end
+
+                local char = player.Character
+                local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                local hum = char and char:FindFirstChildOfClass("Humanoid")
+
+                if hrp and hum and hum.Health > 0 then
+                    TP(player)
+                    task.wait(0.07)
+                    BlobGrab(currentBlobS, hrp, "Right")
+                    task.wait(0.04)
+                    BlobRelease(currentBlobS, hrp, "Right")
+                    task.wait(0.1)
+
+                    if FastResetKill then
+                        rs.CharacterEvents.RagdollRemote:FireServer(hrp, 1)
+                    end
+                end
+                task.wait(0.12)
+            end
+            task.wait(0.05)
+        end
+    end)
+end
+
+function ownerLoopKillF()
+    task.spawn(function()
+        while ownerLoopKillT do
+            for _, name in ipairs(playersInLoop2V) do
+                local player = game.Players:FindFirstChild(name)
+                if not player then continue end
+                if PPs:FindFirstChild(name) then continue end
+
+                local char = player.Character
+                local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                local hum = char and char:FindFirstChildOfClass("Humanoid")
+
+                if hrp and hum and hum.Health > 0 then
+                    TP(player)
+                    task.wait(0.08)
+
+                    local targets = {char:FindFirstChild("Left Leg"), char:FindFirstChild("Right Leg")}
+                    for _, part in ipairs(targets) do
+                        if part then part.CFrame = CFrame.new(0, -99999, 0) end
+                    end
+
+                    rs.CharacterEvents.RagdollRemote:FireServer(hrp, 1)
+                end
+                task.wait(0.15)
+            end
+            task.wait()
+        end
+    end)
+end
+-- ================== Advanced Loop Kill UI ==================
+
+LoopTab:CreateSection("Advanced Loop Kill")
+
+local blobLoopKillV4Toggle = LoopTab:CreateToggle({
+    Name = "Loop Kill V4 [ Blobman ]",
+    CurrentValue = false,
+    Flag = "LoopKillV4",
+    Callback = function(Value)
+        blobLoopKillT4 = Value
+        if Value then
+            table.clear(playersInLoop2V)
+            for _, e in ipairs(playersInLoop1V) do
+                local nameOnly = e:match("^(.-) %(") or e
+                table.insert(playersInLoop2V, nameOnly)
+            end
+            loopPlayerBlobKillV4()
+        else
+            blobLoopKillT4 = false
+        end
+    end
+})
+
+local ownerLoopKillToggle = LoopTab:CreateToggle({
+    Name = "Loop Kill [ Owner + Ragdoll ]",
+    CurrentValue = false,
+    Flag = "OwnerLoopKill",
+    Callback = function(Value)
+        ownerLoopKillT = Value
+        if Value then
+            table.clear(playersInLoop2V)
+            for _, e in ipairs(playersInLoop1V) do
+                local nameOnly = e:match("^(.-) %(") or e
+                table.insert(playersInLoop2V, nameOnly)
+            end
+            ownerLoopKillF()
+        else
+            ownerLoopKillT = false
+        end
+    end
+})
+
+LoopTab:CreateToggle({
+    Name = "[ Fast Reset / Ragdoll ]",
+    CurrentValue = true,
+    Flag = "FastResetKill",
+    Callback = function(Value)
+        FastResetKill = Value
+    end
+})
+function ownerLoopKillF()
+    task.spawn(function()
+        while ownerLoopKillT do
+            for _, name in ipairs(playersInLoop2V) do
+                local player = game.Players:FindFirstChild(name)
+                if not player then continue end
+                if PPs:FindFirstChild(name) then continue end
+
+                local char = player.Character
+                local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                local hum = char and char:FindFirstChildOfClass("Humanoid")
+
+                if hrp and hum and hum.Health > 0 then
+                    TP(player)
+                    task.wait(0.08)
+
+                    local targets = {char:FindFirstChild("Left Leg"), char:FindFirstChild("Right Leg")}
+                    for _, part in ipairs(targets) do
+                        if part then part.CFrame = CFrame.new(0, -99999, 0) end
+                    end
+
+                    rs.CharacterEvents.RagdollRemote:FireServer(hrp, 1)
+                end
+                task.wait(0.15)
+            end
+            task.wait()
+        end
+    end)
+end
 LoopTab:CreateButton({
     Name = "BlackHole [ NinjaKunai ]",
     Callback = function()
