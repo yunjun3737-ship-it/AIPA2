@@ -1,5 +1,5 @@
-local FN_BYPASS = true
-local TESTPP = true
+local FN_BYPASS = false
+local TESTPP = false
 
 -- ================== 설정 자동 저장 + 중복 실행  방지 ==================
 if _G.NP_FTAP_LOADED then return end
