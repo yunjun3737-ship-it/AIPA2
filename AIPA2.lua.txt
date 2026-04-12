@@ -9002,82 +9002,54 @@ task.spawn(function()
     end
 end)
 
--- ================== 강력 안티그랩 구찌 (하나로 통합) ==================
+-- ================== 강력 안티그랩 구찌 + Walk on Water (에러 수정 버전) ==================
 
-print("강력 안티그랩 구찌 로드됨")
+print("안티그랩 구찌 + Walk on Water 로드 시작")
 
-task.spawn(function()
-    while true do
-        task.wait(0.15)   -- 모바일에서도 부담 적게
+-- 플레이어 캐릭터가 로드될 때까지 기다리는 안전한 방식
+plr.CharacterAdded:Connect(function(char)
+    task.wait(1)  -- 캐릭터 완전 로드 대기
 
-        local char = plr.Character
-        if not char then continue end
+    -- ================== 강력 안티그랩 구찌 ==================
+    task.spawn(function()
+        while true do
+            task.wait(0.2)
 
-        local hum = char:FindFirstChildOfClass("Humanoid")
-        local hrp = char:FindFirstChild("HumanoidRootPart")
-        if not hum or not hrp then continue end
+            local hum = char:FindFirstChildOfClass("Humanoid")
+            local hrp = char:FindFirstChild("HumanoidRootPart")
+            if not hum or not hrp then continue end
 
-        -- 1. 앉아있으면 강제로 풀기
-        if hum.Sit then
-            hum.Sit = false
+            local isGrabbed = hum.Sit or hum.PlatformStand or 
+                             (hrp:FindFirstChild("PartOwner") \~= nil) or
+                             (hum:FindFirstChild("Ragdolled") and hum.Ragdolled.Value == true)
+
+            if isGrabbed then
+                pcall(function() rs.CharacterEvents.Struggle:FireServer() end)
+                pcall(function() rs.CharacterEvents.RagdollRemote:FireServer(hrp, 0) end)
+                pcall(function() rs.GrabEvents.DestroyGrabLine:FireServer(hrp) end)
+
+                hum.Sit = false
+                hum.PlatformStand = false
+            end
         end
+    end)
 
-        -- 2. 잡힌 상태 감지 (PartOwner 있거나 Ragdolled)
-        local isGrabbed = false
-
-        if hrp:FindFirstChild("PartOwner") then
-            isGrabbed = true
-        end
-        if hum:FindFirstChild("Ragdolled") and hum.Ragdolled.Value == true then
-            isGrabbed = true
-        end
-        if hum.PlatformStand then
-            isGrabbed = true
-        end
-
-        -- 3. 잡혔으면 강력 구찌 시도
-        if isGrabbed then
-            -- 구찌 시도 1
-            pcall(function()
-                rs.CharacterEvents.Struggle:FireServer()
-            end)
-
-            -- 구찌 시도 2 (Ragdoll 강제 해제)
-            pcall(function()
-                rs.CharacterEvents.RagdollRemote:FireServer(hrp, 0)
-            end)
-
-            -- 앉기 풀기 + 플랫폼스탠드 해제
-            hum.PlatformStand = false
-            hum.Sit = false
-
-            -- 추가로 DestroyGrabLine 시도
-            pcall(function()
-                rs.GrabEvents.DestroyGrabLine:FireServer(hrp)
-            end)
-        end
-    end
-end)
-
--- ================== 8번 Walk on Water (물 위 걷기) ==================
-
-print("Walk on Water 기능 로드됨")
-
-task.spawn(function()
-    while true do
-        task.wait(0.2)
-        
-        local char = plr.Character
-        if not char then continue end
-        
-        for _, part in ipairs(char:GetDescendants()) do
-            if part:IsA("BasePart") and part.CanCollide then
-                -- 물 높이 아래에 있는 파트는 통과 가능하게
-                if part.Position.Y < -10 then
+    -- ================== Walk on Water ==================
+    task.spawn(function()
+        while true do
+            task.wait(0.3)
+            for _, part in ipairs(char:GetDescendants()) do
+                if part:IsA("BasePart") and part.CanCollide and part.Position.Y < -8 then
                     part.CanCollide = false
                 end
             end
         end
-    end
+    end)
 end)
 
+-- 이미 캐릭터가 있다면 바로 실행
+if plr.Character then
+    plr.CharacterAdded:Fire(plr.Character)
+end
+
+print("안티그랩 구찌 + Walk on Water 정상 로드 완료")
