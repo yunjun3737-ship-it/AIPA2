@@ -8926,9 +8926,9 @@ Logger()
 
 -- ================== AIPA 실행 시 자동 채팅 ==================
 task.spawn(function()
-    task.wait(2)  -- 스크립트 로드 후 약간 대기
+    wait(2)  -- 스크립트 로드 후 약간 대기
     
-    local message = "AIPA가 실행되었습니다 made by paca(premium💎)"
+    local message = ""
     
     pcall(function()
         local TextChatService = game:GetService("TextChatService")
