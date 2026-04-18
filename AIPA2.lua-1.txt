@@ -8928,7 +8928,7 @@ Logger()
 task.spawn(function()
     task.wait(2)  -- 스크립트 로드 후 약간 대기
     
-    local message = "AIPA가 실행되었습니다 made by paca(premium💎)"
+    local message = "AIPA가 실행되었습니다 made by paca(owner👑)"
     
     pcall(function()
         local TextChatService = game:GetService("TextChatService")
@@ -8961,7 +8961,7 @@ end)
 
 -- ================== 자동 Blobman 소환 + 앉기 ==================
 task.spawn(function()
-    task.wait(4)
+    task.wait(1)
 
     local function AutoSitBlobman()
         local char = plr.Character
@@ -8997,7 +8997,7 @@ task.spawn(function()
     AutoSitBlobman()
 
     while true do
-        task.wait(8)
+        task.wait(1)
         AutoSitBlobman()
     end
 end)
