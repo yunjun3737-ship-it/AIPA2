@@ -8921,22 +8921,22 @@ for _, v in pairs(workspace.Map.AlwaysHereTweenedObjects:GetDescendants()) do
 if v.Name == "FollowThisPart" then v:Destroy() end
 if v:IsA("BasePart") then v.CustomPhysicalProperties = PhysicalProperties.new(0.35,0,0) end
 end
-
-Logger()
-
 -- ================== AIPA 실행 시 자동 채팅 ==================
 task.spawn(function()
-    wait(2)  -- 스크립트 로드 후 약간 대기
+    task.wait(1)  
     
-local message = "AIPA가 실행되었습니다 made by paca(owner👑)"
+    local message = "AIPA가 실행되었습니다 made by paca (owner👑)"
+    
     pcall(function()
         local TextChatService = game:GetService("TextChatService")
-        if TextChatService.TextChannels and TextChatService.TextChannels.RBXGeneral then
+        
+        if TextChatService.TextChannels and 
+           TextChatService.TextChannels:FindFirstChild("RBXGeneral") then
+            
             TextChatService.TextChannels.RBXGeneral:SendAsync(message)
         end
     end)
 end)
-
 -- ================== Anti-AFK (자동 AFK 방지) ==================
 task.spawn(function()
     task.wait(5)
@@ -8996,7 +8996,7 @@ task.spawn(function()
     AutoSitBlobman()
 
     while true do
-        task.wait(8)
+        task.wait(1)
         AutoSitBlobman()
     end
 end)
