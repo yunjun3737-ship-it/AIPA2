@@ -8928,7 +8928,7 @@ Logger()
 task.spawn(function()
     wait(2)  -- 스크립트 로드 후 약간 대기
     
-    local message "AIPA가 실행되었습니다 made by paca(premium💎)"
+    local message "AIPA가 실행되었습니다 made by paca(owner👑)"
     
     pcall(function()
         local TextChatService = game:GetService("TextChatService")
