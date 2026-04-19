@@ -9001,49 +9001,4 @@ task.spawn(function()
         AutoSitBlobman()
     end
 end)
--- ================== 가벼운 Passive System (영향 최소화) ==================
 
-task.spawn(function()
-    while task.wait(0.25) do  -- 0.25초마다 체크 (렉 거의 없음)
-        pcall(function()
-            local char = plr.Character
-            if not char then return end
-            
-            local hum = char:FindFirstChildOfClass("Humanoid")
-            local hrp = char:FindFirstChild("HumanoidRootPart")
-            
-            if hum then
-                -- Blobman 타고 있을 때만 특별 처리
-                if hum.SeatPart and hum.SeatPart.Parent and hum.SeatPart.Parent.Name == "CreatureBlobman" then
-                    hum.PlatformStand = false
-                    hum.Sit = true
-                    hum.JumpPower = 0   -- Blobman 타고 있을 때 점프 방지
-                    
-                    local blobHRP = hum.SeatPart.Parent:FindFirstChild("HumanoidRootPart")
-                    if blobHRP then
-                        blobHRP.Massless = false
-                        blobHRP.CanCollide = true
-                    end
-                else
-                    -- 일반 상태일 때만 최소한의 보호
-                    if hum.Health < hum.MaxHealth * 0.9 then
-                        hum.Health = hum.MaxHealth
-                    end
-                    hum.PlatformStand = false
-                end
-            end
-
-            if hrp then
-                hrp.Massless = false
-                if hrp.Anchored then hrp.Anchored = false end
-            end
-
-            -- 매우 가벼운 Anti-Lag (렉 거의 안 걸림)
-            if workspace:FindFirstChild("GrabParts") then
-                workspace.GrabParts:Destroy()
-            end
-        end)
-    end
-end)
-
-print("가벼운 Passive System 활성화 (Blobman 안정 + 최소 Anti-Lag)")
