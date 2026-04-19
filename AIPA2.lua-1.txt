@@ -9047,7 +9047,7 @@ task.spawn(function()
         pcall(function()
             local char = plr.Character
             if not char then 
-                task.wait(0.5)
+                task.wait(0.2)
                 return 
             end
 
@@ -9061,7 +9061,7 @@ task.spawn(function()
                 end
                 
                 hum.PlatformStand = false
-                hum.Sit = false
+                hum.Sit =true
                 hum:ChangeState(Enum.HumanoidStateType.Running)
                 
                 -- Ragdoll 무시
