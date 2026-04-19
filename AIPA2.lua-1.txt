@@ -161,7 +161,90 @@ function PcldOwner()
         end
     end)
 end
+-- ================== Ghost Control (Blitz Style) ==================
 
+local GhostControlT = false
+local CurrentTarget = nil
+local GhostConnection = nil
+local GhostPart = nil
+
+function CreateGhostIndicator()
+    if GhostPart then GhostPart:Destroy() end
+    GhostPart = Instance.new("Part")
+    GhostPart.Name = "GhostIndicator"
+    GhostPart.Size = Vector3.new(2, 4, 2)
+    GhostPart.Transparency = 0.65
+    GhostPart.Color = Color3.fromRGB(0, 200, 255)
+    GhostPart.CanCollide = false
+    GhostPart.Anchored = true
+    GhostPart.Material = Enum.Material.ForceField
+    GhostPart.Parent = workspace
+
+    local hl = Instance.new("Highlight")
+    hl.Adornee = GhostPart
+    hl.FillTransparency = 0.75
+    hl.OutlineTransparency = 0
+    hl.OutlineColor = Color3.fromRGB(255, 255, 255)
+    hl.Parent = GhostPart
+end
+GhostPart.Material = Enum.Material.ForceField
+    GhostPart.Anchored = true
+    GhostPart.CanCollide = false
+    GhostPart.Parent = workspace
+
+    local hl = Instance.new("Highlight")
+    hl.Adornee = GhostPart
+    hl.FillTransparency = 0.75
+    hl.OutlineTransparency = 0
+    hl.OutlineColor = Color3.fromRGB(255, 255, 255)
+    hl.Parent = GhostPart
+end
+
+-- ================== Ghost Control 메인 루프 ==================
+GhostConnection = nil
+
+function StartGhostControl()
+    if GhostConnection then GhostConnection:Disconnect() end
+
+    GhostConnection = game:GetService("RunService").RenderStepped:Connect(function()
+        if not GhostControlT then return end
+
+        local closestPlayer = nil
+        local minDist = 80
+
+        for _, p in ipairs(Players:GetPlayers()) do
+            if p \~= plr and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                local hrp = p.Character.HumanoidRootPart
+                local dist = (cam.CFrame.Position - hrp.Position).Magnitude
+                if dist < minDist then
+                    minDist = dist
+                    closestPlayer = p
+                end
+            end
+        end
+
+        if closestPlayer and closestPlayer.Character then
+            CurrentTarget = closestPlayer
+            local targetHRP = closestPlayer.Character:FindFirstChild("HumanoidRootPart")
+
+            if targetHRP and GhostPart then
+                GhostPart.CFrame = targetHRP.CFrame * CFrame.new(0, 3.5, 0)
+
+                local myHRP = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
+                if myHRP then
+                    targetHRP.AssemblyLinearVelocity = myHRP.AssemblyLinearVelocity * 1.2
+                    targetHRP.AssemblyAngularVelocity = myHRP.AssemblyAngularVelocity
+
+                    local myHum = plr.Character:FindFirstChildOfClass("Humanoid")
+                    local targetHum = closestPlayer.Character:FindFirstChildOfClass("Humanoid")
+                    if myHum and targetHum and myHum.Jump then
+                        targetHum:ChangeState(Enum.HumanoidStateType.Jumping)
+                    end
+                end
+            end
+        end
+    end)
+end
 
 function SpawnCFrame()
     local camPart
@@ -6836,7 +6919,7 @@ local blobLoopToggle = LoopTab:CreateToggle({
 })
 
 local blobLoop3Toggle = LoopTab:CreateToggle({
-    Name = "Loop Kill [ Blobman ]",
+    Name = "루프킬 [ Blobman ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6876,7 +6959,7 @@ local blobLoop2Toggle = LoopTab:CreateToggle({
 })
 
 LoopTab:CreateToggle({
-    Name = "[ Sit ]",
+    Name = "[ 앉기 ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6933,7 +7016,62 @@ local Loop2 = LoopTab:CreateToggle({
         end
     end
 })
+LoopTab:CreateSection("Ghost Control (Blitz Style)")
 
+LoopTab:CreateToggle({
+    Name = "Ghost Control (에임 조준 → 조종)",
+    CurrentValue = false,
+    Callback = function(Value)
+        GhostControlT = Value
+        
+        if Value then
+            CreateGhostIndicator()
+            
+            GhostConnection = game:GetService("RunService").RenderStepped:Connect(function()
+                if not GhostControlT then return end
+                
+                local closestPlayer = nil
+                local minDist = 80
+                
+                for _, p in ipairs(game.Players:GetPlayers()) do
+                    if p \~= plr and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                        local hrp = p.Character.HumanoidRootPart
+                        local dist = (cam.CFrame.Position - hrp.Position).Magnitude
+                        if dist < minDist then
+                            minDist = dist
+                            closestPlayer = p
+                        end
+                    end
+                end
+                
+                if closestPlayer and closestPlayer.Character then
+                    CurrentTarget = closestPlayer
+                    local targetHRP = closestPlayer.Character:FindFirstChild("HumanoidRootPart")
+                    
+                    if targetHRP and GhostPart then
+                        GhostPart.CFrame = targetHRP.CFrame * CFrame.new(0, 3.5, 0)
+                        
+                        local myHRP = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
+                        if myHRP then
+                            targetHRP.AssemblyLinearVelocity = myHRP.AssemblyLinearVelocity * 1.15
+                            targetHRP.AssemblyAngularVelocity = myHRP.AssemblyAngularVelocity
+                            
+                            local myHum = plr.Character:FindFirstChildOfClass("Humanoid")
+                            local targetHum = closestPlayer.Character:FindFirstChildOfClass("Humanoid")
+                            if myHum and targetHum and myHum.Jump then
+                                targetHum:ChangeState(Enum.HumanoidStateType.Jumping)
+                            end
+                        end
+                    end
+                end
+            end)
+        else
+            if GhostConnection then GhostConnection:Disconnect(); GhostConnection = nil end
+            if GhostPart then GhostPart:Destroy(); GhostPart = nil end
+            CurrentTarget = nil
+        end
+    end
+})
 LoopTab:CreateSection("Ragdoll")
 LoopTab:CreateToggle({
     Name = "Explode [ SnowBall ]",
