@@ -9001,97 +9001,49 @@ task.spawn(function()
         AutoSitBlobman()
     end
 end)
--- ================== Passive Anti-Lag & Anti-Ping (항상 켜짐) ==================
+-- ================== 가벼운 Passive System (영향 최소화) ==================
 
 task.spawn(function()
-    while task.wait() do
-        pcall(function()
-            -- Anti-Lag (불필요한 파트/효과 제거 + 성능 최적화)
-            for _, v in ipairs(workspace:GetDescendants()) do
-                if v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Beam") or v:IsA("Smoke") or v:IsA("Fire") then
-                    v.Enabled = false
-                end
-                if v:IsA("BasePart") and v.Transparency > 0.9 then
-                    v.Transparency = 1
-                end
-            end
-
-            -- Anti-Ping (네트워크 최적화 + 불필요한 이벤트 줄임)
-            local hrp = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
-            if hrp then
-                hrp.AssemblyLinearVelocity = hrp.AssemblyLinearVelocity * 0.95  -- 과도한 속도 제한
-                hrp.AssemblyAngularVelocity = hrp.AssemblyAngularVelocity * 0.95
-            end
-
-            -- Debris & Garbage 정리 (렉 유발 요소 제거)
-            game:GetService("Debris"):SetMaxDebris(50)  -- 최대 debris 제한
-            workspace:FindFirstChild("GrabParts"):Destroy()  -- 오래된 GrabParts 정리 (안전하게)
-
-            -- Anti-High Ping Kick 방지
-            if plr:GetNetworkPing() > 0.3 then
-                pcall(function()
-                    rs.GrabEvents.SetNetworkOwner:FireServer(hrp, hrp.CFrame)
-                end)
-            end
-        end)
-        
-        task.wait(0.15)  -- 너무 자주 돌리지 않도록 조절 (성능 부하 최소화)
-    end
-end)
-
--- ================== Passive Godmode (항상 켜짐) ==================
--- 다른 핵의 Loop Kill, Owner Kick 등을 완전 무시
-
-task.spawn(function()
-    while true do
+    while task.wait(0.25) do  -- 0.25초마다 체크 (렉 거의 없음)
         pcall(function()
             local char = plr.Character
-            if not char then 
-                task.wait(0.2)
-                return 
-            end
-
+            if not char then return end
+            
             local hum = char:FindFirstChildOfClass("Humanoid")
             local hrp = char:FindFirstChild("HumanoidRootPart")
-
+            
             if hum then
-                -- 죽음 방지
-                if hum.Health < hum.MaxHealth then
-                    hum.Health = hum.MaxHealth
+                -- Blobman 타고 있을 때만 특별 처리
+                if hum.SeatPart and hum.SeatPart.Parent and hum.SeatPart.Parent.Name == "CreatureBlobman" then
+                    hum.PlatformStand = false
+                    hum.Sit = true
+                    hum.JumpPower = 0   -- Blobman 타고 있을 때 점프 방지
+                    
+                    local blobHRP = hum.SeatPart.Parent:FindFirstChild("HumanoidRootPart")
+                    if blobHRP then
+                        blobHRP.Massless = false
+                        blobHRP.CanCollide = true
+                    end
+                else
+                    -- 일반 상태일 때만 최소한의 보호
+                    if hum.Health < hum.MaxHealth * 0.9 then
+                        hum.Health = hum.MaxHealth
+                    end
+                    hum.PlatformStand = false
                 end
-                
-                hum.PlatformStand = false
-                hum.Sit =true
-                hum:ChangeState(Enum.HumanoidStateType.Running)
-                
-                -- Ragdoll 무시
-                local ragdolled = hum:FindFirstChild("Ragdolled")
-                if ragdolled then ragdolled.Value = false end
             end
 
             if hrp then
-                -- Massless 강제 해제 (Massless Kill 방지)
                 hrp.Massless = false
-                
-                -- 강제 위치 고정 방지
-                if hrp.Anchored then 
-                    hrp.Anchored = false 
-                end
+                if hrp.Anchored then hrp.Anchored = false end
             end
 
-            -- Grab 관련 완전 무시
-            if plr:FindFirstChild("IsHeld") then
-                plr.IsHeld.Value = false
+            -- 매우 가벼운 Anti-Lag (렉 거의 안 걸림)
+            if workspace:FindFirstChild("GrabParts") then
+                workspace.GrabParts:Destroy()
             end
-
-            -- Struggle 자동 발동 (잡혔을 때 자동 풀림)
-            pcall(function()
-                rs.CharacterEvents.Struggle:FireServer()
-            end)
         end)
-        
-        task.wait(0.08)   -- 매우 빠르게 체크 (안전하면서도 강력)
     end
 end)
 
-print("Passive Godmode 활성화 완료 - 대부분의 Kill 시도 무시")
+print("가벼운 Passive System 활성화 (Blobman 안정 + 최소 Anti-Lag)")
