@@ -161,7 +161,6 @@ function PcldOwner()
         end
     end)
 end
--- ================== Ghost Control (Blitz Style) ==================
 
 local GhostControlT = false
 local CurrentTarget = nil
@@ -187,21 +186,6 @@ function CreateGhostIndicator()
     hl.OutlineColor = Color3.fromRGB(255, 255, 255)
     hl.Parent = GhostPart
 end
-GhostPart.Material = Enum.Material.ForceField
-    GhostPart.Anchored = true
-    GhostPart.CanCollide = false
-    GhostPart.Parent = workspace
-
-    local hl = Instance.new("Highlight")
-    hl.Adornee = GhostPart
-    hl.FillTransparency = 0.75
-    hl.OutlineTransparency = 0
-    hl.OutlineColor = Color3.fromRGB(255, 255, 255)
-    hl.Parent = GhostPart
-end
-
--- ================== Ghost Control 메인 루프 ==================
-GhostConnection = nil
 
 function StartGhostControl()
     if GhostConnection then GhostConnection:Disconnect() end
@@ -223,6 +207,26 @@ function StartGhostControl()
             end
         end
 
+        if closestPlayer and closestPlayer.Character then
+            local targetHRP = closestPlayer.Character:FindFirstChild("HumanoidRootPart")
+            if targetHRP and GhostPart then
+                GhostPart.CFrame = targetHRP.CFrame * CFrame.new(0, 3.5, 0)
+
+                local myHRP = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
+                if myHRP then
+                    targetHRP.AssemblyLinearVelocity = myHRP.AssemblyLinearVelocity * 1.2
+                    targetHRP.AssemblyAngularVelocity = myHRP.AssemblyAngularVelocity
+
+                    local myHum = plr.Character:FindFirstChildOfClass("Humanoid")
+                    local targetHum = closestPlayer.Character:FindFirstChildOfClass("Humanoid")
+                    if myHum and targetHum and myHum.Jump then
+                        targetHum:ChangeState(Enum.HumanoidStateType.Jumping)
+                    end
+                end
+            end
+        end
+    end)
+end
         if closestPlayer and closestPlayer.Character then
             CurrentTarget = closestPlayer
             local targetHRP = closestPlayer.Character:FindFirstChild("HumanoidRootPart")
@@ -6887,7 +6891,7 @@ LoopTab:CreateButton({
 })
 
 local blobLoopToggle = LoopTab:CreateToggle({
-    Name = "Loop Kick [ Blobman ]",
+    Name = "루프킥 [ Blobman ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6939,7 +6943,7 @@ local blobLoop3Toggle = LoopTab:CreateToggle({
 })
 
 local blobLoop2Toggle = LoopTab:CreateToggle({
-    Name = "Loop Release Grab [ Blobman ]",
+    Name = "루프 리레이즈 그랩 [ Blobman ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6968,7 +6972,7 @@ LoopTab:CreateToggle({
 })
 
 LoopTab:CreateToggle({
-    Name = "[ Anti-InPlots Mode ]",
+    Name = "[ 안티 인플레이스 모드 ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6978,7 +6982,7 @@ LoopTab:CreateToggle({
 
 LoopTab:CreateSection("Owner")
 local Loop1 = LoopTab:CreateToggle({
-    Name = "Loop Kill [ Owner ]",
+    Name = "루프킥 [ Owner ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -7019,32 +7023,40 @@ local Loop2 = LoopTab:CreateToggle({
 LoopTab:CreateSection("Ghost Control (Blitz Style)")
 
 LoopTab:CreateToggle({
-    Name = "Ghost Control (에임 조준 → 조종)",
+    Name = "Ghost Control (에임으로 사람 조종)",
     CurrentValue = false,
     Callback = function(Value)
         GhostControlT = Value
         
         if Value then
             CreateGhostIndicator()
+            StartGhostControl()
             
-            GhostConnection = game:GetService("RunService").RenderStepped:Connect(function()
-                if not GhostControlT then return end
-                
-                local closestPlayer = nil
-                local minDist = 80
-                
-                for _, p in ipairs(game.Players:GetPlayers()) do
-                    if p \~= plr and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-                        local hrp = p.Character.HumanoidRootPart
-                        local dist = (cam.CFrame.Position - hrp.Position).Magnitude
-                        if dist < minDist then
-                            minDist = dist
-                            closestPlayer = p
-                        end
-                    end
-                end
-                
-                if closestPlayer and closestPlayer.Character then
+            Rayfield:Notify({
+                Title = "Ghost Control ON",
+                Content = "에임으로 다른 사람에게 가져다 대보세요",
+                Duration = 3
+            })
+        else
+            if GhostConnection then 
+                GhostConnection:Disconnect() 
+                GhostConnection = nil 
+            end
+            if GhostPart then 
+                GhostPart:Destroy() 
+                GhostPart = nil 
+            end
+            CurrentTarget = nil
+            
+            Rayfield:Notify({
+                Title = "Ghost Control OFF",
+                Content = "조종이 종료되었습니다",
+                Duration = 2
+            })
+        end
+    end
+})
+if closestPlayer and closestPlayer.Character then
                     CurrentTarget = closestPlayer
                     local targetHRP = closestPlayer.Character:FindFirstChild("HumanoidRootPart")
                     
