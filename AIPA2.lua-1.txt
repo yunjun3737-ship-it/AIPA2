@@ -7184,7 +7184,7 @@ local AntiGrabV1 = antiTab:CreateToggle({
 })
 
 local AntiGrabV1 = antiTab:CreateToggle({
-    Name = "Loop TP | Random",
+    Name = "루프 TP | 랜덤",
     CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
@@ -7226,7 +7226,7 @@ local AntiGrabV1 = antiTab:CreateToggle({
 
 antiTab:CreateSection("Grab | Toggle")
 local AntiGrab = antiTab:CreateToggle({
-    Name = "Anti-Grab",
+    Name = "안티 그랩",
     CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
@@ -7237,7 +7237,7 @@ AntiGrab:Set(true)
 
 --[[
 local AntiGrabSticky = antiTab:CreateToggle({
-    Name = "Anti-Grab | StickyPart",
+    Name = "안티그랩 |  StickyPart",
     CurrentValue = false,
     Callback = function(Value)
         AntiGrabStickyT = Value
@@ -7249,7 +7249,7 @@ local AntiGrabSticky = antiTab:CreateToggle({
 ]]--
 
 local AntiRelease = antiTab:CreateToggle({
-    Name = "Anti-Release",
+    Name = "안티 릴리즈",
     CurrentValue = false,
     Flag = "AntiDeathToggleFlag",
     Callback = function(Value)
@@ -7263,7 +7263,7 @@ local AntiRelease = antiTab:CreateToggle({
 
 antiTab:CreateSection("Blob | Toggle")
 local AntiBlob = antiTab:CreateToggle({
-	Name = "Anti-Blob",
+	Name = "안티 블롭맨",
 	CurrentValue = false,
 	Flag = "16",
 	Callback = function(Value)
@@ -7276,7 +7276,7 @@ local AntiBlob = antiTab:CreateToggle({
 AntiBlob:Set(true)
 
 local AntiMassless = antiTab:CreateToggle({
-    Name = "Anti-Massless",
+    Name = "무중력 스탑",
     CurrentValue = false,
     Flag = "17",
     Callback = function(Value)
@@ -7303,7 +7303,7 @@ local dddddd Toggle = antiTab:CreateToggle({
 end
 
 local AntiInPlots = antiTab:CreateToggle({
-    Name = "Anti-InPlots",
+    Name = "안티 인플레이스",
     CurrentValue = true,
     Callback = function(Value)
     antiInPlotsEnabled = Value
@@ -7316,7 +7316,7 @@ AntiInPlots:Set(true)
 
 antiTab:CreateSection("Game | Toggle")
 local AntiVoid = antiTab:CreateToggle({
-    Name = "Anti-Void",
+    Name = "무효 금지",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -7329,7 +7329,7 @@ local AntiVoid = antiTab:CreateToggle({
 AntiVoid:Set(true)
 
 local AntiExplode = antiTab:CreateToggle({
-    Name = "Anti-Explosion",
+    Name = "폭탄 무적",
     CurrentValue = false,
     Flag = "antiExplodeToggleFlag",
     Callback = function(Value)
@@ -7345,7 +7345,7 @@ local AntiExplode = antiTab:CreateToggle({
 AntiExplode:Set(true)
 
 local AntiBurn = antiTab:CreateToggle({
-    Name = "Anti-Burn",
+    Name = "불 무적",
     CurrentValue = false,
     Flag = "",
     Callback = function(Value)
@@ -7356,7 +7356,7 @@ local AntiBurn = antiTab:CreateToggle({
 AntiBurn:Set(true)
 
 local AntiPaint = antiTab:CreateToggle({
-    Name = "Anti-Paint",
+    Name = "안티 페인트",
     CurrentValue = false,
     Callback = function(Value)
         AntiPaintT = Value
@@ -7367,7 +7367,7 @@ AntiPaint:Set(true)
 
 AntiLagF()
 local AntiLag = antiTab:CreateToggle({
-    Name = "Anti-Lag",
+    Name = "안티 렉",
     CurrentValue = false,
     Flag = "AntiLagToggle",
     Callback = function(Value)
@@ -7377,7 +7377,7 @@ local AntiLag = antiTab:CreateToggle({
 AntiLag:Set(true)
 
 local AutoAttack  antiTab:CreateToggle({
-    Name = "Auto-Attacker | Kill",
+    Name = "오토어택 | 잡으면 뒤짐",
     CurrentValue = false,
     Flag = "AutoAttack",
     Callback = function(Value)
@@ -7387,7 +7387,7 @@ local AutoAttack  antiTab:CreateToggle({
 })
 
 local AntiHoldPart = antiTab:CreateToggle({
-    Name = "Anti-Hold Part",
+    Name = "홀드파트 금지",
     CurrentValue = false,
     Callback = function(Value)
         AntiBananaT = Value
@@ -7397,7 +7397,7 @@ local AntiHoldPart = antiTab:CreateToggle({
 --AntiHoldPart:Set(true)
 
 local AntiBlobUse = antiTab:CreateToggle({
-    Name = "Anti-Vehicle Toy",
+    Name = "장난감 무적",
     CurrentValue = false,
     Callback = function(Value)
         AntiBlobUseT = Value
@@ -7409,7 +7409,7 @@ local AntiBlobUse = antiTab:CreateToggle({
 
 antiTab:CreateSection("Kick | Toggle")
 local FlyingReset = antiTab:CreateToggle({
-    Name = "Flying Reset",
+    Name = "킥방지 리셋",
     CurrentValue = false,
     Callback = function(Value)
 
@@ -7434,7 +7434,7 @@ end
 FlyingReset:Set(true)
 
 local AntiKick = antiTab:CreateToggle({
-    Name = "Anti-Kick [ StickyPart ]",
+    Name = "안티 킥 [ 표창 ]",
     CurrentValue = false,
     Callback = function(Value)
         AntiKickT = Value
@@ -7444,7 +7444,7 @@ local AntiKick = antiTab:CreateToggle({
 --AntiKick:Set(true)
 
 antiTab:CreateButton({
-    Name = "Anti-Kick [ StickyPart House ]",
+    Name = "안티킥 [ 집안 표창 소환 ]",
     Callback = function()
         House()
 
@@ -7542,7 +7542,7 @@ antiTab:CreateButton({
 })
 
 local AntiPCLD = antiTab:CreateToggle({
-    Name = "Anti-Kick [ Delete PCLD ]",
+    Name = "안티 킥 [ PCLD 지우기 ]",
     CurrentValue = false,
     Flag = "16",
     Callback = function(Value)
@@ -7554,7 +7554,7 @@ if not TESTPP then AntiPCLD:Set(true) end
 
 antiTab:CreateSection("Ragdoll | Toggle")
 local PermRag = antiTab:CreateToggle({
-    Name = "Ragdoll",
+    Name = "래그돌",
     CurrentValue = false,
     Flag = "34",
     Callback = function(Value)
@@ -7568,7 +7568,7 @@ local PermRag = antiTab:CreateToggle({
 })
 
 local PermRag2 = antiTab:CreateToggle({
-    Name = "Ragdoll Value",
+    Name = "Ragdoll(미작동)",
     CurrentValue = false,
     Flag = "RagdollLoopToggle",
     Callback = function(Value)
@@ -7578,7 +7578,7 @@ local PermRag2 = antiTab:CreateToggle({
 })
 
 local RagdollWalkToggle = antiTab:CreateToggle({
-    Name = "Ragdoll Walk",
+    Name = "Ragdoll Walk(미작동)",
     CurrentValue = false,
     Flag = "14",
     Callback = function(Value)
@@ -7589,7 +7589,7 @@ local RagdollWalkToggle = antiTab:CreateToggle({
 
 antiTab:CreateSection("Gucci | Toggle")
 local AutoGucci = antiTab:CreateToggle({
-    Name = "Auto-Gucci",
+    Name = "오토구찌(킥위험!)",
     CurrentValue = false,
     Flag = "autoGucciToggleFlag",
     Callback = function(Value)
@@ -7614,7 +7614,7 @@ local AutoGucci = antiTab:CreateToggle({
 })
 
 local AutoGucciV2 = antiTab:CreateToggle({
-    Name = "Train Gucci",
+    Name = "기차 구찌",
     CurrentValue = false,
     Flag = "autoGucciToggleFlag",
     Callback = function(Value)
@@ -7638,7 +7638,7 @@ end
 
 antiTab:CreateSection("Delete | Toggle")
 local AutoHeight = antiTab:CreateToggle({
-    Name = "Auto-HipHeight",
+    Name = "오토 힙하이스트",
     CurrentValue = false,
     Callback = function(Value)
         ToggleActive = Value
@@ -7647,7 +7647,7 @@ local AutoHeight = antiTab:CreateToggle({
 })
 
 local AutoDele = antiTab:CreateToggle({
-	Name = "Auto-Delete | Me",
+	Name = "자동 지우기 | 나",
 	CurrentValue = false,
 	Flag = "15",
 	Callback = function(Value)
@@ -7657,7 +7657,7 @@ local AutoDele = antiTab:CreateToggle({
 })
 
 local AutoDeletePartsDropdown = antiTab:CreateDropdown({
-	Name = "Select",
+	Name = "고르기",
 	Options = {"Arm/Leg", "Leg/왼쪽", "Leg/오른쪽", "All/Leg", "Arm/왼쪽", "Arm/오른쪽", "All/Arm"},
 	CurrentOption = {"OPEN"},
 	Callback = function(Value)
@@ -7667,7 +7667,7 @@ local AutoDeletePartsDropdown = antiTab:CreateDropdown({
 
 antiTab:CreateSection("")
 local KeybindTab = antiTab:CreateKeybind({
-    Name = "Delete | Target",
+    Name = "지우기 | 타겟",
     CurrentKeybind = "Q",
     HoldToInteract = false,
     Callback = function()
@@ -7682,7 +7682,7 @@ local KeybindTab = antiTab:CreateKeybind({
 })
 
 local Dropdown = antiTab:CreateDropdown({
-    Name = "Select",
+    Name = "고르기",
     Options = {"Arm/Leg", "Leg/왼쪽", "Leg/오른쪽", "All/Leg", "Arm/왼쪽", "Arm/오른쪽", "All/Arm"},
     CurrentOption = {"OPEN"},
     Callback = function(Value)
@@ -7692,7 +7692,7 @@ local Dropdown = antiTab:CreateDropdown({
 
 playerTab:CreateSection("Humanoid")
 playerTab:CreateToggle({
-    Name = "Walk Speed",
+    Name = "이동 속도",
     CurrentValue = false,
     Flag = "28",
     Callback = function(Value)
@@ -7705,19 +7705,19 @@ local walkSpeedInput = playerTab:CreateInput({
     Name = "Value",
     CurrentValue = 16,
     PlaceholderText = "Value",
-    RemoveTextAfterFocusLost = false,
+    RemoveTextAfterFocusLost = true,
     Flag = "29",
     Callback = function(Value)
         walkSpeedV = Value
         updateWalkSpeedF()
     end
 })
-walkSpeedInput:Set(16)
+walkSpeedInput:Set(80)
 
 playerTab:CreateSection("")
 playerTab:CreateToggle({
-    Name = "Jump Power",
-    CurrentValue = false,
+    Name = "점프 높이",
+    CurrentValue = true,
     Flag = "30",
     Callback = function(Value)
         jumpPowerT = Value
@@ -7736,11 +7736,11 @@ local jumpPowerInput = playerTab:CreateInput({
         updateJumpPowerF()
     end
 })
-jumpPowerInput:Set(24)
+jumpPowerInput:Set(60)
 
 playerTab:CreateSection("Other")
 local NoClipToggle = playerTab:CreateToggle({
-    Name = "No-Clip",
+    Name = "노클립",
     CurrentValue = false,
     Flag = "32",
     Callback = function(Value)
@@ -7750,8 +7750,8 @@ local NoClipToggle = playerTab:CreateToggle({
 })
 
 local infJumpToggle = playerTab:CreateToggle({
-    Name = "Infinite jump",
-    CurrentValue = false,
+    Name = "무한 점프",
+    CurrentValue = true,
     Flag = "32",
     Callback = function(Value)
         infJumpT = Value
@@ -7760,7 +7760,7 @@ local infJumpToggle = playerTab:CreateToggle({
 })
 
 local Fly = playerTab:CreateToggle({ 
-    Name = "Fly", 
+    Name = "플라이(모바일불가)", 
     CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
@@ -7770,7 +7770,7 @@ local Fly = playerTab:CreateToggle({
 })
 
 local flyInput = playerTab:CreateInput({
-    Name = "Speed",
+    Name = "속도",
     CurrentValue = 50,
     PlaceholderText = "Value",
     RemoveTextAfterFocusLost = false,
@@ -7783,7 +7783,7 @@ flyInput:Set(80)
 
 --[[
 AuraTab:CreateToggle({
-    Name = "test Aura",
+    Name = "테스트 아우라",
     CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
@@ -7796,7 +7796,7 @@ AuraTab:CreateToggle({
 ]]--
 
 AuraTab:CreateToggle({
-    Name = "Anti-Boombox Aura [ Owner ]", -- Boombox
+    Name = "안티 붐박스 아우라 [ Owner ]", -- Boombox
     CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
@@ -7806,8 +7806,8 @@ AuraTab:CreateToggle({
 })
 
 AuraTab:CreateToggle({
-    Name = "Anti-Banana Aura [ Owner ]",
-    CurrentValue = false,
+    Name = "안티 바나나 아우라 [ Owner ]",
+    CurrentValue = true,
     Flag = "5",
     Callback = function(Value)
         AntiBananaAuraT = Value
@@ -7816,8 +7816,8 @@ AuraTab:CreateToggle({
 })
 
 AuraTab:CreateToggle({
-    Name = "Anti-StickyPart Aura [ Owner ]",
-    CurrentValue = false,
+    Name = "안티 파트 아우라 [ Owner ]",
+    CurrentValue = true,
     Flag = "5",
     Callback = function(Value)
         ViewAuraT = Value
@@ -7827,7 +7827,7 @@ AuraTab:CreateToggle({
 
 funTab:CreateSection("TP")
 local VoidInput = funTab:CreateInput({
-   Name = "Set Y",
+   Name = "Y좌표 설정",
    CurrentValue = "",
    PlaceholderText = "...",
    RemoveTextAfterFocusLost = false,
@@ -7843,7 +7843,7 @@ local VoidInput = funTab:CreateInput({
 })
 
 local VoidButton = funTab:CreateButton({
-   Name = "Teleport",
+   Name = "텔포(모바불가)",
    Callback = function()
       if not Value then return end
       local hrp = plr.Character:WaitForChild("HumanoidRootPart")
@@ -7875,7 +7875,7 @@ local teleportLocations = {
 local selectedLocation = "스폰"
 
 local Dropdown = funTab:CreateDropdown({
-    Name = "Select Zone",
+    Name = "위치 고르기",
     Options = {"스폰","스폰산","광산","큰동굴","작은동굴","열차동굴","위험구역","설산","헛간(농지)","하늘섬","초록집","(초록집)","(분홍집)","(보라집)","(파랑집)","(빨강집)"},
     CurrentOption = "스폰",
     MultipleOptions = false,
@@ -7889,7 +7889,7 @@ local Dropdown = funTab:CreateDropdown({
 })
 
 local Button = funTab:CreateButton({
-    Name = "Teleport",
+    Name = "텔포",
     Callback = function()
         local plr = game.Players.LocalPlayer
         local char = plr.Character or plr.CharacterAdded:Wait()
@@ -7906,7 +7906,7 @@ local Button = funTab:CreateButton({
 
 funTab:CreateSection("Lag")
 funTab:CreateToggle({
-    Name = "Line Lag",
+    Name = "렉(섭폭)",
     CurrentValue = false,
     Flag = "lagToggleFlag",
     Callback = function(Value)
@@ -7938,7 +7938,7 @@ local Inputt = funTab:CreateInput({
 })
 
 local Ctratee = funTab:CreateButton({
-   Name = "Create",
+   Name = "만들기",
    Callback = function()
        local ReplicatedStorage = game:GetService("ReplicatedStorage")
        local pencilCountText = Inputt.CurrentValue
@@ -8094,7 +8094,7 @@ end
 
 funTab:CreateSection("StickyEvent")
 local Inputt = funTab:CreateInput({
-   Name = "Kunai",
+   Name = "쿠나이",
    CurrentValue = "",
    PlaceholderText = "Value",
    RemoveTextAfterFocusLost = false,
@@ -8104,7 +8104,7 @@ local Inputt = funTab:CreateInput({
 })
 
 local Ctratee = funTab:CreateButton({
-   Name = "Create [ Grab The Part ]",
+   Name = "만들기 [ 그랩 파트 ]",
    Callback = function()
        local ReplicatedStorage = game:GetService("ReplicatedStorage")
        local Players = game:GetService("Players")
@@ -8270,7 +8270,7 @@ local Ctratee = funTab:CreateButton({
 
 keybindTab:CreateSection("Shader")
 keybindTab:CreateButton({
-    Name = "Default",
+    Name = "기본값",
     Callback = function()
         local Lighting = game:GetService("Lighting")
 
@@ -8316,7 +8316,7 @@ keybindTab:CreateButton({
 })
 
 keybindTab:CreateButton({
-    Name = "Day Time",
+    Name = "낮시간",
     Callback = function()
         local Lighting = game:GetService("Lighting")
 
@@ -8364,7 +8364,7 @@ keybindTab:CreateButton({
 })
 
 keybindTab:CreateButton({
-    Name = "Shore",
+    Name = "슈어",
     Callback = function()
         local Lighting = game:GetService("Lighting")
 
@@ -8428,7 +8428,7 @@ keybindTab:CreateButton({
 })
 
 keybindTab:CreateButton({
-    Name = "Cloudy",
+    Name = "흐린",
     Callback = function()
         local Lighting = game:GetService("Lighting")
 
@@ -8514,7 +8514,7 @@ end
 
 keybindTab:CreateSection("Line")
 local antilagDet = keybindTab:CreateInput({
-    Name = "Line Detect",
+    Name = "줄 감지",
     CurrentValue = 30,
     PlaceholderText = "",
     RemoveTextAfterFocusLost = false,
@@ -8527,7 +8527,7 @@ antilagDet:Set(30)
 
 keybindTab:CreateSection("Animation")
 local Jerk = keybindTab:CreateKeybind({
-    Name = "Jerk",
+    Name = "저크",
     CurrentKeybind = "Three",
     HoldToInteract = false,
     Callback = jerk
@@ -8540,7 +8540,7 @@ end)
 
 keybindTab:CreateSection("Mouse")
 keybindTab:CreateKeybind({
-    Name = "Teleport",
+    Name = "텔포",
     CurrentKeybind = "Z",
     HoldToInteract = false,
     Flag = "38",
@@ -8548,7 +8548,7 @@ keybindTab:CreateKeybind({
 })
 
 local Tper = keybindTab:CreateToggle({
-    Name = "3rd person",
+    Name = "3인칭",
     CurrentValue = false,
     Flag = "AutoSitBlobman",
     Callback = function(Value)
@@ -8565,7 +8565,7 @@ Tper:Set(true)
 
 keybindTab:CreateSection("Sit")
 local AutoSit = keybindTab:CreateToggle({
-    Name = "Sit [Blobman]",
+    Name = "앉기 [블롭맨]",
     CurrentValue = false,
     Flag = "AutoSitBlobman",
     Callback = function(Value)
@@ -8575,7 +8575,7 @@ local AutoSit = keybindTab:CreateToggle({
 })
 
 keybindTab:CreateKeybind({
-    Name = "Sit [Blobman]",
+    Name = "앉기 [블롭맨]",
     CurrentKeybind = "X",
     HoldToInteract = false,
     Flag = "40",
@@ -8586,7 +8586,7 @@ keybindTab:CreateKeybind({
 
 keybindTab:CreateSection("Plot")
 local BarrierNoclip = keybindTab:CreateToggle({
-    Name = "Barrier Noclip",
+    Name = "집 베리어 뚫기",
     CurrentValue = false,
     Flag = "BarrierNoclipToggle",
     Callback = function(Value)
@@ -8627,7 +8627,7 @@ local function getMyPlot()
 end
 
 keybindTab:CreateKeybind({
-    Name = "House Grab",
+    Name = "하우스 그랩",
     CurrentKeybind = "G",
     HoldToInteract = false,
     Callback = function()
@@ -8671,7 +8671,7 @@ keybindTab:CreateKeybind({
 
 keybindTab:CreateSection("Owner")
 keybindTab:CreateKeybind({
-    Name = "Anchored",
+    Name = "고정",
     CurrentKeybind = "H",
     HoldToInteract = false,
     Flag = "AnchoredKeybind",
