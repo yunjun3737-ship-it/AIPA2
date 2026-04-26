@@ -8959,46 +8959,63 @@ task.spawn(function()
     end
 end)
 
--- ================== 자동 Blobman 소환 + 앉기 ==================
-task.spawn(function()
-    task.wait(1)
+-- ================== 안정적인 무한 점프 (스크립트 맨 끝에 붙이세요) ==================
+local infJumpConn = nil
+local jumpDebounce = false
 
-    local function AutoSitBlobman()
+local function enableInfiniteJump()
+    if infJumpConn then infJumpConn:Disconnect() end
+
+    infJumpConn = uis.JumpRequest:Connect(function()
+        if not infJumpT then return end
+        if jumpDebounce then return end
+        
         local char = plr.Character
         if not char then return end
         
         local hum = char:FindFirstChildOfClass("Humanoid")
         if not hum then return end
 
-        if hum.SeatPart then return end
+        jumpDebounce = true
+        hum:ChangeState(Enum.HumanoidStateType.Jumping)
 
-        local myInv = workspace:FindFirstChild(plr.Name .. "SpawnedInToys")
-        local blob = myInv and myInv:FindFirstChild("CreatureBlobman")
+        -- 디바운스 (너무 빠른 연속 점프 방지 + 서버 안정성)
+        task.delay(0.07, function()
+            jumpDebounce = false
+        end)
+    end)
+end
 
-        if not blob then
-            local spawnRemote = rs:FindFirstChild("MenuToys") and rs.MenuToys:FindFirstChild("SpawnToyRemoteFunction")
-            if spawnRemote then
-                pcall(function()
-                    spawnRemote:InvokeServer("CreatureBlobman", char.HumanoidRootPart.CFrame, Vector3.new(0,0,0))
-                end)
-                task.wait(1.5)
-                blob = myInv and myInv:FindFirstChild("CreatureBlobman")
-            end
-        end
-
-        if blob then
-            local seat = blob:FindFirstChildWhichIsA("VehicleSeat")
-            if seat and seat.Occupant == nil then
-                seat:Sit(hum)
-            end
-        end
+local function disableInfiniteJump()
+    if infJumpConn then
+        infJumpConn:Disconnect()
+        infJumpConn = nil
     end
+    jumpDebounce = false
+end
 
-    AutoSitBlobman()
+-- 토글 연결 (이미 있는 토글 Callback에 추가하거나 아래처럼 새로 연결)
+infJumpToggle.Callback = function(Value)  -- ← 기존 infJumpToggle을 찾아서 이걸로 교체
+    infJumpT = Value
+    if Value then
+        enableInfiniteJump()
+    else
+        disableInfiniteJump()
+    end
+end
 
-    while true do
-        task.wait(1)
-        AutoSitBlobman()
+-- 캐릭터 리스폰 시에도 자동으로 적용
+plr.CharacterAdded:Connect(function()
+    task.wait(0.6)
+    if infJumpT then
+        enableInfiniteJump()
     end
 end)
 
+-- 스크립트 로드 시 초기 적용
+if plr.Character and infJumpT then
+    task.wait(1)
+    enableInfiniteJump()
+end
+
+print("✅ 안정적인 무한점프 추가 완료")
