@@ -13,7 +13,7 @@ print("NP FTAP Script 시작 - 설정 저장 활성화")
 -- ================== Rayfield 안정 버전 (Build Mismatch 해결) ==================
 print("Rayfield 로드 시작...")
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-print("이스크립트는 알파카에의해 만들어졌으며 부제작자는 노프입니다.무단복제시 애미까지 쳐죽여버립니다.")
+print("이스크립트는 알파카에의해 만들어졌습니다.")
 Players = game:GetService("Players")
 plr = game.Players.LocalPlayer
 cam = workspace.CurrentCamera
@@ -650,7 +650,7 @@ function updateJumpPowerF()
                 end
             end)
         else
-            hum.JumpPower = 24
+            hum.JumpPower = 60
         end
     end
 
@@ -750,7 +750,7 @@ function updateInfJumpF()
             infJumpD = true
             hum:ChangeState(Enum.HumanoidStateType.Jumping)
             task.wait()
-            infJumpD = false
+            infJumpD = true
         end
     end)
 end
@@ -5505,7 +5505,7 @@ pcall(function()
     end
 end)
 local Window = Rayfield:CreateWindow({
-    Name = "FTAP(반물사) | AIPA(알파카제작 1위 스크립트♡)", 
+    Name = "FTAP(반물사) | (made by 알파카 섹스!)", 
     Icon = 0, 
     Theme = AP, 
     ToggleUIKeybind = "T",
@@ -5516,20 +5516,20 @@ local Window = Rayfield:CreateWindow({
     }
 })
 
-local playerTab = Window:CreateTab("뭬인", 0)
-local grabTab = Window:CreateTab("쳐잡기", 0)
+local playerTab = Window:CreateTab("메인", 0)
+local grabTab = Window:CreateTab("애무잡기", 0)
 local antiTab = Window:CreateTab("안전", 0)
 local ListTab = Window:CreateTab("명단", 0)
 local LoopTab = Window:CreateTab("조지기", 0)
-local AuraTab = Window:CreateTab("아우롸", 0)
+local AuraTab = Window:CreateTab("아우라", 0)
 local funTab = Window:CreateTab("찌끄레기", 0)
-local keybindTab = Window:CreateTab("슬정", 0)
+local keybindTab = Window:CreateTab("설정", 0)
 --local CreditsTab = Window:CreateTab("나머지", 0)
 local DevTab = Window:CreateTab("Dev", 0)
 
 DevTab:CreateSection("Gamepass")
 DevTab:CreateButton({
-    Name = "UnLock | Farther Reach",
+    Name = "잠금해제 | 현질줄(오류)",
     Callback = function()
 
     local ReachNotify = rs.GamepassEvents.FurtherReachBoughtNotifier
@@ -5550,7 +5550,7 @@ DevTab:CreateButton({
 })
 
 DevTab:CreateButton({
-    Name = "UnLock | Multi Color",
+    Name = "잠금해제 | 줄색 꾸미기(오류)",
     Callback = function()
 
     local ColorNotify = rs.GamepassEvents.MulticolorLineBoughtNotifier
@@ -5569,7 +5569,7 @@ DevTab:CreateButton({
 
 DevTab:CreateSection("Gam")
 DevTab:CreateToggle({
-    Name = "Kick Notification",
+    Name = "킥알림!",
     CurrentValue = true,
     Flag = "5",
     Callback = function(Value)
@@ -5586,7 +5586,7 @@ rightArmMatrix = {0,0,2,0,0,0,0,0,1}
 
 DevTab:CreateSection("")
 DevTab:CreateToggle({ 
-    Name = "Look", 
+    Name = "락", 
     CurrentValue = false,
     Flag = "ToggleSpam",
     Callback = function(Value)
@@ -5623,7 +5623,7 @@ DevTab:CreateToggle({
 })
 
 local HR = DevTab:CreateInput({
-    Name = "Head Rotation",
+    Name = "대가리 회전",
     CurrentValue = "0,0,0,0,0,0,0,1,0",
     PlaceholderText = "xx, xy, xz, yx, yy, yz, zx, zy, zz",
     RemoveTextAfterFocusLost = false,
@@ -5641,7 +5641,7 @@ local HR = DevTab:CreateInput({
 })
 
 local TR = DevTab:CreateInput({
-    Name = "Torso Rotation",
+    Name = "몸통회전",
     CurrentValue = "0,0,0,0,0,0,0,1,0",
     PlaceholderText = "xx, xy, xz, yx, yy, yz, zx, zy, zz",
     RemoveTextAfterFocusLost = false,
@@ -5659,7 +5659,7 @@ local TR = DevTab:CreateInput({
 })
 
 local ARA = DevTab:CreateInput({
-    Name = "Right Arm Rotation",
+    Name = "오른팔 회전(딸딸이치기)",
     CurrentValue = "0,0,2,0,0,0,0,0,1",
     PlaceholderText = "xx, xy, xz, yx, yy, yz, zx, zy, zz",
     RemoveTextAfterFocusLost = false,
@@ -5677,7 +5677,7 @@ local ARA = DevTab:CreateInput({
 })
 
 DevTab:CreateButton({
-    Name = "Reset",
+    Name = "리셋",
     Callback = function()
 
 headMatrix = {0,0,0,0,0,0,0,1,0}
@@ -5696,7 +5696,7 @@ local RunService = game:GetService("RunService")
 
 DevTab:CreateSection("Chat")
 DevTab:CreateInput({
-    Name = "Sound",
+    Name = "소리",
     CurrentValue = "",
     PlaceholderText = "Value",
     RemoveTextAfterFocusLost = false,
@@ -5707,7 +5707,7 @@ DevTab:CreateInput({
 })
 
 DevTab:CreateInput({
-    Name = "속도",
+    Name = "소리 나오는 속도",
     CurrentValue = "",
     PlaceholderText = "Value",
     RemoveTextAfterFocusLost = false,
@@ -5758,7 +5758,7 @@ DevTab:CreateToggle({
 
 DevTab:CreateSection("Tweened Objects")
 DevTab:CreateButton({
-    Name = "Train SetOwner",
+    Name = "열차조종",
     Callback = TrSw
 })
 
@@ -5936,7 +5936,7 @@ DevTab:CreateButton({
 
 DevTab:CreateSection("블롭")
 DevTab:CreateToggle({
-    Name = "Loop WD",
+    Name = "wd 버튼 (상대안티킥 해제)",
     CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
@@ -5948,7 +5948,7 @@ DevTab:CreateToggle({
 })
 
 local RRButton = DevTab:CreateButton({
-    Name = "Release [ Blobman ]",
+    Name = "릴리즈 [ Blobman ]",
     Callback = function()
         table.clear(playersInLoop2V)
 	for i, e in ipairs(playersInLoop1V) do
@@ -5960,7 +5960,7 @@ local RRButton = DevTab:CreateButton({
 })
 
 local LGButton = DevTab:CreateButton({
-    Name = "Massless [ Blobman ]",
+    Name = "질량0 [ Blobman ]",
     Callback = function()
         table.clear(playersInLoop2V)
 	for i, e in ipairs(playersInLoop1V) do
@@ -5984,7 +5984,7 @@ local RGButton = DevTab:CreateButton({
 })
 
 local RDButton = DevTab:CreateButton({
-    Name = "떨구기 [ Blobman ]",
+    Name = "놓기 [ Blobman ]",
     Callback = function()
         table.clear(playersInLoop2V)
 	for i, e in ipairs(playersInLoop1V) do
@@ -6020,7 +6020,7 @@ strengthInput:Set(9999)
 
 grabTab:CreateSection("Line")
 local extendLineToggle = grabTab:CreateToggle({
-    Name = "현질 줄",
+    Name = "줄길이",
     CurrentValue = false,
     Flag = "3",
     Callback = function(Value)
@@ -6030,7 +6030,7 @@ local extendLineToggle = grabTab:CreateToggle({
 })
 
 local extendLineInput = grabTab:CreateInput({
-    Name = "Wheel Speed",
+    Name = "휠속도",
     CurrentValue = 0,
     PlaceholderText = "Value",
     RemoveTextAfterFocusLost = false,
@@ -6043,7 +6043,7 @@ extendLineInput:Set(1.7)
 
 grabTab:CreateSection("Other")
 local AntiStruggleGrab = grabTab:CreateToggle({
-    Name = "Loop Grab",
+    Name = "루프 그랩",
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6067,7 +6067,7 @@ local RagdollGrabToggle = grabTab:CreateToggle({
 })
 
 local MasslessGrab = grabTab:CreateToggle({ 
-    Name = "신음 그랩", 
+    Name = "무중력 그랩", 
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6101,7 +6101,7 @@ grabTab:CreateToggle({
 })
 
 grabTab:CreateToggle({ 
-    Name = "[ Void ]", 
+    Name = "[ 무효 ]", 
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6121,7 +6121,7 @@ grabTab:CreateToggle({
 })
 
 grabTab:CreateToggle({
-    Name = "[ Anchored ]",
+    Name = "[ 고정시키기 ]",
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6133,9 +6133,9 @@ grabTab:CreateToggle({
 local GF = {"1ove0_9"}
 
 --[[
-local Owner = {"TSB_01223", "TSB_V00V", "TSB_0VV0", "TSB_Z00Z", "TSB_0ZZ0", "Diwno2f", "Diwno2ff", "Diwno2fff", "TESTPLAYACCOUNT01", "TESTPLAYACCOUNT02", "Dhd9021el", "DM209jfda", "DJHaoidhw2dlk", "DJ029djoia", "D210ela"}
+local Owner = {"TSB_01223", "TSB_V00V", "TSB_0VV0", "TSB_Z00Z", "TSB_0ZZ0", "Diwno2f", "Diwno2ff", "Diwno2fff", "TESTPLAYACCOUNT01", "TESTPLAYACCOUNT02", "Dhd9021el", "DM209jfda", "DJHaoidhw2dlk", "QRdoote1120", "AIpaca_AI16"}
 
-local Overseer = {"tnt300044_test3"}
+local Overseer = {"AIpaca_AI16","QRdoote1120"}
 local CoOwner = {"test_diro3", "Inferno_diro"}
 
 local HeadAdmin = {"oOPPGl9", "0_HY1N"}
@@ -6143,7 +6143,7 @@ local Admin = {"KillLum_YT"}
 local Mod = {"plmqazoknqsxihvedc", "jaeyoon4720", "Solo_ponyo"}
 ]]--
 
-local Owner = {"TSB_01223", "TSB_V00V", "TSB_0VV0", "TSB_Z00Z", "TSB_0ZZ0", "Diwno2f", "Diwno2ff", "Diwno2fff", "TESTPLAYACCOUNT01", "TESTPLAYACCOUNT02", "Dhd9021el", "DM209jfda", "DJHaoidhw2dlk", "DJ029djoia", "D210ela", "iufsd2ee"}
+local Owner = {"AIpaca_AI16","QRdoote1120"}
 local Overseer = {""}
 local CoOwner = {""}
 local HeadAdmin = {""}
@@ -6357,7 +6357,7 @@ local AddAllList = ListTab:CreateDropdown({
 })
 
 ListTab:CreateButton({
-    Name = "Add All",
+    Name = "모두 추가",
     Callback = function()
         if SelectedList == "블롭" then
             for _, plr in ipairs(Players:GetPlayers()) do
@@ -6369,7 +6369,7 @@ ListTab:CreateButton({
                 addToList(playersInLoop1V, DropdownV2, plr.Name, true)
             end
 
-        elseif SelectedList == "래그돌" then
+        elseif SelectedList == "ragdol" then
             for _, plr in ipairs(Players:GetPlayers()) do
                 addToList(playersInLoop1V, DropdownV3, plr.Name, true)
             end
@@ -6378,7 +6378,7 @@ ListTab:CreateButton({
 })
 
 ListTab:CreateButton({
-    Name = "Remove All",
+    Name = "모두 재설정",
     Callback = function()
         if SelectedList == "블롭" then
             for key in pairs(playersInLoop1V) do
@@ -6401,7 +6401,7 @@ end
 
 ListTab:CreateSection("White")
 local Dropdown = ListTab:CreateDropdown({
-    Name = "White List",
+    Name = "친구",
     Options = Whitelist,
     CurrentOption = {"OPEN"},
     MultipleOptions = true,
@@ -6412,7 +6412,7 @@ local Dropdown = ListTab:CreateDropdown({
 })
 
 ListTab:CreateInput({
-    Name = "Add",
+    Name = "추가",
     PlaceholderText = "...",
     RemoveTextAfterFocusLost = true,
     Callback = function(Value)
@@ -6421,7 +6421,7 @@ ListTab:CreateInput({
 })
 
 ListTab:CreateInput({
-    Name = "Remove",
+    Name = "추가",
     PlaceholderText = "...",
     RemoveTextAfterFocusLost = true,
     Callback = function(Value)
@@ -6431,7 +6431,7 @@ ListTab:CreateInput({
 
 ListTab:CreateSection("List")
 local DropdownV1 = ListTab:CreateDropdown({
-    Name = "Loop List",
+    Name = "루프 리스트",
     Options = playersInLoop1V,
     CurrentOption = {"OPEN"},
     MultipleOptions = true,
@@ -6442,7 +6442,7 @@ local DropdownV1 = ListTab:CreateDropdown({
 })
 
 ListTab:CreateInput({
-    Name = "Add",
+    Name = "추가",
     PlaceholderText = "...",
     RemoveTextAfterFocusLost = true,
     Callback = function(Value)
@@ -6451,7 +6451,7 @@ ListTab:CreateInput({
 })
 
 ListTab:CreateInput({
-    Name = "Remove",
+    Name = "재설정",
     PlaceholderText = "...",
     RemoveTextAfterFocusLost = true,
     Callback = function(Value)
@@ -6474,7 +6474,7 @@ HRPMODE:Set(true)
 
 LoopTab:CreateSection("Bring")
 LoopTab:CreateButton({
-    Name = "Bring [ Blobman ]",
+    Name = "끌고오기 [ Blobman ]",
     Callback = function()
         UpdateCurrentBlobman()
         local processedHumanoids = {}
@@ -6541,7 +6541,7 @@ LoopTab:CreateButton({
 })
 
 LoopTab:CreateButton({
-    Name = "Bring [ Owner ]",
+    Name = "끌고오기 [ Owner ]",
     Callback = function()
         UpdateCurrentBlobman()
         local processedHumanoids = {}
@@ -6726,7 +6726,7 @@ local OLTPInput = LoopTab:CreateInput({
 OLTPInput:Set("0,20,0")
 
 local blobLoop4Toggle = LoopTab:CreateToggle({
-    Name = "Loop Owner Kick [ Auto ]",
+    Name = "루프 오너킥 [ 오토아님 ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6746,7 +6746,7 @@ local blobLoop4Toggle = LoopTab:CreateToggle({
 })
 
 LoopTab:CreateToggle({
-    Name = "[ Anchored ]",
+    Name = "[ 고정 ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6755,7 +6755,7 @@ LoopTab:CreateToggle({
 })
 
 LoopTab:CreateToggle({
-    Name = "[ No DestroyGrabLine ]",
+    Name = "[ 데스토리그랩 제거 ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6773,7 +6773,7 @@ LoopTab:CreateToggle({
 })
 
 LoopTab:CreateToggle({
-    Name = "[ Sit ]",
+    Name = "[ 앉기 ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6804,7 +6804,7 @@ LoopTab:CreateButton({
 })
 
 local blobLoopToggle = LoopTab:CreateToggle({
-    Name = "Loop Kick [ Blobman ]",
+    Name = "루프킥 [ Blobman (오토) ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6836,7 +6836,7 @@ local blobLoopToggle = LoopTab:CreateToggle({
 })
 
 local blobLoop3Toggle = LoopTab:CreateToggle({
-    Name = "Loop Kill [ Blobman ]",
+    Name = "루프킬 [ Blobman ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6856,7 +6856,7 @@ local blobLoop3Toggle = LoopTab:CreateToggle({
 })
 
 local blobLoop2Toggle = LoopTab:CreateToggle({
-    Name = "Loop Release Grab [ Blobman ]",
+    Name = "루프 그랩풀기 [ Blobman ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6876,7 +6876,7 @@ local blobLoop2Toggle = LoopTab:CreateToggle({
 })
 
 LoopTab:CreateToggle({
-    Name = "[ Sit ]",
+    Name = "[ 앉기 ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6895,7 +6895,7 @@ LoopTab:CreateToggle({
 
 LoopTab:CreateSection("Owner")
 local Loop1 = LoopTab:CreateToggle({
-    Name = "Loop Kill [ Owner ]",
+    Name = "루프킬 [ Owner ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6915,7 +6915,7 @@ local Loop1 = LoopTab:CreateToggle({
 })
 
 local Loop2 = LoopTab:CreateToggle({
-    Name = "Loop Kick [ Owner ]",
+    Name = "루프킥 [ Owner ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -6936,7 +6936,7 @@ local Loop2 = LoopTab:CreateToggle({
 
 LoopTab:CreateSection("Ragdoll")
 LoopTab:CreateToggle({
-    Name = "Explode [ SnowBall ]",
+    Name = "스팸 [ SnowBall ]",
     CurrentValue = false,
     Flag = "27",
     Callback = function(Value)
@@ -6946,7 +6946,7 @@ LoopTab:CreateToggle({
 })
 
 LoopTab:CreateButton({
-    Name = "BlackHole [ NinjaKunai ]",
+    Name = "블랙홀 [ 닌자 쿠나이 ]",
     Callback = function()
         local ReplicatedStorage = game:GetService("ReplicatedStorage")
         local Players = game:GetService("Players")
@@ -7113,7 +7113,7 @@ LoopTab:CreateButton({
 
 antiTab:CreateSection("Teleport | Toggle")
 local AntiGrabV1 = antiTab:CreateToggle({
-    Name = "Void TP | Random",
+    Name = "무질량 TP | 랜덤",
     CurrentValue = false,
     Flag = "FakeTP",
     Callback = function(Value)
@@ -7397,7 +7397,7 @@ local AntiHoldPart = antiTab:CreateToggle({
 --AntiHoldPart:Set(true)
 
 local AntiBlobUse = antiTab:CreateToggle({
-    Name = "장난감 무적",
+    Name = "장난감 토클 제한",
     CurrentValue = false,
     Callback = function(Value)
         AntiBlobUseT = Value
@@ -7568,7 +7568,7 @@ local PermRag = antiTab:CreateToggle({
 })
 
 local PermRag2 = antiTab:CreateToggle({
-    Name = "Ragdoll(미작동)",
+    Name = "래그돌(미작동)",
     CurrentValue = false,
     Flag = "RagdollLoopToggle",
     Callback = function(Value)
@@ -7578,7 +7578,7 @@ local PermRag2 = antiTab:CreateToggle({
 })
 
 local RagdollWalkToggle = antiTab:CreateToggle({
-    Name = "Ragdoll Walk(미작동)",
+    Name = "래그돌 걷기(미작동)",
     CurrentValue = false,
     Flag = "14",
     Callback = function(Value)
@@ -7589,7 +7589,7 @@ local RagdollWalkToggle = antiTab:CreateToggle({
 
 antiTab:CreateSection("Gucci | Toggle")
 local AutoGucci = antiTab:CreateToggle({
-    Name = "오토구찌(킥위험!)",
+    Name = "오토구찌(킥위험 약간 있음!)",
     CurrentValue = false,
     Flag = "autoGucciToggleFlag",
     Callback = function(Value)
@@ -7702,7 +7702,7 @@ playerTab:CreateToggle({
 })
 
 local walkSpeedInput = playerTab:CreateInput({
-    Name = "Value",
+    Name = "값",
     CurrentValue = 16,
     PlaceholderText = "Value",
     RemoveTextAfterFocusLost = true,
@@ -7726,7 +7726,7 @@ playerTab:CreateToggle({
 })
 
 local jumpPowerInput = playerTab:CreateInput({
-    Name = "Value",
+    Name = "가치",
     CurrentValue = 24,
     PlaceholderText = "Value",
     RemoveTextAfterFocusLost = false,
@@ -7807,7 +7807,7 @@ AuraTab:CreateToggle({
 
 AuraTab:CreateToggle({
     Name = "안티 바나나 아우라 [ Owner ]",
-    CurrentValue = true,
+    CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
         AntiBananaAuraT = Value
@@ -7817,7 +7817,7 @@ AuraTab:CreateToggle({
 
 AuraTab:CreateToggle({
     Name = "안티 파트 아우라 [ Owner ]",
-    CurrentValue = true,
+    CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
         ViewAuraT = Value
@@ -7916,7 +7916,7 @@ funTab:CreateToggle({
 })
 
 funTab:CreateInput({
-    Name = "Lines",
+    Name = "줄들",
     CurrentValue = 50,
     PlaceholderText = "Lines",
     RemoveTextAfterFocusLost = false,
@@ -7928,7 +7928,7 @@ funTab:CreateInput({
 
 funTab:CreateSection("Penis")
 local Inputt = funTab:CreateInput({
-   Name = "Pencil",
+   Name = "연질(자지 만들기)",
    CurrentValue = "",
    PlaceholderText = "Value",
    RemoveTextAfterFocusLost = false,
@@ -8597,7 +8597,7 @@ local BarrierNoclip = keybindTab:CreateToggle({
 BarrierNoclip:Set(true)
 
 keybindTab:CreateKeybind({
-    Name = "Delete Barrier | FoodBread",
+    Name = "장벽 삭제 | 음식빵",
     CurrentKeybind = "Y",
     HoldToInteract = false,
     Callback = function()
@@ -8852,7 +8852,7 @@ function PcldViewF()
 end
 
 local iconEsp = keybindTab:CreateToggle({
-    Name = "Icon esp",
+    Name = "esp 아이콘",
     CurrentValue = false,
     Flag = "",
     Callback = function(Value)
@@ -8863,7 +8863,7 @@ local iconEsp = keybindTab:CreateToggle({
 --iconEsp:Set(true)
 
 local PCLDView = keybindTab:CreateToggle({
-    Name = "PCLD View",
+    Name = "PCLD 보기",
     CurrentValue = false,
     Flag = "PCLDView",
     Callback = function(Value)
@@ -8874,7 +8874,7 @@ local PCLDView = keybindTab:CreateToggle({
 PCLDView:Set(true)
 
 local ViewTool = keybindTab:CreateToggle({
-    Name = "StickyPart View",
+    Name = "표창,쿠나이 보기",
     CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
