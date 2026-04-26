@@ -6331,9 +6331,9 @@ function Logger()
     end
 end
 
-antiTab:CreateSection("Friendly | Toggle")
+antiTab:CreateSection("친구 | 토클")
 local WhiteListToggle = antiTab:CreateToggle({
-    Name = "WhiteList Mode",
+    Name = "화이트 리스트 모드",
     CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
@@ -6783,7 +6783,7 @@ LoopTab:CreateToggle({
 
 LoopTab:CreateSection("Blobman")
 LoopTab:CreateButton({
-    Name = "off massless",
+    Name = "무중력 끄기",
     Callback = function()
 
         Players = game:GetService("Players")
@@ -6885,7 +6885,7 @@ LoopTab:CreateToggle({
 })
 
 LoopTab:CreateToggle({
-    Name = "[ Anti-InPlots Mode ]",
+    Name = "[ 안티 인플레이스 모드 ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -7693,7 +7693,7 @@ local Dropdown = antiTab:CreateDropdown({
 playerTab:CreateSection("Humanoid")
 playerTab:CreateToggle({
     Name = "이동 속도",
-    CurrentValue = false,
+    CurrentValue = true,
     Flag = "28",
     Callback = function(Value)
         walkSpeedT = Value 
@@ -7703,7 +7703,7 @@ playerTab:CreateToggle({
 
 local walkSpeedInput = playerTab:CreateInput({
     Name = "값",
-    CurrentValue = 16,
+    CurrentValue = 80,
     PlaceholderText = "Value",
     RemoveTextAfterFocusLost = true,
     Flag = "29",
@@ -7726,7 +7726,7 @@ playerTab:CreateToggle({
 })
 
 local jumpPowerInput = playerTab:CreateInput({
-    Name = "가치",
+    Name = "값",
     CurrentValue = 24,
     PlaceholderText = "Value",
     RemoveTextAfterFocusLost = false,
@@ -7843,7 +7843,7 @@ local VoidInput = funTab:CreateInput({
 })
 
 local VoidButton = funTab:CreateButton({
-   Name = "텔포(모바불가)",
+   Name = "텔포",
    Callback = function()
       if not Value then return end
       local hrp = plr.Character:WaitForChild("HumanoidRootPart")
@@ -7916,7 +7916,7 @@ funTab:CreateToggle({
 })
 
 funTab:CreateInput({
-    Name = "줄들",
+    Name = "값",
     CurrentValue = 50,
     PlaceholderText = "Lines",
     RemoveTextAfterFocusLost = false,
