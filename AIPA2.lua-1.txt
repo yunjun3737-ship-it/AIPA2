@@ -627,7 +627,7 @@ function updateWalkSpeedF()
                 end
             end)
         else
-            hum.WalkSpeed = 60
+            hum.WalkSpeed = 80
         end
     end
 
@@ -701,7 +701,7 @@ function updateNoClipF()
         for _, partName in ipairs(NO_CLIP_PARTS) do
              part = char:FindFirstChild(partName)
             if part and part:IsA("BasePart") then
-                part.CanCollide = false
+                part.CanCollide = true
             end
         end
     end)
@@ -4996,7 +4996,7 @@ function AntiBlobUseF()
                 end
             end
 
-            local function collectItemsFromFolder(folder)
+            local function collectItemsFromFolde (folder)
                 local items = {}
                 for _, item in ipairs(folder:GetChildren()) do
                     if item:IsA("Model") and table.find(targetItems, item.Name) then
