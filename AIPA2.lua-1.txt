@@ -1355,6 +1355,88 @@ function KillAuraF()
         end
     end)
 end
+-- ================== Freeze Aura ==================
+local FreezeAuraT = false
+local FreezeAuraConnection = nil
+
+function FreezeAuraF()
+    if FreezeAuraConnection then
+        FreezeAuraConnection:Disconnect()
+        FreezeAuraConnection = nil
+    end
+
+    if not FreezeAuraT then return end
+
+    FreezeAuraConnection = game:GetService("RunService").Heartbeat:Connect(function()
+        if not FreezeAuraT then return end
+
+        local myChar = plr.Character
+        if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
+
+        local myHRP = myChar.HumanoidRootPart
+
+        for _, target in ipairs(game.Players:GetPlayers()) do
+            if target == plr then continue end
+
+            local tChar = target.Character
+            if not tChar then continue end
+
+            local tHum = tChar:FindFirstChildOfClass("Humanoid")
+            local tHRP = tChar:FindFirstChild("HumanoidRootPart")
+
+            if tHum and tHRP then
+                local distance = (myHRP.Position - tHRP.Position).Magnitude
+                if distance <= 35 then
+                    pcall(function()
+                        tHum.WalkSpeed = 0
+                        tHum.JumpPower = 0
+                        tHum.PlatformStand = true
+                    end)
+                end
+            end
+        end
+    end)
+end
+
+-- ================== Ragdoll Aura ==================
+local RagdollAuraT = false
+local RagdollAuraConnection = nil
+
+function RagdollAuraF()
+    if RagdollAuraConnection then
+        RagdollAuraConnection:Disconnect()
+        RagdollAuraConnection = nil
+    end
+
+    if not RagdollAuraT then return end
+
+    RagdollAuraConnection = game:GetService("RunService").Heartbeat:Connect(function()
+        if not RagdollAuraT then return end
+
+        local myChar = plr.Character
+        if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
+
+        local myHRP = myChar.HumanoidRootPart
+
+        for _, target in ipairs(game.Players:GetPlayers()) do
+            if target == plr then continue end
+
+            local tChar = target.Character
+            if not tChar then continue end
+
+            local tHRP = tChar:FindFirstChild("HumanoidRootPart")
+
+            if tHRP then
+                local distance = (myHRP.Position - tHRP.Position).Magnitude
+                if distance <= 35 then
+                    pcall(function()
+                        rs.CharacterEvents.RagdollRemote:FireServer(tHRP, 1)
+                    end)
+                end
+            end
+        end
+    end)
+end
 
     for _, other in ipairs(game.Players:GetPlayers()) do
         if other ~= plr then
@@ -7965,7 +8047,7 @@ AuraTab:CreateToggle({
         ViewAuraF()
     end
 })
-AuraTab:CreateSection("Kill Aura")
+AuraTab:CreateSection("remain Aura")
 
 local KillAuraToggle = AuraTab:CreateToggle({
     Name = "킬 아우라 (근처 사람 즉사)",
@@ -7974,6 +8056,26 @@ local KillAuraToggle = AuraTab:CreateToggle({
     Callback = function(Value)
         KillAuraT = Value
         KillAuraF()
+    end
+})
+
+local FreezeAuraToggle = AuraTab:CreateToggle({
+    Name = "프리즈 아우라 (움직임 멈춤)",
+    CurrentValue = false,
+    Flag = "FreezeAura",
+    Callback = function(Value)
+        FreezeAuraT = Value
+        FreezeAuraF()
+    end
+})
+
+local RagdollAuraToggle = AuraTab:CreateToggle({
+    Name = "래그돌 아우라 (넘어짐)",
+    CurrentValue = false,
+    Flag = "RagdollAura",
+    Callback = function(Value)
+        RagdollAuraT = Value
+        RagdollAuraF()
     end
 })
 
