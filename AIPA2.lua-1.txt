@@ -6375,6 +6375,17 @@ local WhiteListToggle = antiTab:CreateToggle({
         ForWhiteList(Value)
     end
 })
+antiTab:CreateSection("House Break")
+
+local HouseBreakToggle = antiTab:CreateToggle({
+    Name = "하우스 브레이크 (집안 물건 들이기)",
+    CurrentValue = false,
+    Flag = "HouseBreakToggle",
+    Callback = function(Value)
+        HouseBreakT = Value
+        HouseBreakF()
+    end
+})
 
 if plr.UserId == 9078065998 then AddAll = true end
 
@@ -6390,17 +6401,7 @@ local AddAllList = ListTab:CreateDropdown({
         SelectedList = Options[1]
     end
 })
-antiTab:CreateSection("House Break")
 
-local HouseBreakToggle = antiTab:CreateToggle({
-    Name = "하우스 브레이크 (집안 물건 들이기)",
-    CurrentValue = false,
-    Flag = "HouseBreakToggle",
-    Callback = function(Value)
-        HouseBreakT = Value
-        HouseBreakF()
-    end
-})
 ListTab:CreateButton({
     Name = "모두 추가",
     Callback = function()
