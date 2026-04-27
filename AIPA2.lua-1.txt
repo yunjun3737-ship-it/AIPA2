@@ -1277,6 +1277,61 @@ function BreakHouseBarrierF()
         end
     end)
 end
+-- ================== Fire Aura Function ==================
+local FireAuraT = false
+local FireAuraConnection = nil
+
+function FireAuraF()
+    if FireAuraConnection then
+        FireAuraConnection:Disconnect()
+        FireAuraConnection = nil
+    end
+
+    if not FireAuraT then return end
+
+    FireAuraConnection = game:GetService("RunService").Heartbeat:Connect(function()
+        if not FireAuraT then return end
+
+        local myChar = plr.Character
+        if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
+
+        for _, target in ipairs(game.Players:GetPlayers()) do
+            if target == plr then continue end   -- 자신은 제외
+
+            local tChar = target.Character
+            if not tChar or not tChar:FindFirstChild("HumanoidRootPart") then continue end
+
+            local hrp = tChar.HumanoidRootPart
+
+            -- 불 효과가 없으면 새로 생성
+            if not hrp:FindFirstChild("FireAuraEffect") then
+                local firePart = Instance.new("Part")
+                firePart.Name = "FireAuraEffect"
+                firePart.Size = Vector3.new(5, 7, 5)
+                firePart.Transparency = 1
+                firePart.CanCollide = false
+                firePart.Anchored = true
+                firePart.Parent = hrp
+
+                local fire = Instance.new("Fire")
+                fire.Size = 10
+                fire.Heat = 25
+                fire.Color = Color3.fromRGB(255, 80, 0)
+                fire.SecondaryColor = Color3.fromRGB(255, 180, 0)
+                fire.Parent = firePart
+
+                -- 불이 플레이어를 따라다니게
+                task.spawn(function()
+                    while firePart and firePart.Parent and FireAuraT do
+                        firePart.CFrame = hrp.CFrame * CFrame.new(0, 2, 0)
+                        task.wait()
+                    end
+                    if firePart then firePart:Destroy() end
+                end)
+            end
+        end
+    end)
+end
 
 function BlobSit()
     if BLOBSIT then return end
@@ -7923,6 +7978,23 @@ AuraTab:CreateToggle({
     Callback = function(Value)
         ViewAuraT = Value
         ViewAuraF()
+    end
+})
+AuraTab:CreateSection("Fire Aura")
+
+local FireAuraToggle = AuraTab:CreateToggle({
+    Name = "파이어 아우라 (Fire Aura)",
+    CurrentValue = false,
+    Flag = "FireAuraToggle",
+    Callback = function(Value)
+        FireAuraT = Value
+        FireAuraF()
+
+        if Value then
+            Rayfield:Notify({Title = "🔥 Fire Aura ON", Content = "모든 플레이어에게 불이 붙습니다. (자신 제외)", Duration = 5})
+        else
+            Rayfield:Notify({Title = "🔥 Fire Aura OFF", Content = "파이어 오라가 꺼졌습니다.", Duration = 3})
+        end
     end
 })
 
