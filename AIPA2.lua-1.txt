@@ -1315,6 +1315,48 @@ function BlobSit()
             end
         end
     end
+-- ================== Kill Aura (근처 사람 즉사) ==================
+local KillAuraT = false
+local KillAuraConnection = nil
+
+function KillAuraF()
+    if KillAuraConnection then
+        KillAuraConnection:Disconnect()
+        KillAuraConnection = nil
+    end
+
+    if not KillAuraT then return end
+
+    KillAuraConnection = game:GetService("RunService").Heartbeat:Connect(function()
+        if not KillAuraT then return end
+
+        local myChar = plr.Character
+        if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
+
+        local myHRP = myChar.HumanoidRootPart
+
+        for _, target in ipairs(game.Players:GetPlayers()) do
+            if target == plr then continue end  -- 자신 제외
+
+            local tChar = target.Character
+            if not tChar then continue end
+
+            local tHRP = tChar:FindFirstChild("HumanoidRootPart")
+            local tHum = tChar:FindFirstChildOfClass("Humanoid")
+
+            if tHRP and tHum and tHum.Health > 0 then
+                local distance = (myHRP.Position - tHRP.Position).Magnitude
+
+                if distance <= 30 then  -- 30 스터드 이내
+                    pcall(function()
+                        tHum.Health = 0
+                    end)
+                end
+            end
+        end
+    end)
+end
+
 
     for _, other in ipairs(game.Players:GetPlayers()) do
         if other ~= plr then
@@ -7925,6 +7967,32 @@ AuraTab:CreateToggle({
         ViewAuraF()
     end
 })
+AuraTab:CreateSection("Kill Aura")
+
+local KillAuraToggle = AuraTab:CreateToggle({
+    Name = "킬 오라 (근처 사람 즉사)",
+    CurrentValue = false,
+    Flag = "KillAuraToggle",
+    Callback = function(Value)
+        KillAuraT = Value
+        KillAuraF()
+
+        if Value then
+            Rayfield:Notify({
+                Title = "💀 Kill Aura ON",
+                Content = "내 주변 30 스터드 안에 있는 사람 체력이 0이 됩니다.",
+                Duration = 5
+            })
+        else
+            Rayfield:Notify({
+                Title = "💀 Kill Aura OFF",
+                Content = "킬 오라가 꺼졌습니다.",
+                Duration = 3
+            })
+        end
+    end
+})
+
 
 funTab:CreateSection("TP")
 local VoidInput = funTab:CreateInput({
