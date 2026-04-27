@@ -1277,7 +1277,59 @@ function BreakHouseBarrierF()
         end
     end)
 end
+-- ================== 강화된 하우스 브레이크 (강제 집 뚫기) ==================
+local StrongHouseBreakT = false
+local StrongHouseBreakConn = nil
 
+function StrongHouseBreakF()
+    if StrongHouseBreakConn then
+        StrongHouseBreakConn:Disconnect()
+        StrongHouseBreakConn = nil
+    end
+
+    if not StrongHouseBreakT then return end
+
+    StrongHouseBreakConn = game:GetService("RunService").Heartbeat:Connect(function()
+        if not StrongHouseBreakT then return end
+
+        for _, plot in ipairs(workspace.Plots:GetChildren()) do
+            for _, part in ipairs(plot:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    local nameLower = part.Name:lower()
+                    if nameLower:find("barrier") or nameLower:find("wall") or nameLower:find("plot") then
+                        part.CanCollide = false
+                        part.Transparency = 0.7
+                    end
+                end
+            end
+        end
+
+NetworkOwner
+        local grabParts = workspace:FindFirstChild("GrabParts")
+        if grabParts then
+            for _, part in ipairs(grabParts:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    pcall(function()
+                        part.CanCollide = false
+                        rs.GrabEvents.SetNetworkOwner:FireServer(part, part.CFrame)
+                    end)
+                end
+            end
+        end
+
+        for _, folder in ipairs(workspace:GetChildren()) do
+            if folder.Name:find("SpawnedInToys") then
+                for _, item in ipairs(folder:GetDescendants()) do
+                    if item:IsA("BasePart") and item.CanCollide then
+                        pcall(function()
+                            item.CanCollide = false
+                        end)
+                    end
+                end
+            end
+        end
+    end)
+end
 function BlobSit()
     if BLOBSIT then return end
 
@@ -6437,6 +6489,31 @@ local BreakHouseBarrierToggle = antiTab:CreateToggle({
                 Title = "Break House Barrier",
                 Content = "베리어 뚫기 활성화! 바깥 물건 많이 붙잡고 집 안으로 TP해보세요.",
                 Duration = 5
+            })
+        end
+    end
+})
+antiTab:CreateToggle({ ("강화된 하우스 브레이크")
+
+local StrongHouseBreakToggle = antiTab:CreateToggle({
+    Name = "강화된 하우스 브레이크 ",
+    CurrentValue = false,
+    Flag = "StrongHouseBreak",
+    Callback = function(Value)
+        StrongHouseBreakT = Value
+        StrongHouseBreakF()
+
+        if Value then
+            Rayfield:Notify({
+                Title = "🔨 강화된 하우스 브레이크 ON",
+                Content = "집 밖에서 물건 많이 Grab → 집 안으로 TP 해보세요.\n거의 무조건 뚫립니다.",
+                Duration = 6
+            })
+        else
+            Rayfield:Notify({
+                Title = "🔨 강화된 하우스 브레이크 OFF",
+                Content = "베리어 기능이 꺼졌습니다.",
+                Duration = 3
             })
         end
     end
