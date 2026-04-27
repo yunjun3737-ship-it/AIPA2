@@ -1241,6 +1241,42 @@ end)
         task.wait()
     end
 end
+-- ================== Break House Barrier (하우스 베리어 뚫기) ==================
+local BreakHouseBarrierT = false
+
+function BreakHouseBarrierF()
+    if not BreakHouseBarrierT then 
+        return 
+    end
+
+    task.spawn(function()
+        while BreakHouseBarrierT do
+            for _, plot in ipairs(workspace.Plots:GetChildren()) do
+                for _, part in ipairs(plot:GetDescendants()) do
+                    if part:IsA("BasePart") and (part.Name:find("Barrier") or part.Name:find("Wall") or part.Transparency < 1) then
+                        pcall(function()
+                            part.CanCollide = false
+                            part.Transparency = 0.7  
+                        end)
+                    end
+                end
+            end
+
+            local grabParts = workspace:FindFirstChild("GrabParts")
+            if grabParts then
+                for _, part in ipairs(grabParts:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        pcall(function()
+                            rs.GrabEvents.SetNetworkOwner:FireServer(part, part.CFrame)
+                        end)
+                    end
+                end
+            end
+
+            task.wait(0.1)
+        end
+    end)
+end
 
 function BlobSit()
     if BLOBSIT then return end
@@ -6378,12 +6414,31 @@ local WhiteListToggle = antiTab:CreateToggle({
 antiTab:CreateSection("House Break")
 
 local HouseBreakToggle = antiTab:CreateToggle({
-    Name = "하우스 브레이크 (집안 물건 들이기)",
+    Name = "(신규!)하우스 브레이크 (집안 물건 들이기)",
     CurrentValue = false,
     Flag = "HouseBreakToggle",
     Callback = function(Value)
         HouseBreakT = Value
         HouseBreakF()
+    end
+})
+antiTab:CreateSection("House Barrier")
+
+local BreakHouseBarrierToggle = antiTab:CreateToggle({
+    Name = "(신규!) 집 베리어 무력화",
+    CurrentValue = false,
+    Flag = "BreakHouseBarrier",
+    Callback = function(Value)
+        BreakHouseBarrierT = Value
+        BreakHouseBarrierF()
+        
+        if Value then
+            Rayfield:Notify({
+                Title = "Break House Barrier",
+                Content = "베리어 뚫기 활성화! 바깥 물건 많이 붙잡고 집 안으로 TP해보세요.",
+                Duration = 5
+            })
+        end
     end
 })
 
