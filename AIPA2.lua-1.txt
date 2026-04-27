@@ -6926,7 +6926,7 @@ LoopTab:CreateToggle({
 
 LoopTab:CreateSection("Blobman")
 LoopTab:CreateButton({
-    Name = "off massless",
+    Name = "무질량 끄기",
     Callback = function()
 
         Players = game:GetService("Players")
@@ -7970,29 +7970,14 @@ AuraTab:CreateToggle({
 AuraTab:CreateSection("Kill Aura")
 
 local KillAuraToggle = AuraTab:CreateToggle({
-    Name = "킬 오라 (근처 사람 즉사)",
+    Name = "킬 아우라 (근처 사람 즉사)",
     CurrentValue = false,
-    Flag = "KillAuraToggle",
+    Flag = "KillAura",
     Callback = function(Value)
         KillAuraT = Value
         KillAuraF()
-
-        if Value then
-            Rayfield:Notify({
-                Title = "💀 Kill Aura ON",
-                Content = "내 주변 30 스터드 안에 있는 사람 체력이 0이 됩니다.",
-                Duration = 5
-            })
-        else
-            Rayfield:Notify({
-                Title = "💀 Kill Aura OFF",
-                Content = "킬 오라가 꺼졌습니다.",
-                Duration = 3
-            })
-        end
     end
 })
-
 
 funTab:CreateSection("TP")
 local VoidInput = funTab:CreateInput({
