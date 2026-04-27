@@ -6493,10 +6493,10 @@ local BreakHouseBarrierToggle = antiTab:CreateToggle({
         end
     end
 })
-antiTab:CreateToggle({ ("강화된 하우스 브레이크")
+antiTab:CreateSection("강화된 하우스 브레이크")
 
 local StrongHouseBreakToggle = antiTab:CreateToggle({
-    Name = "강화된 하우스 브레이크 ",
+    Name = "강화된 하우스 브레이크 (무조건 집 뚫기)",
     CurrentValue = false,
     Flag = "StrongHouseBreak",
     Callback = function(Value)
