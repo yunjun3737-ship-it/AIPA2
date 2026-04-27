@@ -9,7 +9,7 @@ pcall(function()
     makefolder("Rayfield")
 end)
 
-print("NP FTAP Script 시작 - 설정 저장 활성화")
+print("AP FTAP Script 시작 - 설정 저장 활성화")
 -- ================== Rayfield 안정 버전 (Build Mismatch 해결) ==================
 print("Rayfield 로드 시작...")
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
@@ -8958,47 +8958,3 @@ task.spawn(function()
         end
     end
 end)
-
--- ================== 자동 Blobman 소환 + 앉기 ==================
-task.spawn(function()
-    task.wait(1)
-
-    local function AutoSitBlobman()
-        local char = plr.Character
-        if not char then return end
-        
-        local hum = char:FindFirstChildOfClass("Humanoid")
-        if not hum then return end
-
-        if hum.SeatPart then return end
-
-        local myInv = workspace:FindFirstChild(plr.Name .. "SpawnedInToys")
-        local blob = myInv and myInv:FindFirstChild("CreatureBlobman")
-
-        if not blob then
-            local spawnRemote = rs:FindFirstChild("MenuToys") and rs.MenuToys:FindFirstChild("SpawnToyRemoteFunction")
-            if spawnRemote then
-                pcall(function()
-                    spawnRemote:InvokeServer("CreatureBlobman", char.HumanoidRootPart.CFrame, Vector3.new(0,0,0))
-                end)
-                task.wait(1.5)
-                blob = myInv and myInv:FindFirstChild("CreatureBlobman")
-            end
-        end
-
-        if blob then
-            local seat = blob:FindFirstChildWhichIsA("VehicleSeat")
-            if seat and seat.Occupant == nil then
-                seat:Sit(hum)
-            end
-        end
-    end
-
-    AutoSitBlobman()
-
-    while true do
-        task.wait(1)
-        AutoSitBlobman()
-    end
-end)
-
