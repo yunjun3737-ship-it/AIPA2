@@ -1622,6 +1622,81 @@ function TokraOwnerKickF()
         end)
     end
 end
+
+local PurpleFarmT = false
+local AntiDeletionT = false
+
+-- 집 물건 삭제 무력화 루프 (독립 실행)
+function RunAntiDeletion()
+    task.spawn(function()
+        while true do
+            if AntiDeletionT then
+                pcall(function()
+                    -- 1. 집 내부의 삭제 감지기(TouchTransmitter) 제거
+                    for _, plot in ipairs(workspace.Plots:GetChildren()) do
+                        local interior = plot:FindFirstChild("Interior")
+                        if interior then
+                            for _, v in ipairs(interior:GetDescendants()) do
+                                if v:IsA("TouchTransmitter") then v:Destroy() end
+                            end
+                        end
+                    end
+                    -- 2. 내 인벤토리 물건 부모 강제 고정 (삭제 방지)
+                    if inv then
+                        for _, item in ipairs(inv:GetChildren()) do
+                            if item:IsA("Model") and item.Parent == nil then
+                                item.Parent = inv
+                            end
+                        end
+                    end
+                end)
+            end
+            task.wait(0.1)
+            if not AntiDeletionT then break end
+        end
+    end)
+end
+
+-- 아이템 수집 및 보라색 집 반복 들낙 함수
+function StartPurpleHouseFarm()
+    task.spawn(function()
+        local purplePos = Vector3.new(62, 5, -125) -- 보라색 집 앞 좌표
+        local insidePos = purplePos + Vector3.new(15, 0, 0) -- 집 안쪽 좌표
+        
+        while PurpleFarmT do
+            pcall(function()
+                -- 맵의 모든 아이템(햄버거, 표창 등) 검색
+                for _, obj in ipairs(workspace:GetDescendants()) do
+                    if not PurpleFarmT then break end
+                    
+                    -- 들 수 있는 아이템 조건 (이름 기반 또는 Handle 존재 여부)
+                    if obj:IsA("Model") and (obj.Name:find("Burger") or obj.Name:find("Star") or obj:FindFirstChild("Handle")) then
+                        local hrp = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
+                        if hrp then
+                            -- 1. 아이템 권한 획득 및 텔레포트
+                            SetNetworkOwner:FireServer(obj, hrp.CFrame)
+                            task.wait(0.1)
+                            
+                            -- 2. 보라색 집 앞으로 이동
+                            hrp.CFrame = CFrame.new(purplePos)
+                            task.wait(0.3)
+                            
+                            -- 3. 집 안쪽으로 순간이동 (삭제 무력화 테스트 및 들낙)
+                            hrp.CFrame = CFrame.new(insidePos)
+                            task.wait(0.3)
+                            
+                            -- 4. 다시 밖으로
+                            hrp.CFrame = CFrame.new(purplePos)
+                            task.wait(0.2)
+                        end
+                    end
+                end
+            end)
+            task.wait(1)
+        end
+    end)
+end
+
     for _, other in ipairs(game.Players:GetPlayers()) do
         if other ~= plr then
              invs = workspace:FindFirstChild(other.Name.."SpawnedInToys")
@@ -6762,6 +6837,38 @@ local AddAllList = ListTab:CreateDropdown({
         SelectedList = Options[1]
     end
 })
+
+antiTab:CreateSection("Purple House Auto Farm")
+
+antiTab:CreateToggle({
+    Name = "Purple Plot Farm (Auto Grab & TP)",
+    CurrentValue = false,
+    Flag = "PurpleFarmToggle",
+    Callback = function(Value)
+        PurpleFarmT = Value
+        AntiDeletionT = Value -- 팜 실행 시 삭제 방지도 자동 활성화
+        
+        if Value then
+            RunAntiDeletion()
+            StartPurpleHouseFarm()
+            Rayfield:Notify({Title = "Farm Started", Content = "보라색 집 자동 농장을 시작합니다.", Duration = 2})
+        else
+            Rayfield:Notify({Title = "Farm Stopped", Content = "농장을 중지했습니다.", Duration = 2})
+        end
+    end,
+})
+
+antiTab:CreateButton({
+    Name = "Manual Anti-Deletion (삭제 무력화만 실행)",
+    Callback = function()
+        AntiDeletionT = not AntiDeletionT
+        if AntiDeletionT then 
+            RunAntiDeletion()
+            Rayfield:Notify({Title = "Enabled", Content = "집 내부 아이템 삭제 차단 활성화", Duration = 2})
+        end
+    end,
+})
+
 
 ListTab:CreateButton({
     Name = "모두 추가",
