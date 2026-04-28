@@ -6151,7 +6151,7 @@ DevTab:CreateButton({
 
 DevTab:CreateSection("블롭")
 DevTab:CreateToggle({
-    Name = "wd 버튼 (상대안티킥 해제)",
+    Name = "wd 소환 (상대안티킥 해제)",
     CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
@@ -6222,7 +6222,7 @@ local flingToggle = grabTab:CreateToggle({
 })
 
 local strengthInput = grabTab:CreateInput({
-    Name = "Strength",
+    Name = "힘",
     CurrentValue = 0,
     PlaceholderText = "Value",
     RemoveTextAfterFocusLost = false,
@@ -6282,7 +6282,7 @@ local RagdollGrabToggle = grabTab:CreateToggle({
 })
 
 local MasslessGrab = grabTab:CreateToggle({ 
-    Name = "무중력 그랩", 
+    Name = "무질량 그랩", 
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6316,7 +6316,7 @@ grabTab:CreateToggle({
 })
 
 grabTab:CreateToggle({ 
-    Name = "[ 무효 ]", 
+    Name = "[ 무효시키기 ]", 
     CurrentValue = false,
     Flag = "1",
     Callback = function(Value)
@@ -6548,17 +6548,17 @@ end
 
 antiTab:CreateSection("Friendly | Toggle")
 local WhiteListToggle = antiTab:CreateToggle({
-    Name = "WhiteList Mode",
-    CurrentValue = false,
+    Name = "친구 빼기",
+    CurrentValue = true,
     Flag = "5",
     Callback = function(Value)
         ForWhiteList(Value)
     end
 })
-antiTab:CreateSection("House Break")
+antiTab:CreateSection("하우스 브레이커")
 
 local HouseBreakToggle = antiTab:CreateToggle({
-    Name = "(신규!)하우스 브레이크 (집안 물건 들이기)",
+    Name = "하우스 브레이크 (집안 물건 들이기)",
     CurrentValue = false,
     Flag = "HouseBreakToggle",
     Callback = function(Value)
@@ -6566,10 +6566,9 @@ local HouseBreakToggle = antiTab:CreateToggle({
         HouseBreakF()
     end
 })
-antiTab:CreateSection("House Barrier")
 
 local BreakHouseBarrierToggle = antiTab:CreateToggle({
-    Name = "(신규!) 집 베리어 무력화",
+    Name = " 집 베리어 무력화",
     CurrentValue = false,
     Flag = "BreakHouseBarrier",
     Callback = function(Value)
@@ -6676,7 +6675,7 @@ ListTab:CreateInput({
 
 ListTab:CreateSection("List")
 local DropdownV1 = ListTab:CreateDropdown({
-    Name = "루프 리스트",
+    Name = "족칠 새끼 고르기",
     Options = playersInLoop1V,
     CurrentOption = {"OPEN"},
     MultipleOptions = true,
@@ -7122,7 +7121,7 @@ local blobLoop3Toggle = LoopTab:CreateToggle({
 })
 
 local blobLoop2Toggle = LoopTab:CreateToggle({
-    Name = "루프 그랩풀기 [ Blobman ]",
+    Name = "루프 그랩 [ Blobman ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -7151,7 +7150,7 @@ LoopTab:CreateToggle({
 })
 
 LoopTab:CreateToggle({
-    Name = "[ Anti-InPlots Mode ]",
+    Name = "[ 집들어가는거 막기 ]",
     CurrentValue = false,
     Flag = "21",
     Callback = function(Value)
@@ -7379,7 +7378,7 @@ LoopTab:CreateButton({
 
 antiTab:CreateSection("Teleport | Toggle")
 local AntiGrabV1 = antiTab:CreateToggle({
-    Name = "무질량 TP | 랜덤",
+    Name = "무질량 이동 | TP",
     CurrentValue = false,
     Flag = "FakeTP",
     Callback = function(Value)
@@ -7542,7 +7541,7 @@ local AntiBlob = antiTab:CreateToggle({
 AntiBlob:Set(true)
 
 local AntiMassless = antiTab:CreateToggle({
-    Name = "무중력 스탑",
+    Name = "무질량 끄기",
     CurrentValue = false,
     Flag = "17",
     Callback = function(Value)
@@ -7595,7 +7594,7 @@ local AntiVoid = antiTab:CreateToggle({
 AntiVoid:Set(true)
 
 local AntiExplode = antiTab:CreateToggle({
-    Name = "폭탄 무적",
+    Name = "폭탄 방어",
     CurrentValue = false,
     Flag = "antiExplodeToggleFlag",
     Callback = function(Value)
