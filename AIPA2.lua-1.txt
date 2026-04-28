@@ -1370,7 +1370,7 @@ function FreezeAuraF()
     FreezeAuraConnection = game:GetService("RunService").Heartbeat:Connect(function()
         if not FreezeAuraT then return end
 
-        local myChar = plr.Character
+        local myChar = plr and plr.Character
         if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
 
         local myHRP = myChar.HumanoidRootPart
@@ -1413,7 +1413,7 @@ function RagdollAuraF()
     RagdollAuraConnection = game:GetService("RunService").Heartbeat:Connect(function()
         if not RagdollAuraT then return end
 
-        local myChar = plr.Character
+        local myChar = plr and plr.Character
         if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
 
         local myHRP = myChar.HumanoidRootPart
@@ -1430,13 +1430,17 @@ function RagdollAuraF()
                 local distance = (myHRP.Position - tHRP.Position).Magnitude
                 if distance <= 35 then
                     pcall(function()
-                        rs.CharacterEvents.RagdollRemote:FireServer(tHRP, 1)
+                        local remote = rs and rs.CharacterEvents and rs.CharacterEvents.RagdollRemote
+                        if remote then
+                            remote:FireServer(tHRP, 1)
+                        end
                     end)
                 end
             end
         end
     end)
 end
+
 
     for _, other in ipairs(game.Players:GetPlayers()) do
         if other ~= plr then
@@ -8059,8 +8063,10 @@ local KillAuraToggle = AuraTab:CreateToggle({
     end
 })
 
+AuraTab:CreateSection("Freeze & Ragdoll Aura")
+
 local FreezeAuraToggle = AuraTab:CreateToggle({
-    Name = "프리즈 아우라 (움직임 멈춤)",
+    Name = "프리즈 오라 (움직임 멈춤)",
     CurrentValue = false,
     Flag = "FreezeAura",
     Callback = function(Value)
@@ -8070,7 +8076,7 @@ local FreezeAuraToggle = AuraTab:CreateToggle({
 })
 
 local RagdollAuraToggle = AuraTab:CreateToggle({
-    Name = "래그돌 아우라 (넘어짐)",
+    Name = "래그돌 오라 (넘어짐)",
     CurrentValue = false,
     Flag = "RagdollAura",
     Callback = function(Value)
