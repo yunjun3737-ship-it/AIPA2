@@ -6949,27 +6949,7 @@ LoopTab:CreateButton({
         end
     end
 })
-LoopTab:CreateSection(" Owner Kick(파카만ㄱㄴ)")
 
-local TokraOwnerKickToggle = LoopTab:CreateToggle({
-    Name = "Owner Loop Kick (블롭 없이)",
-    CurrentValue = false,
-    Flag = "TokraOwnerKick",
-    Callback = function(Value)
-        TokraOwnerKickT = Value
-        TokraOwnerKickF()
-    end
-})
-
-local OwnerLoopKickToggle = LoopTab:CreateToggle({
-    Name = "Owner Loop Kick (파카용 no blob)",
-    CurrentValue = false,
-    Flag = "OwnerLoopKick",
-    Callback = function(Value)
-        OwnerLoopKickT = Value
-        OwnerLoopKickF()
-    end
-})
 LoopTab:CreateButton({
     Name = "끌고오기 [ Owner ]",
     Callback = function()
@@ -7137,7 +7117,27 @@ LoopTab:CreateButton({
         end
     end
 })
+LoopTab:CreateSection(" Owner Kick(파카만 가능)")
 
+local TokraOwnerKickToggle = LoopTab:CreateToggle({
+    Name = "Owner Loop Kick (블롭 없이(파카만))",
+    CurrentValue = false,
+    Flag = "TokraOwnerKick",
+    Callback = function(Value)
+        TokraOwnerKickT = Value
+        TokraOwnerKickF()
+    end
+})
+
+local OwnerLoopKickToggle = LoopTab:CreateToggle({
+    Name = "Owner Loop Kick (파카용 no blob)",
+    CurrentValue = false,
+    Flag = "OwnerLoopKick",
+    Callback = function(Value)
+        OwnerLoopKickT = Value
+        OwnerLoopKickF()
+    end
+})
 LoopTab:CreateSection("Owner Kick")
 local OLTPInput = LoopTab:CreateInput({
     Name = "X Y Z",
