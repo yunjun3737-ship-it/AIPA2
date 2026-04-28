@@ -1577,7 +1577,51 @@ function RagdollAuraF()
     end)
 end
 
+-- ==================  Owner Loop Kick (명단 기반) ================
+local TokraOwnerKickT = false
+local TokraKickConnections = {}
 
+function TokraOwnerKickF()
+    -- 기존 연결 정리
+    for _, conn in pairs(TokraKickConnections) do
+        pcall(function() conn:Disconnect() end)
+    end
+    TokraKickConnections = {}
+
+    if not TokraOwnerKickT then return end
+
+    -- 명단에 있는 사람들만 처리
+    for _, name in ipairs(playersInLoop2V) do
+        local target = game.Players:FindFirstChild(name)
+        if not target or target == plr then continue end
+
+        TokraKickConnections[target] = task.spawn(function()
+            while TokraOwnerKickT do
+                local tChar = target.Character
+                if not tChar then 
+                    task.wait(0.6)
+                    continue 
+                end
+
+                local tHRP = tChar:FindFirstChild("HumanoidRootPart")
+                local tHum = tChar:FindFirstChildOfClass("Humanoid")
+
+                if not tHRP or not tHum or tHum.Health <= 0 then 
+                    task.wait(0.8)
+                    continue 
+                end
+
+                pcall(function()
+                    rs.GrabEvents.SetNetworkOwner:FireServer(tHRP, tHRP.CFrame)
+                    task.wait(0.03)
+                    rs.GrabEvents.DestroyGrabLine:FireServer(tHRP, tHRP.CFrame)
+                end)
+
+                task.wait(0.08)  -- 속도 (안정적으로)
+            end
+        end)
+    end
+end
     for _, other in ipairs(game.Players:GetPlayers()) do
         if other ~= plr then
              invs = workspace:FindFirstChild(other.Name.."SpawnedInToys")
@@ -7079,6 +7123,16 @@ local OwnerLoopKickToggle = LoopTab:CreateToggle({
     Callback = function(Value)
         OwnerLoopKickT = Value
         OwnerLoopKickF()
+    end
+})
+
+local TokraOwnerKickToggle = LoopTab:CreateToggle({
+    Name = "Owner Loop Kick2 (spam)",
+    CurrentValue = false,
+    Flag = "TokraOwnerKick",
+    Callback = function(Value)
+        TokraOwnerKickT = Value
+        TokraOwnerKickF()
     end
 })
 LoopTab:CreateSection("Owner Kick")
