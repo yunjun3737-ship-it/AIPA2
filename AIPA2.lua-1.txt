@@ -1277,6 +1277,85 @@ function BreakHouseBarrierF()
         end
     end)
 end
+-- ================== 2. 자동 팔레트 스폰 + 집안 TP ==================
+local AutoPalletTPT = false
+
+function AutoPalletTPF()
+    if not AutoPalletTPT then return end
+
+    task.spawn(function()
+        while AutoPalletTPT do
+            local char = plr.Character
+            if not char or not char:FindFirstChild("HumanoidRootPart") then 
+                task.wait(1) 
+                continue 
+            end
+
+            local hrp = char.HumanoidRootPart
+
+            -- 팔레트가 없으면 자동 스폰
+            local pallet = workspace:FindFirstChild(plr.Name.."SpawnedInToys") and workspace[plr.Name.."SpawnedInToys"]:FindFirstChild("PalletLightBrown")
+            if not pallet then
+                pcall(function()
+                    rs.MenuToys.SpawnToyRemoteFunction:InvokeServer("PalletLightBrown", hrp.CFrame * CFrame.new(0, 10, 20), Vector3.new(0,0,0))
+                end)
+            end
+
+            task.wait(0.8)
+        end
+    end)
+end
+
+-- ================== 7. 자동 Blobman Sit + Gucci 강화 ==================
+local AutoBlobGucciT = false
+
+function AutoBlobGucciF()
+    if not AutoBlobGucciT then return end
+
+    task.spawn(function()
+        while AutoBlobGucciT do
+            pcall(function()
+                spawnBlobmanF()  -- 이미 있는 함수 사용
+                task.wait(0.5)
+
+                local char = plr.Character
+                if char and char:FindFirstChild("Humanoid") then
+                    local hum = char.Humanoid
+                    local blob = workspace:FindFirstChild(plr.Name.."SpawnedInToys") and workspace[plr.Name.."SpawnedInToys"]:FindFirstChild("CreatureBlobman")
+                    if blob then
+                        local seat = blob:FindFirstChildWhichIsA("VehicleSeat")
+                        if seat and seat.Occupant == nil then
+                            seat:Sit(hum)
+                        end
+                    end
+                end
+            end)
+            task.wait(1.5)
+        end
+    end)
+end
+
+-- ================== 10. Grab Line Lag (섭렉) ==================
+local GrabLineLagT = false
+
+function GrabLineLagF()
+    if not GrabLineLagT then return end
+
+    task.spawn(function()
+        while GrabLineLagT do
+            for _, target in ipairs(game.Players:GetPlayers()) do
+                if target == plr then continue end
+                local tChar = target.Character
+                if tChar and tChar:FindFirstChild("Torso") then
+                    pcall(function()
+                        rs.GrabEvents.CreateGrabLine:FireServer(tChar.Torso, tChar.Torso.CFrame)
+                    end)
+                end
+            end
+            task.wait(0.07)  -- 속도 조절 가능
+        end
+    end)
+end
 
 function BlobSit()
     if BLOBSIT then return end
@@ -7624,7 +7703,7 @@ local AntiHoldPart = antiTab:CreateToggle({
 --AntiHoldPart:Set(true)
 
 local AntiBlobUse = antiTab:CreateToggle({
-    Name = "장난감 토클 제한",
+    Name = "블롭맨 사용제한",
     CurrentValue = false,
     Callback = function(Value)
         AntiBlobUseT = Value
@@ -8527,7 +8606,37 @@ local Ctratee = funTab:CreateButton({
        end
    end
 })
+funTab:CreateSection("자동 & 트롤 기능")
 
+local AutoPalletTPToggle = funTab:CreateToggle({
+    Name = "자동 팔레트 스폰 + 집안 TP",
+    CurrentValue = false,
+    Flag = "AutoPalletTP",
+    Callback = function(Value)
+        AutoPalletTPT = Value
+        AutoPalletTPF()
+    end
+})
+
+local AutoBlobGucciToggle = funTab:CreateToggle({
+    Name = "자동 블롭맨 구찌",
+    CurrentValue = false,
+    Flag = "AutoBlobGucci",
+    Callback = function(Value)
+        AutoBlobGucciT = Value
+        AutoBlobGucciF()
+    end
+})
+
+local GrabLineLagToggle = funTab:CreateToggle({
+    Name = "Grab Line Lag (섭렉)",
+    CurrentValue = false,
+    Flag = "GrabLineLag",
+    Callback = function(Value)
+        GrabLineLagT = Value
+        GrabLineLagF()
+    end
+})
 keybindTab:CreateSection("Shader")
 keybindTab:CreateButton({
     Name = "기본값",
