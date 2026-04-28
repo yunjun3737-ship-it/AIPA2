@@ -4478,7 +4478,7 @@ function KillGrabF()
     end
 end
 
-AnhKick = false
+AnhKick = true
 function KickGrabF()
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Players = game:GetService("Players")
@@ -4653,7 +4653,7 @@ function NoClipGrabF()
             end
             
             playerCheckCooldown = playerCheckCooldown + task.wait()
-            if playerCheckCooldown >= 0.01 then
+            if playerCheckCooldown >= 0.001 then
                 playerCheckCooldown = 0
                 
                 for target, data in pairs(trackedTargets) do
@@ -4853,7 +4853,7 @@ function ViewAuraF()
                                 local basePart = item.PrimaryPart or sticky
                                 local dist = (basePart.Position - hrp.Position).Magnitude
 
-                                if dist <= 30 then -- and sticky:FindFirstChild("PartOwner").Value ~= plr.Name then
+                                if dist <= 700 then -- and sticky:FindFirstChild("PartOwner").Value ~= plr.Name then
                                     pcall(function()
                                         rs.GrabEvents.SetNetworkOwner:FireServer(sticky, CFrame.lookAt(hrp.Position, sticky.Position))
                                     end)
@@ -4889,7 +4889,7 @@ function AntiBananaAuraF()
                                 local PartOwner = item:FindFirstChild("PartOwner")
                                 local dist = (basePart.Position - hrp.Position).Magnitude
 
-                                if dist <= 30 and not PartOwner then
+                                if dist <= 700 and not PartOwner then
                                     pcall(function()
                                         rs.GrabEvents.SetNetworkOwner:FireServer(Spart, lookAt(hrp.Position, Spart.Position))
                                     end)
@@ -4928,7 +4928,7 @@ function AntiBoxF()
                                 FallenY = workspace.FallenPartsDestroyHeight
                                 targetY = (FallenY <= -50000 and -49999) or (FallenY <= -100 and -99) or -100
 
-                                if dist <= 30 and not PartOwner then rs.GrabEvents.SetNetworkOwner:FireServer(Spart, CFrame.lookAt(hrp.Position, Spart.Position)) end
+                                if dist <= 700 and not PartOwner then rs.GrabEvents.SetNetworkOwner:FireServer(Spart, CFrame.lookAt(hrp.Position, Spart.Position)) end
                                 if PartOwner then Spart.CFrame = CFrame.new(0, targetY, 9999) end
                             end
                         end
