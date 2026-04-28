@@ -7643,17 +7643,18 @@ AntiLag:Set(true)
 
 local AutoAttack  antiTab:CreateToggle({
     Name = "오토어택 | 잡으면 뒤짐",
-    CurrentValue = false,
+    CurrentValue = true,
     Flag = "AutoAttack",
     Callback = function(Value)
         AutoAttackT = Value
         AutoAttackF()
     end
 })
+AutoAttack:Set(true)
 
 local AntiHoldPart = antiTab:CreateToggle({
     Name = "홀드파트 금지",
-    CurrentValue = false,
+    CurrentValue = true,
     Callback = function(Value)
         AntiBananaT = Value
         task.spawn(AntiBananaF)
@@ -7700,7 +7701,7 @@ FlyingReset:Set(true)
 
 local AntiKick = antiTab:CreateToggle({
     Name = "안티 킥 [ 표창 ]",
-    CurrentValue = false,
+    CurrentValue = true,
     Callback = function(Value)
         AntiKickT = Value
         task.spawn(AntiKickF)
