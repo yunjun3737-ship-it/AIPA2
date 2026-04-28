@@ -1519,8 +1519,8 @@ function RagdollAuraF()
         end
     end)
 end
--- ================== Tokra 스타일 Owner Loop Kick (블롭 없이) ==================
-local TokraOwnerKickT = false
+-- ==================  Owner Loop Kick (블롭 없이) ==================
+local TokraOwnerKickT = true
 local TokraKickConnections = {}
 
 function TokraOwnerKickF()
@@ -1553,7 +1553,6 @@ function TokraOwnerKickF()
                 end
 
                 pcall(function()
-                    -- Tokra 스타일: 빠르게 Owner 잡았다가 놓기 반복
                     rs.GrabEvents.SetNetworkOwner:FireServer(tHRP, tHRP.CFrame)
                     task.wait(0.025)
                     rs.GrabEvents.DestroyGrabLine:FireServer(tHRP, tHRP.CFrame)
@@ -1622,6 +1621,80 @@ function OwnerLoopKickF()
             end
         end)
     end
+end
+
+local PurpleFarmT = false
+local AntiDeletionT = false
+
+-- 집 물건 삭제 무력화 루프 (독립 실행)
+function RunAntiDeletion()
+    task.spawn(function()
+        while true do
+            if AntiDeletionT then
+                pcall(function()
+                    (TouchTransmitter) 제거
+                    for _, plot in ipairs(workspace.Plots:GetChildren()) do
+                        local interior = plot:FindFirstChild("Interior")
+                        if interior then
+                            for _, v in ipairs(interior:GetDescendants()) do
+                                if v:IsA("TouchTransmitter") then v:Destroy() end
+                            end
+                        end
+                    end
+                    
+                    if inv then
+                        for _, item in ipairs(inv:GetChildren()) do
+                            if item:IsA("Model") and item.Parent == nil then
+                                item.Parent = inv
+                            end
+                        end
+                    end
+                end)
+            end
+            task.wait(0.1)
+            if not AntiDeletionT then break end
+        end
+    end)
+end
+
+
+function StartPurpleHouseFarm()
+    task.spawn(function()
+        local purplePos = Vector3.new(62, 5, -125) 
+        local insidePos = purplePos + Vector3.new(15, 0, 0) 
+        
+        while PurpleFarmT do
+            pcall(function()
+                
+                for _, obj in ipairs(workspace:GetDescendants()) do
+                    if not PurpleFarmT then break end
+                    
+                    
+                    if obj:IsA("Model") and (obj.Name:find("Burger") or obj.Name:find("Star") or obj:FindFirstChild("Handle")) then
+                        local hrp = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
+                        if hrp then
+                            
+                            SetNetworkOwner:FireServer(obj, hrp.CFrame)
+                            task.wait(0.1)
+                            
+                            
+                            hrp.CFrame = CFrame.new(purplePos)
+                            task.wait(0.3)
+                            
+                        
+                            hrp.CFrame = CFrame.new(insidePos)
+                            task.wait(0.3)
+                            
+                            -- 4. 다시 밖으로
+                            hrp.CFrame = CFrame.new(purplePos)
+                            task.wait(0.2)
+                        end
+                    end
+                end
+            end)
+            task.wait(1)
+        end
+    end)
 end
 
 
@@ -7539,6 +7612,37 @@ LoopTab:CreateButton({
             task.wait(0.15)
         end
     end
+})
+
+antiTab:CreateSection("집 보호막 함수제거")
+
+antiTab:CreateToggle({
+    Name = "플롯 팜 (오토그랩 & 텔포)",
+    CurrentValue = false,
+    Flag = "PurpleFarmToggle",
+    Callback = function(Value)
+        PurpleFarmT = Value
+        AntiDeletionT = Value -- 팜 실행 시 삭제 방지도 자동 활성화
+        
+        if Value then
+            RunAntiDeletion()
+            StartPurpleHouseFarm()
+            Rayfield:Notify({Title = "Farm Started", Content = "보라색 집 자동 농장을 시작합니다.", Duration = 2})
+        else
+            Rayfield:Notify({Title = "Farm Stopped", Content = "농장을 중지했습니다.", Duration = 2})
+        end
+    end,
+})
+
+antiTab:CreateButton({
+    Name = "Manual Anti-Deletion (삭제 무력화만 실행)",
+    Callback = function()
+        AntiDeletionT = not AntiDeletionT
+        if AntiDeletionT then 
+            RunAntiDeletion()
+            Rayfield:Notify({Title = "Enabled", Content = "집 내부 아이템 삭제 차단 활성화", Duration = 2})
+        end
+    end,
 })
 
 antiTab:CreateSection("Teleport | Toggle")
