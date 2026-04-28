@@ -1356,6 +1356,63 @@ function GrabLineLagF()
         end
     end)
 end
+-- ================== Owner Loop Kick (블롭맨 없이) ==================
+local OwnerLoopKickT = false
+local OwnerLoopKickConnections = {}
+
+function OwnerLoopKickF()
+    -- 기존 연결 정리
+    for _, conn in pairs(OwnerLoopKickConnections) do
+        if conn then conn:Disconnect() end
+    end
+    OwnerLoopKickConnections = {}
+
+    if not OwnerLoopKickT then return end
+
+    for _, name in ipairs(playersInLoop2V) do
+        local target = game.Players:FindFirstChild(name)
+        if not target or target == plr then continue end
+
+        OwnerLoopKickConnections[target] = task.spawn(function()
+            while OwnerLoopKickT do
+                local tChar = target.Character
+                if not tChar then 
+                    task.wait(0.5)
+                    continue 
+                end
+
+                local tHRP = tChar:FindFirstChild("HumanoidRootPart")
+                local tHum = tChar:FindFirstChildOfClass("Humanoid")
+
+                if not tHRP or not tHum then 
+                    task.wait(0.5)
+                    continue 
+                end
+
+                if tHum.Health <= 0 then 
+                    task.wait(1)
+                    continue 
+                end
+
+                pcall(function()
+                    -- 1. Owner 잡기
+                    rs.GrabEvents.SetNetworkOwner:FireServer(tHRP, tHRP.CFrame)
+                    
+                    task.wait(0.03)
+
+                    -- 2. 강제로 DestroyGrabLine (놓기)
+                    rs.GrabEvents.DestroyGrabLine:FireServer(tHRP, tHRP.CFrame)
+
+                    task.wait(0.05)
+
+                    rs.GrabEvents.SetNetworkOwner:FireServer(tHRP, tHRP.CFrame)
+                end)
+
+                task.wait(0.08)  
+            end
+        end)
+    end
+end
 
 function BlobSit()
     if BLOBSIT then return end
@@ -7013,7 +7070,17 @@ LoopTab:CreateButton({
         end
     end
 })
+LoopTab:CreateSection("Owner Loop Kick (블롭 없이)")
 
+local OwnerLoopKickToggle = LoopTab:CreateToggle({
+    Name = "루프킥👑 (블롭맨 없이)",
+    CurrentValue = false,
+    Flag = "OwnerLoopKick",
+    Callback = function(Value)
+        OwnerLoopKickT = Value
+        OwnerLoopKickF()
+    end
+})
 LoopTab:CreateSection("Owner Kick")
 local OLTPInput = LoopTab:CreateInput({
     Name = "X Y Z",
