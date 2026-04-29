@@ -8068,7 +8068,7 @@ playerTab:CreateToggle({
 })
 
 local jumpPowerInput = playerTab:CreateInput({
-    Name = "가치",
+    Name = "값",
     CurrentValue = 24,
     PlaceholderText = "Value",
     RemoveTextAfterFocusLost = false,
@@ -8168,7 +8168,7 @@ AuraTab:CreateToggle({
 })
 AuraTab:CreateSection("Owner Aura")
 
-local KillAuraToggle = AuraTab:CreateToggle({
+AuraTab:CreateToggle({
     Name = "킬 아우라 (근처 사람 즉사)",
     CurrentValue = false,
     Flag = "KillAura",
@@ -8179,7 +8179,7 @@ local KillAuraToggle = AuraTab:CreateToggle({
 })
 AuraTab:CreateSection("troll Aura")
 
-local SitAuraToggle = AuraTab:CreateToggle({
+AuraTab:CreateToggle({
     Name = "무한 Sit 오라 (앉히기)",
     CurrentValue = false,
     Flag = "SitAura",
