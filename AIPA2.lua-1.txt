@@ -1487,7 +1487,7 @@ end
             end
         end
     end
--- ================== Fling Aura  ==================
+-- ================== Fling Aura (파카용) ==================
 local FlingAuraT = false
 local FlingAuraConnection = nil
 
@@ -1502,7 +1502,7 @@ function FlingAuraF()
     FlingAuraConnection = game:GetService("RunService").Heartbeat:Connect(function()
         if not FlingAuraT then return end
 
-        local myChar = plr and plr.Character
+        local myChar = plr.Character
         if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
 
         local myHRP = myChar.HumanoidRootPart
@@ -1518,7 +1518,7 @@ function FlingAuraF()
                 local distance = (myHRP.Position - tHRP.Position).Magnitude
                 if distance <= 40 then
                     pcall(function()
-                        tHRP.AssemblyLinearVelocity = myHRP.CFrame.LookVector * 200 + Vector3.new(0, 80, 0)
+                        tHRP.AssemblyLinearVelocity = myHRP.CFrame.LookVector * 180 + Vector3.new(0, 60, 0)
                     end)
                 end
             end
@@ -1526,6 +1526,7 @@ function FlingAuraF()
     end)
 end
 
+-- ================== Sit Aura (파카용) ==================
 local SitAuraT = false
 local SitAuraConnection = nil
 
@@ -1540,7 +1541,7 @@ function SitAuraF()
     SitAuraConnection = game:GetService("RunService").Heartbeat:Connect(function()
         if not SitAuraT then return end
 
-        local myChar = plr and plr.Character
+        local myChar = plr.Character
         if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
 
         local myHRP = myChar.HumanoidRootPart
@@ -8095,7 +8096,7 @@ local NoClipToggle = playerTab:CreateToggle({
 
 local infJumpToggle = playerTab:CreateToggle({
     Name = "무한 점프",
-    CurrentValue = true,
+    CurrentValue = false,
     Flag = "32",
     Callback = function(Value)
         infJumpT = Value
@@ -8140,7 +8141,7 @@ AuraTab:CreateToggle({
 ]]--
 
 AuraTab:CreateToggle({
-    Name = "안티 붐박스 아우라 [ Owner ]", -- Boombox
+    Name = "안티 붐박스 아우라 [ all ]", -- Boombox
     CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
@@ -8150,7 +8151,7 @@ AuraTab:CreateToggle({
 })
 
 AuraTab:CreateToggle({
-    Name = "안티 바나나 아우라 [ Owner ]",
+    Name = "안티 바나나 아우라 [fellow owner]",
     CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
@@ -8160,7 +8161,7 @@ AuraTab:CreateToggle({
 })
 
 AuraTab:CreateToggle({
-    Name = "안티 파트 아우라 [ Owner ]",
+    Name = "안티 파트 아우라 [ fellow owner ]",
     CurrentValue = false,
     Flag = "5",
     Callback = function(Value)
@@ -8179,10 +8180,12 @@ AuraTab:CreateToggle({
         KillAuraF()
     end
 })
-AuraTab:CreateSection("troll Aura")
+
+
+AuraTab:CreateSection("파카용 아우라")
 
 local FlingAuraToggle = AuraTab:CreateToggle({
-    Name = "플링 오라 (파카용)",
+    Name = "플링 아우라 (파카용)",
     CurrentValue = false,
     Flag = "FlingAura",
     Callback = function(Value)
@@ -8192,7 +8195,7 @@ local FlingAuraToggle = AuraTab:CreateToggle({
 })
 
 local SitAuraToggle = AuraTab:CreateToggle({
-    Name = "무한 Sit 오라 (파카용)",
+    Name = "무한 Sit 아우라 (파카용)",
     CurrentValue = false,
     Flag = "SitAura",
     Callback = function(Value)
