@@ -9338,11 +9338,30 @@ task.spawn(function()
     end
 end)
 
-if plr.UserId \~= 9078065998 then
-    Rayfield:Notify({
-        Title = "⭐ 랭크 알림",
-        Content = "☆당신의 랭크는 파카 친구입니다.☆",
-        Duration = 6,
-        Image = 0
-    })
-end
+
+-- ==================  랭크 알림 ==================
+task.spawn(function()
+    task.wait(2.5)
+
+    if plr.Name == "AIpaca_AI" or plr.Name == "QRdoote1120" then
+        Rayfield:Notify({
+            Title = "👑 랭크 알림",
+            Content = "당신의 랭크는 제작자 입니다!",
+            Duration = 8,
+            Image = 0
+        })
+    end
+end)
+
+task.spawn(function()
+    task.wait(2.5)
+
+    if plr.Name \~= "AIpaca_AI" and plr.Name \~= "QRdoote1120" then
+        Rayfield:Notify({
+            Title = "⭐ 랭크 알림",
+            Content = "당신의 랭크는 파카 친구입니다.",
+            Duration = 8,
+            Image = 0
+        })
+    end
+end)
