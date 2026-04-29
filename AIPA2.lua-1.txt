@@ -9341,7 +9341,7 @@ end)
 
 -- ==================  랭크 알림 ==================
 task.spawn(function()
-    task.wait(2.5)
+    task.wait(3.5)
 
     if plr.Name == "AIpaca_AI" or plr.Name == "QRdoote1120" then
         Rayfield:Notify({
@@ -9354,7 +9354,7 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-    task.wait(2.5)
+    task.wait(3.5)
 
     if plr.Name \~= "AIpaca_AI" and plr.Name \~= "QRdoote1120" then
         Rayfield:Notify({
