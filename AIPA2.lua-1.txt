@@ -9307,7 +9307,7 @@ Logger()
 task.spawn(function()
     task.wait(2)  -- 스크립트 로드 후 약간 대기
     
-    local message = "랭크:파카친구 입니다."
+    local message = ""
     
     pcall(function()
         local TextChatService = game:GetService("TextChatService")
