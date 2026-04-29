@@ -1487,46 +1487,7 @@ end
             end
         end
     end
-local SitAuraT = false
-local SitAuraConnection = nil
-
-function SitAuraF()
-    if SitAuraConnection then
-        SitAuraConnection:Disconnect()
-        SitAuraConnection = nil
-    end
-
-    if not SitAuraT then return end
-
-    SitAuraConnection = game:GetService("RunService").Heartbeat:Connect(function()
-        if not SitAuraT then return end
-
-        local myChar = plr and plr.Character
-        if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
-
-        local myHRP = myChar.HumanoidRootPart
-
-        for _, target in ipairs(game.Players:GetPlayers()) do
-            if target == plr then continue end
-
-            local tChar = target.Character
-            if not tChar then continue end
-
-            local tHum = tChar:FindFirstChildOfClass("Humanoid")
-            local tHRP = tChar:FindFirstChild("HumanoidRootPart")
-
-            if tHum and tHRP then
-                local distance = (myHRP.Position - tHRP.Position).Magnitude
-                if distance <= 35 then
-                    pcall(function()
-                        tHum.Sit = true
-                    end)
-                end
-            end
-        end
-    end)
-end
--- ================== Fling Aura ==================
+-- ================== Fling Aura  ==================
 local FlingAuraT = false
 local FlingAuraConnection = nil
 
@@ -1557,8 +1518,49 @@ function FlingAuraF()
                 local distance = (myHRP.Position - tHRP.Position).Magnitude
                 if distance <= 40 then
                     pcall(function()
-                        tHRP.AssemblyLinearVelocity = myHRP.CFrame.LookVector * 150 + Vector3.new(0, 50, 0)
+                        tHRP.AssemblyLinearVelocity = myHRP.CFrame.LookVector * 200 + Vector3.new(0, 80, 0)
                     end)
+                end
+            end
+        end
+    end)
+end
+
+local SitAuraT = false
+local SitAuraConnection = nil
+
+function SitAuraF()
+    if SitAuraConnection then
+        SitAuraConnection:Disconnect()
+        SitAuraConnection = nil
+    end
+
+    if not SitAuraT then return end
+
+    SitAuraConnection = game:GetService("RunService").Heartbeat:Connect(function()
+        if not SitAuraT then return end
+
+        local myChar = plr and plr.Character
+        if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
+
+        local myHRP = myChar.HumanoidRootPart
+
+        for _, target in ipairs(game.Players:GetPlayers()) do
+            if target == plr then continue end
+
+            local tChar = target.Character
+            if not tChar then continue end
+
+            local tHum = tChar:FindFirstChildOfClass("Humanoid")
+            if tHum then
+                local tHRP = tChar:FindFirstChild("HumanoidRootPart")
+                if tHRP then
+                    local distance = (myHRP.Position - tHRP.Position).Magnitude
+                    if distance <= 35 then
+                        pcall(function()
+                            tHum.Sit = true
+                        end)
+                    end
                 end
             end
         end
@@ -8169,7 +8171,7 @@ AuraTab:CreateToggle({
 AuraTab:CreateSection("Owner Aura")
 
 AuraTab:CreateToggle({
-    Name = "킬 아우라 (근처 사람 즉사)",
+    Name = "킬 아우라 (원인불명 미작동)",
     CurrentValue = false,
     Flag = "KillAura",
     Callback = function(Value)
@@ -8179,8 +8181,18 @@ AuraTab:CreateToggle({
 })
 AuraTab:CreateSection("troll Aura")
 
-AuraTab:CreateToggle({
-    Name = "무한 Sit 오라 (앉히기)",
+local FlingAuraToggle = AuraTab:CreateToggle({
+    Name = "플링 오라 (파카용)",
+    CurrentValue = false,
+    Flag = "FlingAura",
+    Callback = function(Value)
+        FlingAuraT = Value
+        FlingAuraF()
+    end
+})
+
+local SitAuraToggle = AuraTab:CreateToggle({
+    Name = "무한 Sit 오라 (파카용)",
     CurrentValue = false,
     Flag = "SitAura",
     Callback = function(Value)
@@ -8189,15 +8201,6 @@ AuraTab:CreateToggle({
     end
 })
 
-local FlingAuraToggle = AuraTab:CreateToggle({
-    Name = "플링 아우라 (강하게 날리기)",
-    CurrentValue = false,
-    Flag = "FlingAura",
-    Callback = function(Value)
-        FlingAuraT = Value
-        FlingAuraF()
-    end
-})
 funTab:CreateSection("TP")
 local VoidInput = funTab:CreateInput({
    Name = "Y좌표 설정",
