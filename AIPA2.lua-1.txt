@@ -1567,7 +1567,14 @@ function SitAuraF()
         end
     end)
 end
--- ================== 잡기능==================
+-- ================== 기본 변수 설정 ==================
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local plr = Players.LocalPlayer
+local cam = workspace.CurrentCamera
+
+-- ================== Super Throw ==================
 local SuperThrowT = false
 local SuperThrowConnection = nil
 local ThrowStrength = 850
@@ -1580,7 +1587,7 @@ function SuperThrowF()
 
     if not SuperThrowT then return end
 
-    SuperThrowConnection = game:GetService("RunService").Heartbeat:Connect(function()
+    SuperThrowConnection = RunService.Heartbeat:Connect(function()
         if not SuperThrowT then return end
 
         local grabParts = workspace:FindFirstChild("GrabParts")
@@ -1591,6 +1598,7 @@ function SuperThrowF()
                 if weld and weld.Part1 then
                     local target = weld.Part1
                     pcall(function()
+                        -- cam.CFrame.LookVector를 사용하기 위해 cam 변수가 필요함
                         target.AssemblyLinearVelocity = cam.CFrame.LookVector * ThrowStrength + Vector3.new(0, 100, 0)
                     end)
                 end
@@ -1599,19 +1607,30 @@ function SuperThrowF()
     end)
 end
 
+-- ================== Auto Claim Cash ==================
 local AutoClaimCashT = false
 
 function AutoClaimCashF()
     while AutoClaimCashT do
         pcall(function()
-            for _, v in ipairs(workspace:GetDescendants()) do
-                if v.Name == "Cash" or v.Name:find("Money") or v.Name:find("Claim") then
-                    if v:IsA("BasePart") or v:IsA("Model") then
-                        local hrp = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
-                        if hrp and (v.Position - hrp.Position).Magnitude < 50 then
-                            firetouchinterest(hrp, v, 0)
-                            task.wait(0.05)
-                            firetouchinterest(hrp, v, 1)
+            local char = plr.Character
+            local hrp = char and char:FindFirstChild("HumanoidRootPart")
+            
+            if hrp then
+                for _, v in ipairs(workspace:GetDescendants()) do
+                    if v.Name == "Cash" or v.Name:find("Money") or v.Name:find("Claim") then
+                        -- 위치 정보를 가진 객체인지 확인
+                        local pos = nil
+                        if v:IsA("BasePart") then pos = v.Position
+                        elseif v:IsA("Model") then pos = v:GetPivot().Position end
+
+                        if pos and (pos - hrp.Position).Magnitude < 50 then
+                            -- firetouchinterest는 일부 실행기에서 지원하지 않을 수 있음
+                            if firetouchinterest then
+                                firetouchinterest(hrp, v:IsA("Model") and v:FindFirstChildWhichIsA("BasePart") or v, 0)
+                                task.wait(0.01)
+                                firetouchinterest(hrp, v:IsA("Model") and v:FindFirstChildWhichIsA("BasePart") or v, 1)
+                            end
                         end
                     end
                 end
@@ -1621,6 +1640,7 @@ function AutoClaimCashF()
     end
 end
 
+-- ================== Wings (날개) ==================
 local WingsT = false
 local WingsConnection = nil
 
@@ -1632,21 +1652,22 @@ function WingsF()
 
     if not WingsT then return end
 
-    WingsConnection = game:GetService("RunService").Heartbeat:Connect(function()
+    WingsConnection = RunService.Heartbeat:Connect(function()
         if not WingsT then return end
 
         local char = plr.Character
-        if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        local hum = char and char:FindFirstChildOfClass("Humanoid")
 
-        local hrp = char.HumanoidRootPart
-        local hum = char:FindFirstChildOfClass("Humanoid")
+        if hrp and hum then
+            -- UserInputService(uis)를 사용하여 스페이스바 감지
+            if UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+                hrp.AssemblyLinearVelocity = Vector3.new(hrp.AssemblyLinearVelocity.X, 50, hrp.AssemblyLinearVelocity.Z)
+            end
 
-        if uis:IsKeyDown(Enum.KeyCode.Space) then
-            hrp.AssemblyLinearVelocity = Vector3.new(hrp.AssemblyLinearVelocity.X, 50, hrp.AssemblyLinearVelocity.Z)
-        end
-
-        if hum and hum:GetState() == Enum.HumanoidStateType.Freefall then
-            hrp.AssemblyLinearVelocity = Vector3.new(hrp.AssemblyLinearVelocity.X * 0.95, hrp.AssemblyLinearVelocity.Y, hrp.AssemblyLinearVelocity.Z * 0.95)
+            if hum:GetState() == Enum.HumanoidStateType.Freefall then
+                hrp.AssemblyLinearVelocity = Vector3.new(hrp.AssemblyLinearVelocity.X * 0.95, hrp.AssemblyLinearVelocity.Y, hrp.AssemblyLinearVelocity.Z * 0.95)
+            end
         end
     end)
 end
@@ -5904,6 +5925,71 @@ local funTab = Window:CreateTab("찌끄레기", 0)
 local keybindTab = Window:CreateTab("설정", 0)
 --local CreditsTab = Window:CreateTab("나머지", 0)
 local DevTab = Window:CreateTab("Dev", 0)
+-- 'Fun' 탭 생성
+local FunTab = Window:CreateTab("Fun",0) 
+
+local RankTab = Window:CreateTab("제작자 친구", 0)
+
+RankTab:CreateSection("제작자")
+RankTab:CreateLabel("제작자 : baby_Alpaca | 알파카")
+
+RankTab:CreateSection("친구 목록")
+RankTab:CreateLabel("헬로, 썸머, 누나, 이에스, 까망, 연우, 온유, 대환, 서은")
+
+RankTab:CreateSection("어드민 권한 획득")
+
+local AdminHackButton = RankTab:CreateButton({
+    Name = "iY 어드민 핵",
+    Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+        
+        Rayfield:Notify({
+            Title = "🔓 iY 어드민",
+            Content = "Infinite Yield 어드민 스크립트가 실행되었습니다.",
+            Duration = 5
+        })
+    end
+})
+-- [토글] Super Throw
+FunTab:CreateToggle({
+   Name = "Super Throw",
+   CurrentValue = false,
+   Callback = function(Value)
+      SuperThrowT = Value
+      UpdateSuperThrow()
+   end,
+})
+
+-- [슬라이더] 던지기 강도 조절
+FunTab:CreateSlider({
+   Name = "던지기 강도",
+   Range = {100, 2000},
+   Increment = 50,
+   CurrentValue = 850,
+   Callback = function(Value)
+      ThrowStrength = Value
+   end,
+})
+
+-- [토글] Auto Claim Cash
+FunTab:CreateToggle({
+   Name = "오토캐시",
+   CurrentValue = false,
+   Callback = function(Value)
+      AutoClaimCashT = Value
+      if Value then StartAutoClaim() end
+   end,
+})
+
+-- [토글] Wings
+FunTab:CreateToggle({
+   Name = "Wings (날개/비행)",
+   CurrentValue = false,
+   Callback = function(Value)
+      WingsT = Value
+      UpdateWings()
+   end,
+})
 
 DevTab:CreateSection("Gamepass")
 DevTab:CreateButton({
@@ -8553,49 +8639,7 @@ if torso2 and #pencils >= TNUM then
 end
    end
 })
-funTab:CreateSection("잡기능")
 
-local SuperThrowToggle = funTab:CreateToggle({
-    Name = "슈퍼 쓰로우(모바일)",
-    CurrentValue = false,
-    Flag = "SuperThrow",
-    Callback = function(Value)
-        SuperThrowT = Value
-        SuperThrowF()
-    end
-})
-
-funTab:CreateInput({
-    Name = "던지는 힘",
-    CurrentValue = "850",
-    PlaceholderText = "숫자",
-    RemoveTextAfterFocusLost = false,
-    Callback = function(Value)
-        local num = tonumber(Value)
-        if num then ThrowStrength = num end
-    end
-})
-
-
-local AutoClaimCashToggle = funTab:CreateToggle({
-    Name = "캐시머신 오토팜",
-    CurrentValue = false,
-    Flag = "AutoClaimCash",
-    Callback = function(Value)
-        AutoClaimCashT = Value
-        AutoClaimCashF()
-    end
-})
-
-local WingsToggle = funTab:CreateToggle({
-    Name = "날개",
-    CurrentValue = false,
-    Flag = "Wings",
-    Callback = function(Value)
-        WingsT = Value
-        WingsF()
-    end
-})
 funTab:CreateSection("StickyEvent")
 local Inputt = funTab:CreateInput({
    Name = "쿠나이",
