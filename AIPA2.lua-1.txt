@@ -9368,3 +9368,30 @@ Rayfield:Notify({
     Duration = 6,
     Image = 0
 })
+-- ================== 블롭맨 안정화 패시브 ==================
+local BlobAntiFlingT = true
+
+task.spawn(function()
+    while BlobAntiFlingT do
+        local blob = workspace:FindFirstChild(plr.Name.."SpawnedInToys") and workspace[plr.Name.."SpawnedInToys"]:FindFirstChild("CreatureBlobman")
+        if blob then
+            local hrp = blob:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                -- 4초 이상 높이 떠있으면 강제 TP
+                if hrp.Position.Y > 100 then
+                    hrp.CFrame = hrp.CFrame * CFrame.new(0, -hrp.Position.Y + 5, 0)
+                end
+
+                -- 위로 올라가는 속도 억제
+                if hrp.AssemblyLinearVelocity.Y > 20 then
+                    hrp.AssemblyLinearVelocity = Vector3.new(
+                        hrp.AssemblyLinearVelocity.X,
+                        0,
+                        hrp.AssemblyLinearVelocity.Z
+                    )
+                end
+            end
+        end
+        task.wait(0.1)
+    end
+end)
