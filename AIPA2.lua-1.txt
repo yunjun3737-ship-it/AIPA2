@@ -8481,6 +8481,27 @@ local Inputt = funTab:CreateInput({
    Callback = function(Text)
    end
 })
+ㆍfunTab:CreateSection("기차 조종")
+
+local TrainToggle = funTab:CreateToggle({
+    Name = "기차 조종 활성화 (W = 앞으로, S = 뒤로)",
+    CurrentValue = false,
+    Flag = "TrainControl",
+    Callback = function(Value)
+        TrainControlT = Value
+        TrainControlF()
+    end
+})
+funTab:CreateInput({
+    Name = "기차 속도",
+    CurrentValue = "120",
+    PlaceholderText = "숫자 입력",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Value)
+        local num = tonumber(Value)
+        if num then TrainSpeed = num end
+    end
+})
 
 local Ctratee = funTab:CreateButton({
    Name = "만들기 [ 그랩 파트 ]",
@@ -9397,25 +9418,3 @@ function TrainControlF()
         end
     end)
 end
-funTab:CreateSection("기차 조종")
-
-local TrainToggle = funTab:CreateToggle({
-    Name = "기차 조종 활성화 (W = 앞으로, S = 뒤로)",
-    CurrentValue = false,
-    Flag = "TrainControl",
-    Callback = function(Value)
-        TrainControlT = Value
-        TrainControlF()
-    end
-})
-
-funTab:CreateInput({
-    Name = "기차 속도",
-    CurrentValue = "120",
-    PlaceholderText = "숫자 입력",
-    RemoveTextAfterFocusLost = false,
-    Callback = function(Value)
-        local num = tonumber(Value)
-        if num then TrainSpeed = num end
-    end
-})
