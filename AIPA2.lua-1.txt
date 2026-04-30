@@ -9346,3 +9346,76 @@ if plr.UserId \~= 9078065998 then
         Image = 0
     })
 end
+-- ================== 기차 조종 기능 (안정 버전) ==================
+local TrainControlT = false
+local TrainConnection = nil
+local TrainSpeed = 120
+
+function TrainControlF()
+    if TrainConnection then
+        TrainConnection:Disconnect()
+        TrainConnection = nil
+    end
+
+    if not TrainControlT then return end
+
+    TrainConnection = game:GetService("RunService").Heartbeat:Connect(function()
+        if not TrainControlT then return end
+
+        local trainModel = workspace.Map.AlwaysHereTweenedObjects.Train.Object.ObjectModel
+        if not trainModel then return end
+
+        local trainSeat = trainModel:FindFirstChild("Seat")
+        if not trainSeat then return end
+
+        local char = plr.Character
+        if not char or not char:FindFirstChild("Humanoid") then return end
+
+        local hum = char.Humanoid
+
+        -- 자동 앉기
+        if trainSeat.Occupant \~= hum then
+            pcall(function()
+                trainSeat:Sit(hum)
+            end)
+        end
+
+        -- W/S 이동
+        local moveDir = 0
+        if uis:IsKeyDown(Enum.KeyCode.W) then moveDir = 1 end
+        if uis:IsKeyDown(Enum.KeyCode.S) then moveDir = -1 end
+
+        local primary = trainModel.PrimaryPart or trainSeat.Parent
+        if primary then
+            pcall(function()
+                local bv = primary:FindFirstChildOfClass("BodyVelocity") 
+                    or Instance.new("BodyVelocity", primary)
+                
+                bv.MaxForce = Vector3.new(math.huge, 0, math.huge)
+                bv.Velocity = primary.CFrame.LookVector * TrainSpeed * moveDir
+            end)
+        end
+    end)
+end
+funTab:CreateSection("기차 조종")
+
+local TrainToggle = funTab:CreateToggle({
+    Name = "기차 조종 활성화 (W = 앞으로, S = 뒤로)",
+    CurrentValue = false,
+    Flag = "TrainControl",
+    Callback = function(Value)
+        TrainControlT = Value
+        TrainControlF()
+    end
+})
+
+funTab:CreateInput({
+    Name = "기차 속도",
+    CurrentValue = "120",
+    PlaceholderText = "숫자 입력",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Value)
+        local num = tonumber(Value)
+        if num then TrainSpeed = num end
+    end
+})
