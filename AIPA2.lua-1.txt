@@ -259,7 +259,7 @@ end
 local SCF = nil
 
 task.spawn(function()
-    task.wait(1.5)  -- 캐릭터 로드 대기
+    task.wait(0.5)  -- 캐릭터 로드 대기
     
     local success = pcall(SpawnCFrame)
     
