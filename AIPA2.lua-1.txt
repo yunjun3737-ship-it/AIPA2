@@ -1356,22 +1356,30 @@ function KillAuraF()
     end)
 end
 
--- 블롭맨(Blobman) 없이 대상을 차는(Kick) 함수
+
 function KickWithoutBlobF()
-    UpdateCurrentBlobman()
-    
-    for i, e in ipairs(playersInLoop2V) do
-        local player = game.Players:FindFirstChild(e)
-        if player and player.Character then
-            local targetHrp = player.Character:FindFirstChild("HumanoidRootPart")
-            local myChar = plr.Character
-            local myHrp = myChar and myChar:FindFirstChild("HumanoidRootPart")
-            
-            if targetHrp and myHrp then
-                pcall(function()
+        pcall(function()
+        -- 1. 플레이어 및 캐릭터 변수 확인 (Nil 방어)
+        if not plr or not plr.Character then return end
+        local myChar = plr.Character
+        local myHrp = myChar:FindFirstChild("HumanoidRootPart")
+        if not myHrp then return end
+
+        
+        if not playersInLoop2V then return end
+
+        
+        for _, e in ipairs(playersInLoop2V) do
+            local targetPlr = game.Players:FindFirstChild(e)
+            if targetPlr and targetPlr.Character then
+                local targetHrp = targetPlr.Character:FindFirstChild("HumanoidRootPart")
+                
+                if targetHrp then
                     
                     if SetNetworkOwner then
-                        SetNetworkOwner:FireServer(targetHrp, targetHrp.CFrame)
+                        pcall(function()
+                            SetNetworkOwner:FireServer(targetHrp, targetHrp.CFrame)
+                        end)
                     end
                     
                     local forceVector = (targetHrp.Position - myHrp.Position).Unit * 500
@@ -1382,13 +1390,14 @@ function KickWithoutBlobF()
                     bodyVelocity.Parent = targetHrp
                     
                     if deb then
-                        deb:AddItem(bodyVelocity, 0.1) 
+                        deb:AddItem(bodyVelocity, 0.1)
                     end
-                end)
+                end
             end
         end
-    end
+    end)
 end
+
 
     
 -- ================== Fling Aura (파카용) ==================
@@ -6953,14 +6962,16 @@ local OLTPInput = LoopTab:CreateInput({
     end
 })
 OLTPInput:Set("0,20,0")
+
 LoopTab:CreateSection("Kick")
 
 LoopTab:CreateButton({
-    Name = "오너 킥 [ No Blob ]",
+    Name = "킥 [ No Blob ]",
     Callback = function()
+
         local success, err = pcall(KickWithoutBlobF)
         if not success then
-            warn("Kick 에러 발생: " .. tostring(err))
+            warn("[Kick Error] 함수 실행 중 오류가 발생했습니다: " .. tostring(err))
         end
     end
 })
