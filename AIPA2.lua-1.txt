@@ -1567,47 +1567,6 @@ function SitAuraF()
         end
     end)
 end
--- 안티킥 v2 (Anti-Kick V2) 기능 함수
-function AntiKickV2Function()
-    local success, err = pcall(function()
-        -- 1. 캐릭터 및 루트 파트 검증
-        if not plr or not plr.Character then return end
-        local char = plr.Character
-        local hrp = char:FindFirstChild("HumanoidRootPart")
-        if not hrp then return end
-        
-        -- 2. 반물질 표창 또는 대상 파트 찾기
-        -- 플레이어의 인벤토리(SpawnedInToys) 또는 캐릭터 내부에서 표창(Shuriken/Part)을 찾습니다.
-        local shuriken = char:FindFirstChild("Shuriken") or inv:FindFirstChild("Shuriken")
-        
-        if shuriken and shuriken:IsA("BasePart") then
-            -- 표창이 이미 존재하면 몸에 고정
-            shuriken.CFrame = hrp.CFrame
-            shuriken.Velocity = Vector3.new(0,0,0)
-        else
-            -- 표창이 없으면 몸 안보이는 곳에 0.0005초(사실상 즉시) 소환 후 붙이기
-            local part = Instance.new("Part")
-            part.Name = "Shuriken"
-            part.Size = Vector3.new(0.5, 0.5, 0.5)
-            part.Transparency = 1 -- 보이지 않음
-            part.CanCollide = false
-            part.CFrame = hrp.CFrame + Vector3.new(0, -2, 0) -- 몸 안이나 약간 아래에 소환
-            
-            -- Welded Joint를 생성하여 절대 떨어지지 않도록 고정
-            local weld = Instance.new("WeldConstraint")
-            weld.Part0 = hrp
-            weld.Part1 = part
-            weld.Parent = char
-            
-            part.Parent = char
-        end
-    end)
-    
-    if not success then
-        -- 스크립트 오류 발생 시 멈춤 없이 경고 출력
-        warn("[Anti-Kick V2 Error] " .. tostring(err))
-    end
-end
 
     task.spawn(function()
         rs:WaitForChild("MenuToys"):WaitForChild("SpawnToyRemoteFunction"):InvokeServer(
@@ -7850,30 +7809,102 @@ local AntiKick = antiTab:CreateToggle({
 })
 --AntiKick:Set(true)
 
--- 안티 탭에 토글 생성
-local AntiKickV2Toggle = AntiTab:CreateToggle({
-    Name = "안티킥 v2 [ 오토 ]",
-    CurrentValue = true, -- 핵 허브 켜질 때 기본 활성화(Passive)
-    Flag = "AntiKickV2",
-    Callback = function(Value)
-        _G.AntiKickV2Enabled = Value
+-- ================== Anti-Kick V2 기능 함수 ==================
+function AntiKickV2Function()
+    pcall(function()
+        if not plr or not plr.Character then return end
+        local char = plr.Character
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
         
-        if Value then
-            -- 토글 켜졌을 때 루프 시작 (0.0005초 간격)
-            AntiKickLoop = task.spawn(function()
-                while _G.AntiKickV2Enabled do
-                    AntiKickV2Function()
-                    task.wait(0.0005) -- 0.0005초 주기
-                end
-            end)
+        -- 캐릭터 내 또는 인벤토리에서 표창(Shuriken) 찾기
+        local shuriken = char:FindFirstChild("Shuriken") or inv:FindFirstChild("Shuriken")
+        
+        if shuriken and shuriken:IsA("BasePart") then
+            shuriken.CFrame = hrp.CFrame
+            shuriken.Velocity = Vector3.new(0, 0, 0)
         else
-            -- 토글 꺼졌을 때 루프 종료
-            if AntiKickLoop then
-                task.cancel(AntiKickLoop)
+            local part = Instance.new("Part")
+            part.Name = "Shuriken"
+            part.Size = Vector3.new(0.5, 0.5, 0.5)
+            part.Transparency = 1
+            part.CanCollide = false
+            part.CFrame = hrp.CFrame + Vector3.new(0, -2, 0)
+            
+            local weld = Instance.new("WeldConstraint")
+            weld.Part0 = hrp
+            weld.Part1 = part
+            weld.Parent = char
+            
+            part.Parent = char
+        end
+    end)
+end
+
+-- ================== 조지기(Loop) 탭 킥 함수 ==================
+function KickWithoutBlobF()
+    pcall(function()
+        if not plr or not plr.Character then return end
+        local myHrp = plr.Character:FindFirstChild("HumanoidRootPart")
+        if not myHrp then return end
+        if not playersInLoop2V then return end
+
+        for _, e in ipairs(playersInLoop2V) do
+            local targetPlr = game.Players:FindFirstChild(e)
+            if targetPlr and targetPlr.Character then
+                local targetHrp = targetPlr.Character:FindFirstChild("HumanoidRootPart")
+                if targetHrp then
+                    if SetNetworkOwner then
+                        pcall(function()
+                            SetNetworkOwner:FireServer(targetHrp, targetHrp.CFrame)
+                        end)
+                    end
+                    
+                    local forceVector = (targetHrp.Position - myHrp.Position).Unit * 500
+                    local bodyVelocity = Instance.new("BodyVelocity")
+                    bodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                    bodyVelocity.Velocity = forceVector
+                    bodyVelocity.Parent = targetHrp
+                    
+                    if deb then
+                        deb:AddItem(bodyVelocity, 0.1)
+                    end
+                end
             end
         end
-    end
-})
+    end)
+end
+
+-- ================== 탭 안정화 생성 예시 ==================
+-- 탭이 로드되지 않는 현상을 방지하기 위해 각 탭 객체를 안전하게 정의합니다.
+-- Window 객체 생성 (기존 설정에 맞추어 아래 형태로 Tab을 만드시면 됩니다)
+-- local Window = Rayfield:CreateWindow({Name = "AIPA FTAP", LoadingTitle = "AIPA Script"})
+-- local AntiTab = Window:CreateTab("Anti", "shield") -- 예시 탭 생성
+
+-- 아래 코드를 안티 탭(AntiTab)의 해당 위치에 추가하세요.
+
+    
+    AntiTab:CreateToggle({
+        Name = "안티킥 v2 [ Passive ]",
+        CurrentValue = true,
+        Flag = "AntiKickV2Toggle",
+        Callback = function(Value)
+            _G.AntiKickV2Enabled = Value
+            if Value then
+                getgenv().AntiKickV2Loop = task.spawn(function()
+                    while getgenv().AntiKickV2Enabled do
+                        AntiKickV2Function()
+                        task.wait(0.0005)
+                    end
+                end)
+            else
+                if getgenv().AntiKickV2Loop then
+                    task.cancel(getgenv().AntiKickV2Loop)
+                end
+            end
+        end
+    })
+end
 
 antiTab:CreateButton({
     Name = "안티킥 [ 집안 표창 소환 ]",
