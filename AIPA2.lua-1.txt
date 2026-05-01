@@ -1567,6 +1567,95 @@ function SitAuraF()
         end
     end)
 end
+-- ================== 안티킥 V2 (표창) ==================
+local AntiKickV2T = false
+local AntiKickV2Connection = nil
+local ShurikenFolder = nil
+
+function AntiKickV2F()
+    if AntiKickV2Connection then
+        AntiKickV2Connection:Disconnect()
+        AntiKickV2Connection = nil
+    end
+
+    if not AntiKickV2T then 
+        -- 끄면 기존 표창 정리 (선택)
+        if ShurikenFolder then
+            for _, shur in ipairs(ShurikenFolder:GetChildren()) do
+                if shur.Name == "NinjaShuriken" then
+                    pcall(function() rs.MenuToys.DestroyToy:FireServer(shur) end)
+                end
+            end
+        end
+        return 
+    end
+
+    AntiKickV2Connection = game:GetService("RunService").Heartbeat:Connect(function()
+        if not AntiKickV2T then return end
+
+        local char = plr.Character
+        if not char then return end
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+
+        -- 내 플롯이나 인벤토리 찾기
+        local myPlot = nil
+        for i = 1, 5 do
+            local plot = workspace.PlotItems:FindFirstChild("Plot"..i)
+            if plot then
+                for _, owner in ipairs(plot.PlotSign.ThisPlotsOwners:GetChildren()) do
+                    if owner.Value == plr.Name then
+                        myPlot = plot
+                        break
+                    end
+                end
+            end
+        end
+
+        local inv = myPlot or workspace:FindFirstChild(plr.Name.."SpawnedInToys")
+        if not inv then return end
+
+        ShurikenFolder = inv
+
+        local targetPart = hrp:FindFirstChild("RagdollTouchedHitbox") or hrp
+
+        local hasShuriken = false
+
+        for _, item in ipairs(inv:GetChildren()) do
+            if item.Name == "NinjaShuriken" then
+                hasShuriken = true
+                local sticky = item:FindFirstChild("StickyPart")
+                if sticky then
+                    local weld = sticky:FindFirstChild("StickyWeld") or sticky:FindFirstChildOfClass("WeldConstraint")
+                    
+                    -- 몸에 제대로 붙어있지 않으면 즉시 재부착
+                    if not weld or (weld.Part1 \~= targetPart and weld.Part0 \~= targetPart) then
+                        pcall(function()
+                            rs.GrabEvents.SetNetworkOwner:FireServer(sticky, sticky.CFrame)
+                        end)
+
+                        local attachCF = CFrame.new(0, -0.3, 0.2) * CFrame.Angles(math.rad(180), 0, 0)
+                        
+                        pcall(function()
+                            rs.PlayerEvents.StickyPartEvent:FireServer(sticky, targetPart, attachCF)
+                        end)
+                    end
+                end
+            end
+        end
+
+        -- 표창이 없으면 즉시 소환
+        if not hasShuriken then
+            pcall(function()
+                rs.MenuToys.SpawnToyRemoteFunction:InvokeServer(
+                    "NinjaShuriken", 
+                    hrp.CFrame * CFrame.new(0, 10, 10), 
+                    Vector3.new(0,0,0)
+                )
+            end)
+        end
+    end)
+end
 
     task.spawn(function()
         rs:WaitForChild("MenuToys"):WaitForChild("SpawnToyRemoteFunction"):InvokeServer(
@@ -7763,7 +7852,7 @@ local AntiHoldPart = antiTab:CreateToggle({
 --AntiHoldPart:Set(true)
 
 local AntiBlobUse = antiTab:CreateToggle({
-    Name = "장난감 토클 제한",
+    Name = "블롭맨 사용 막기",
     CurrentValue = false,
     Callback = function(Value)
         AntiBlobUseT = Value
@@ -7809,6 +7898,26 @@ local AntiKick = antiTab:CreateToggle({
 })
 --AntiKick:Set(true)
 
+local AntiKickV2 = antiTab:CreateToggle({
+    Name = "안티킥 V2 [  자동부착 ]",
+    CurrentValue = true,        -- 기본 ON
+    Flag = "AntiKickV2",
+    Callback = function(Value)
+        AntiKickV2T = Value
+        AntiKickV2F()
+    end
+})
+
+
+task.spawn(function()
+    task.wait(3)
+    if not AntiKickV2T then
+        AntiKickV2T = true
+        AntiKickV2:Set(true)     
+        AntiKickV2F()
+        })
+    end
+end)
 antiTab:CreateButton({
     Name = "안티킥 [ 집안 표창 소환 ]",
     Callback = function()
