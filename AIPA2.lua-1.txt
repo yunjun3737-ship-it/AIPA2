@@ -1567,94 +1567,46 @@ function SitAuraF()
         end
     end)
 end
--- ================== 안티킥 V2 (표창) ==================
-local AntiKickV2T = false
-local AntiKickV2Connection = nil
-local ShurikenFolder = nil
-
-function AntiKickV2F()
-    if AntiKickV2Connection then
-        AntiKickV2Connection:Disconnect()
-        AntiKickV2Connection = nil
-    end
-
-    if not AntiKickV2T then 
-        -- 끄면 기존 표창 정리 (선택)
-        if ShurikenFolder then
-            for _, shur in ipairs(ShurikenFolder:GetChildren()) do
-                if shur.Name == "NinjaShuriken" then
-                    pcall(function() rs.MenuToys.DestroyToy:FireServer(shur) end)
-                end
-            end
-        end
-        return 
-    end
-
-    AntiKickV2Connection = game:GetService("RunService").Heartbeat:Connect(function()
-        if not AntiKickV2T then return end
-
+-- 안티킥 v2 (Anti-Kick V2) 기능 함수
+function AntiKickV2Function()
+    local success, err = pcall(function()
+        -- 1. 캐릭터 및 루트 파트 검증
+        if not plr or not plr.Character then return end
         local char = plr.Character
-        if not char then return end
         local hrp = char:FindFirstChild("HumanoidRootPart")
         if not hrp then return end
-
-        -- 내 플롯이나 인벤토리 찾기
-        local myPlot = nil
-        for i = 1, 5 do
-            local plot = workspace.PlotItems:FindFirstChild("Plot"..i)
-            if plot then
-                for _, owner in ipairs(plot.PlotSign.ThisPlotsOwners:GetChildren()) do
-                    if owner.Value == plr.Name then
-                        myPlot = plot
-                        break
-                    end
-                end
-            end
-        end
-
-        local inv = myPlot or workspace:FindFirstChild(plr.Name.."SpawnedInToys")
-        if not inv then return end
-
-        ShurikenFolder = inv
-
-        local targetPart = hrp:FindFirstChild("RagdollTouchedHitbox") or hrp
-
-        local hasShuriken = false
-
-        for _, item in ipairs(inv:GetChildren()) do
-            if item.Name == "NinjaShuriken" then
-                hasShuriken = true
-                local sticky = item:FindFirstChild("StickyPart")
-                if sticky then
-                    local weld = sticky:FindFirstChild("StickyWeld") or sticky:FindFirstChildOfClass("WeldConstraint")
-                    
-                    -- 몸에 제대로 붙어있지 않으면 즉시 재부착
-                    if not weld or (weld.Part1 \~= targetPart and weld.Part0 \~= targetPart) then
-                        pcall(function()
-                            rs.GrabEvents.SetNetworkOwner:FireServer(sticky, sticky.CFrame)
-                        end)
-
-                        local attachCF = CFrame.new(0, -0.3, 0.2) * CFrame.Angles(math.rad(180), 0, 0)
-                        
-                        pcall(function()
-                            rs.PlayerEvents.StickyPartEvent:FireServer(sticky, targetPart, attachCF)
-                        end)
-                    end
-                end
-            end
-        end
-
-        -- 표창이 없으면 즉시 소환
-        if not hasShuriken then
-            pcall(function()
-                rs.MenuToys.SpawnToyRemoteFunction:InvokeServer(
-                    "NinjaShuriken", 
-                    hrp.CFrame * CFrame.new(0, 10, 10), 
-                    Vector3.new(0,0,0)
-                )
-            end)
+        
+        -- 2. 반물질 표창 또는 대상 파트 찾기
+        -- 플레이어의 인벤토리(SpawnedInToys) 또는 캐릭터 내부에서 표창(Shuriken/Part)을 찾습니다.
+        local shuriken = char:FindFirstChild("Shuriken") or inv:FindFirstChild("Shuriken")
+        
+        if shuriken and shuriken:IsA("BasePart") then
+            -- 표창이 이미 존재하면 몸에 고정
+            shuriken.CFrame = hrp.CFrame
+            shuriken.Velocity = Vector3.new(0,0,0)
+        else
+            -- 표창이 없으면 몸 안보이는 곳에 0.0005초(사실상 즉시) 소환 후 붙이기
+            local part = Instance.new("Part")
+            part.Name = "Shuriken"
+            part.Size = Vector3.new(0.5, 0.5, 0.5)
+            part.Transparency = 1 -- 보이지 않음
+            part.CanCollide = false
+            part.CFrame = hrp.CFrame + Vector3.new(0, -2, 0) -- 몸 안이나 약간 아래에 소환
+            
+            -- Welded Joint를 생성하여 절대 떨어지지 않도록 고정
+            local weld = Instance.new("WeldConstraint")
+            weld.Part0 = hrp
+            weld.Part1 = part
+            weld.Parent = char
+            
+            part.Parent = char
         end
     end)
+    
+    if not success then
+        -- 스크립트 오류 발생 시 멈춤 없이 경고 출력
+        warn("[Anti-Kick V2 Error] " .. tostring(err))
+    end
 end
 
     task.spawn(function()
@@ -7898,26 +7850,31 @@ local AntiKick = antiTab:CreateToggle({
 })
 --AntiKick:Set(true)
 
-local AntiKickV2 = antiTab:CreateToggle({
-    Name = "안티킥 V2 [  자동부착 ]",
-    CurrentValue = true,        -- 기본 ON
+-- 안티 탭에 토글 생성
+local AntiKickV2Toggle = AntiTab:CreateToggle({
+    Name = "안티킥 v2 [ 오토 ]",
+    CurrentValue = true, -- 핵 허브 켜질 때 기본 활성화(Passive)
     Flag = "AntiKickV2",
     Callback = function(Value)
-        AntiKickV2T = Value
-        AntiKickV2F()
+        _G.AntiKickV2Enabled = Value
+        
+        if Value then
+            -- 토글 켜졌을 때 루프 시작 (0.0005초 간격)
+            AntiKickLoop = task.spawn(function()
+                while _G.AntiKickV2Enabled do
+                    AntiKickV2Function()
+                    task.wait(0.0005) -- 0.0005초 주기
+                end
+            end)
+        else
+            -- 토글 꺼졌을 때 루프 종료
+            if AntiKickLoop then
+                task.cancel(AntiKickLoop)
+            end
+        end
     end
 })
 
-
-task.spawn(function()
-    task.wait(3)
-    if not AntiKickV2T then
-        AntiKickV2T = true
-        AntiKickV2:Set(true)     
-        AntiKickV2F()
-        })
-    end
-end)
 antiTab:CreateButton({
     Name = "안티킥 [ 집안 표창 소환 ]",
     Callback = function()
