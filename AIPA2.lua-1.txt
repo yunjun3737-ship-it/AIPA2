@@ -1355,138 +1355,42 @@ function KillAuraF()
         end
     end)
 end
--- ==================  Owner Loop Kick (블롭 없이) ==================
-local TokraOwnerKickT = false
-local TokraKickConnections = {}
 
-function TokraOwnerKickF()
-    -- 기존 연결 모두 정리
-    for _, conn in pairs(TokraKickConnections) do
-        pcall(function() conn:Disconnect() end)
-    end
-    TokraKickConnections = {}
-
-    if not TokraOwnerKickT then return end
-
-    for _, name in ipairs(playersInLoop2V) do
-        local target = game.Players:FindFirstChild(name)
-        if not target or target == plr then continue end
-
-        TokraKickConnections[target] = task.spawn(function()
-            while TokraOwnerKickT and target.Parent do
-                local tChar = target.Character
-                if not tChar then 
-                    task.wait(0.8)
-                    continue 
-                end
-
-                local tHRP = tChar:FindFirstChild("HumanoidRootPart")
-                local tHum = tChar:FindFirstChildOfClass("Humanoid")
-
-                if not tHRP or not tHum or tHum.Health <= 0 then 
-                    task.wait(0.8)
-                    continue 
-                end
-
+-- 블롭맨(Blobman) 없이 대상을 차는(Kick) 함수
+function KickWithoutBlobF()
+    UpdateCurrentBlobman()
+    
+    for i, e in ipairs(playersInLoop2V) do
+        local player = game.Players:FindFirstChild(e)
+        if player and player.Character then
+            local targetHrp = player.Character:FindFirstChild("HumanoidRootPart")
+            local myChar = plr.Character
+            local myHrp = myChar and myChar:FindFirstChild("HumanoidRootPart")
+            
+            if targetHrp and myHrp then
                 pcall(function()
-                    -- Tokra 스타일: 빠르게 Owner 잡았다가 놓기 반복
-                    rs.GrabEvents.SetNetworkOwner:FireServer(tHRP, tHRP.CFrame)
-                    task.wait(0.025)
-                    rs.GrabEvents.DestroyGrabLine:FireServer(tHRP, tHRP.CFrame)
-                    task.wait(0.035)
-                end)
-
-                task.wait(0.07)   -- 속도 (너무 빠르면 서버에서 차단될 수 있음)
-            end
-        end)
-    end
-end
--- ================== Owner Loop Kick (블롭맨 없이) ==================
-local OwnerLoopKickT = false
-local OwnerLoopKickConnections = {}
-
-function OwnerLoopKickF()
-    -- 기존 연결 정리
-    for _, conn in pairs(OwnerLoopKickConnections) do
-        if conn then conn:Disconnect() end
-    end
-    OwnerLoopKickConnections = {}
-
-    if not OwnerLoopKickT then return end
-
-    for _, name in ipairs(playersInLoop2V) do
-        local target = game.Players:FindFirstChild(name)
-        if not target or target == plr then continue end
-
-        OwnerLoopKickConnections[target] = task.spawn(function()
-            while OwnerLoopKickT do
-                local tChar = target.Character
-                if not tChar then 
-                    task.wait(0.5)
-                    continue 
-                end
-
-                local tHRP = tChar:FindFirstChild("HumanoidRootPart")
-                local tHum = tChar:FindFirstChildOfClass("Humanoid")
-
-                if not tHRP or not tHum then 
-                    task.wait(0.5)
-                    continue 
-                end
-
-                if tHum.Health <= 0 then 
-                    task.wait(1)
-                    continue 
-                end
-
-                pcall(function()
-                    -- 1. Owner 잡기
-                    rs.GrabEvents.SetNetworkOwner:FireServer(tHRP, tHRP.CFrame)
                     
-                    task.wait(0.03)
-
-                    -- 2. 강제로 DestroyGrabLine (놓기)
-                    rs.GrabEvents.DestroyGrabLine:FireServer(tHRP, tHRP.CFrame)
-
-                    task.wait(0.05)
-
-                    -- 3. 다시 Owner 잡기 반복 (들었다 놨다)
-                    rs.GrabEvents.SetNetworkOwner:FireServer(tHRP, tHRP.CFrame)
-                end)
-
-                task.wait(0.08)  -- 속도 조절 (너무 빠르면 서버에서 막힘)
-            end
-        end)
-    end
-end
-
-    for _, other in ipairs(game.Players:GetPlayers()) do
-        if other ~= plr then
-             invs = workspace:FindFirstChild(other.Name.."SpawnedInToys")
-             blob = invs and invs:FindFirstChild("CreatureBlobman")
-            if blob then
-                 seat = blob:FindFirstChildOfClass("VehicleSeat")
-                if seat then
-                    if seat.Occupant == nil then
-                        seat:Sit(humanoid)
-                        BLOBSIT = false
-                        return
-                    else
-                         targetPlr = game.Players:GetPlayerFromCharacter(seat.Occupant.Parent)
-                        if targetPlr then
-                            TP(targetPlr)
-                            task.wait(0.3)
-                            SetOwner(targetPlr)
-                            task.wait(0.05)
-                            seat:Sit(humanoid)
-                            BLOBSIT = false
-                            return
-                        end
+                    if SetNetworkOwner then
+                        SetNetworkOwner:FireServer(targetHrp, targetHrp.CFrame)
                     end
-                end
+                    
+                    local forceVector = (targetHrp.Position - myHrp.Position).Unit * 500
+                    
+                    local bodyVelocity = Instance.new("BodyVelocity")
+                    bodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                    bodyVelocity.Velocity = forceVector
+                    bodyVelocity.Parent = targetHrp
+                    
+                    if deb then
+                        deb:AddItem(bodyVelocity, 0.1) 
+                    end
+                end)
             end
         end
     end
+end
+
+    
 -- ================== Fling Aura (파카용) ==================
 local FlingAuraT = false
 local FlingAuraConnection = nil
@@ -6658,7 +6562,7 @@ local BreakHouseBarrierToggle = antiTab:CreateToggle({
         if Value then
             Rayfield:Notify({
                 Title = "Break House Barrier",
-                Content = "베리어 뚫기 활성화! 바깥 물건 많이 붙잡고 집 안으로 TP해보세요.",
+                Content = "집 xray 활성화",
                 Duration = 5
             })
         end
@@ -7031,27 +6935,7 @@ LoopTab:CreateButton({
         end
     end
 })
-LoopTab:CreateSection("paca Owner Kick")
 
-local TokraOwnerKickToggle = LoopTab:CreateToggle({
-    Name = "paca Owner Loop Kick ((파카용)블롭 없이)",
-    CurrentValue = false,
-    Flag = "TokraOwnerKick",
-    Callback = function(Value)
-        TokraOwnerKickT = Value
-        TokraOwnerKickF()
-    end
-})
-
-local OwnerLoopKickToggle = LoopTab:CreateToggle({
-    Name = "paca Owner Loop KickV2 ((파카용)블롭맨 없이)",
-    CurrentValue = false,
-    Flag = "OwnerLoopKick",
-    Callback = function(Value)
-        OwnerLoopKickT = Value
-        OwnerLoopKickF()
-    end
-})
 
 LoopTab:CreateSection("Owner Kick")
 local OLTPInput = LoopTab:CreateInput({
@@ -7069,6 +6953,17 @@ local OLTPInput = LoopTab:CreateInput({
     end
 })
 OLTPInput:Set("0,20,0")
+LoopTab:CreateSection("Kick")
+
+LoopTab:CreateButton({
+    Name = "오너 킥 [ No Blob ]",
+    Callback = function()
+        local success, err = pcall(KickWithoutBlobF)
+        if not success then
+            warn("Kick 에러 발생: " .. tostring(err))
+        end
+    end
+})
 
 local blobLoop4Toggle = LoopTab:CreateToggle({
     Name = "루프 오너킥 [ 오토아님 ]",
