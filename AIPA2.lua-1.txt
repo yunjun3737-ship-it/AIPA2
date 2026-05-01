@@ -3042,7 +3042,7 @@ function AntiStickyGBF()
         local char = plr.Character
         local hrp = char and char:FindFirstChild("HumanoidRootPart")
         if not hrp then 
-            task.wait(0.1)
+            task.wait(0.001)
             continue
         end
 
@@ -3295,7 +3295,7 @@ function AntiGrabStickyF()
     local plr = game.Players.LocalPlayer
     
     while AntiGrabStickyT and plr do
-        task.wait(0.1)
+        task.wait(0.000001)
 
         local char = plr.Character
         if not char or not char.Parent then
@@ -3380,7 +3380,7 @@ function AntiGrabStickyF()
                     end)
                 end)
 
-                task.wait(0.001)
+                task.wait(0.0001)
 
                 local newNinjaFolder = inv:FindFirstChild("NinjaShuriken")
                 if newNinjaFolder then
@@ -3465,7 +3465,7 @@ function AntiGrabF(enable)
         end
 
         if isvs and POR then
-        task.wait(0.3)
+        task.wait(0.003)
         end
 
         if POR and POR.Value then
