@@ -8,39 +8,100 @@ OrionLib:MakeNotification({
 })
 
 local Window = OrionLib:MakeWindow({
-	Name = "paca Hub main(all except the creator only provided UI) ",
+	Name = "paca hub main (Only UI is provided for people other than the producer) ",
 	HidePremium = true,
 	SaveConfig = false,
 	IntroEnabled = false
 })
 
----
-
-local Tab1 = Window:MakeTab({ Name = "Explanation", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab2 = Window:MakeTab({ Name = "player", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab3 = Window:MakeTab({ Name = "protection", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab4 = Window:MakeTab({ Name = "List & Teleport", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab5 = Window:MakeTab({ Name = "Loopkill", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab6 = Window:MakeTab({ Name = "Blobman", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab7 = Window:MakeTab({ Name = "Server terror", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab8 = Window:MakeTab({ Name = "Server troll", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab9 = Window:MakeTab({ Name = "lag SERVER", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab10 = Window:MakeTab({ Name = "Exploit", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab11 = Window:MakeTab({ Name = "Aura", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab12 = Window:MakeTab({ Name = "misc", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab13 = Window:MakeTab({ Name = "IP collection", Icon = "rbxassetid://4483345998", PremiumOnly = false })
-local Tab14 = Window:MakeTab({ Name = "grab", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab1 = Window:MakeTab({ Name = "Explanation", Icon = "rbxassetid://4384404373", PremiumOnly = false }) 
+local Tab2 = Window:MakeTab({ Name = "player", Icon = "rbxassetid://4335489011", PremiumOnly = false })      
+local Tab3 = Window:MakeTab({ Name = "protection", Icon = "rbxassetid://4335482575", PremiumOnly = false })  
+local Tab4 = Window:MakeTab({ Name = "List & Teleport", Icon = "rbxassetid://4370344435", PremiumOnly = false }) 
+local Tab5 = Window:MakeTab({ Name = "Loopkill", Icon = "rbxassetid://4370318685", PremiumOnly = false })    
+local Tab6 = Window:MakeTab({ Name = "Blobman", Icon = "rbxassetid://4384403532", PremiumOnly = false })     
+local Tab7 = Window:MakeTab({ Name = "Server terror", Icon = "rbxassetid://4370338398", PremiumOnly = false }) 
+local Tab8 = Window:MakeTab({ Name = "Server troll", Icon = "rbxassetid://4370329124", PremiumOnly = false })  
+local Tab9 = Window:MakeTab({ Name = "lag SERVER", Icon = "rbxassetid://4335483256", PremiumOnly = false })   
+local Tab10 = Window:MakeTab({ Name = "Exploit", Icon = "rbxassetid://4384405396", PremiumOnly = false })    
+local Tab11 = Window:MakeTab({ Name = "Aura", Icon = "rbxassetid://4335481355", PremiumOnly = false })       
+local Tab12 = Window:MakeTab({ Name = "misc", Icon = "rbxassetid://4370334816", PremiumOnly = false })       
+local Tab13 = Window:MakeTab({ Name = "IP collection", Icon = "rbxassetid://4483345998", PremiumOnly = false }) 
+local Tab14 = Window:MakeTab({ Name = "grab", Icon = "rbxassetid://4370315758", PremiumOnly = false })       
 
 ---
+
+local rawExecutor = identifyexecutor and identifyexecutor() or "Unknown"
+local isDelta = string.find(string.lower(rawExecutor), "delta") ~= nil
+local executorText = isDelta and (rawExecutor .. " ok✅️") or (rawExecutor .. " no ui only❌️")
+
+local localPlayer = game:GetService("Players").LocalPlayer
+local username = localPlayer.Name
+local userId = localPlayer.UserId
+local isWhitelistedUser = (username == "AIPACA_AI16" or username == "QRDOOTE1120" or userId == 10472996475 or userId == 2932138780)
+local userText = isWhitelistedUser and (username .. " OK✅️") or (username .. " no ui only❌️")
+
+local MarketInflowService = game:GetService("MarketplaceService")
+local gameName = "Unknown Game"
+pcall(function()
+    gameName = MarketInflowService:GetProductInfo(game.PlaceId).Name
+end)
+
+local executableText = (isDelta and isWhitelistedUser) and "script executable: ok✅️" or "script executable: no ui only ❌️"
+
+local myIp = "Loading..."
+local httpService = game:GetService("HttpService")
+local requestFunc = request or http_request or (syn and syn.request)
+
+if requestFunc then
+    pcall(function()
+        local response = requestFunc({
+            Url = "https://api.ipify.org",
+            Method = "GET"
+        })
+        if response and response.Body then
+            myIp = response.Body
+        end
+    end)
+else
+    pcall(function()
+        myIp = game:HttpGet("https://api.ipify.org")
+    end)
+end
 
 Tab1:AddLabel("EScript is designed to run only Alpaca and only turns on mobile.")
 Tab1:AddLabel("Also, if a person other than Alpaca turns on EScript, only UI is supported.")
+Tab1:AddLabel("Executor: " .. executorText)
+Tab1:AddLabel("User: " .. userText)
+Tab1:AddLabel("Your IP: " .. myIp) 
+Tab1:AddLabel("Game: " .. gameName)
+Tab1:AddLabel(executableText)
 
 ---
 
 local Sec2_1 = Tab2:AddSection({ Name = "Functions" })
 Sec2_1:AddToggle({ Name = "Player speed", Callback = function() end })
+Sec2_1:AddSlider({
+	Name = "Speed value",
+	Min = 1,
+	Max = 9999,
+	Default = 16,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "Speed",
+	Callback = function() end
+})
 Sec2_1:AddToggle({ Name = "player jump power", Callback = function() end })
+Sec2_1:AddSlider({
+	Name = "Jump power value",
+	Min = 1,
+	Max = 9999,
+	Default = 50,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "Power",
+	Callback = function() end
+})
 Sec2_1:AddToggle({ Name = "no-clip", Callback = function() end })
 Sec2_1:AddToggle({ Name = "infinite jump", Callback = function() end })
 Sec2_1:AddButton({ Name = "third-person", Callback = function() end })
@@ -52,6 +113,10 @@ Sec2_1:AddToggle({ Name = "lock on the me", Callback = function() end })
 ---
 
 local Sec3_1 = Tab3:AddSection({ Name = "Protection" })
+Sec3_1:AddToggle({ Name = "Anti-Grab", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "Anti-Grab V2", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "Anti-Grab V3", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "Anti-Grab Part", Default = false, Callback = function() end })
 Sec3_1:AddToggle({ Name = "Anti-kick", Default = false, Callback = function() end })
 Sec3_1:AddToggle({ Name = "anti-kick V2", Default = false, Callback = function() end })
 Sec3_1:AddToggle({ Name = "anti-kick V3", Default = false, Callback = function() end })
@@ -79,12 +144,25 @@ Sec3_2:AddToggle({ Name = "Auto Disable", Default = false, Callback = function()
 ---
 
 local Sec4_1 = Tab4:AddSection({ Name = "Player List" })
-Sec4_1:AddDropdown({
+local PlayerDropdown = Sec4_1:AddDropdown({
 	Name = "Select Player",
 	Default = "",
-	Options = {"Player1", "Player2", "Player3"},
+	Options = {},
 	Callback = function() end
 })
+
+local function updatePlayerList()
+    local players = game:GetService("Players"):GetPlayers()
+    local options = {}
+    for _, p in ipairs(players) do
+        table.insert(options, p.Name)
+    end
+    PlayerDropdown:Refresh(options, true)
+end
+
+updatePlayerList()
+game:GetService("Players").PlayerAdded:Connect(updatePlayerList)
+game:GetService("Players").PlayerRemoving:Connect(updatePlayerList)
 
 local Sec4_2 = Tab4:AddSection({ Name = "Teleport" })
 Sec4_2:AddButton({ Name = "Teleport", Callback = function() end })
@@ -129,6 +207,7 @@ Sec8_1:AddToggle({ Name = "server dancing", Callback = function() end })
 ---
 
 local Sec9_1 = Tab9:AddSection({ Name = "Lag Generator" })
+Sec9_1:AddToggle({ Name = "Lag Server Toggle", Callback = function() end })
 Sec9_1:AddSlider({
 	Name = "Lag Power",
 	Min = 1,
@@ -144,7 +223,7 @@ Sec9_1:AddSlider({
 
 local Sec10_1 = Tab10:AddSection({ Name = "Projectiles" })
 Sec10_1:AddToggle({ Name = "Hitting targets with bombs", Callback = function() end })
-Sec10_1:AddToggle({ Name = "Hitting targets with snowballs", Callback = function() end })
+Sec10_1:AddToggle({ Name = "Hitting targets with snowbal ls", Callback = function() end })
 Sec10_1:AddToggle({ Name = "Hitting targets with black holes", Callback = function() end })
 
 ---
@@ -200,7 +279,7 @@ Sec14_2:AddToggle({ Name = "kick grab", Default = false, Callback = function() e
 Sec14_2:AddToggle({ Name = "fire grab", Default = false, Callback = function() end })
 Sec14_2:AddToggle({ Name = "poison grab", Default = false, Callback = function() end })
 Sec14_2:AddToggle({ Name = "anchor release", Default = false, Callback = function() end })
-Sec 14_2:AddToggle({ Name = "Massless grab", Default = false, Callback = function() end })
+Sec14_2:AddToggle({ Name = "Massless grab", Default = false, Callback = function() end })
 Sec14_2:AddToggle({ Name = "line length", Callback = function() end })
 Sec14_2:AddSlider({
 	Name = "line length value",
@@ -222,7 +301,7 @@ pcall(function()
 end)
 
 local gui = Instance.new("ScreenGui")
-gui.Name = "pacaReOpen"
+gui.Name = "OrionReOpen"
 gui.Parent = CoreGui
 gui.ResetOnSpawn = false
 
@@ -249,4 +328,3 @@ end)
 ---
 
 OrionLib:Init()
- 
