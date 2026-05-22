@@ -8,7 +8,7 @@ OrionLib:MakeNotification({
 })
 
 local Window = OrionLib:MakeWindow({
-	Name = "paca hub main (Only UI is provided for people other than the producer) ",
+	Name = "paca hub main (Only the creator) ",
 	HidePremium = true,
 	SaveConfig = false,
 	IntroEnabled = false
