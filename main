@@ -8,7 +8,7 @@ OrionLib:MakeNotification({
 })
 
 local Window = OrionLib:MakeWindow({
-	Name = "Orion",
+	Name = "paca Hub main(all except the creator only provided UI) ",
 	HidePremium = true,
 	SaveConfig = false,
 	IntroEnabled = false
@@ -200,7 +200,7 @@ Sec14_2:AddToggle({ Name = "kick grab", Default = false, Callback = function() e
 Sec14_2:AddToggle({ Name = "fire grab", Default = false, Callback = function() end })
 Sec14_2:AddToggle({ Name = "poison grab", Default = false, Callback = function() end })
 Sec14_2:AddToggle({ Name = "anchor release", Default = false, Callback = function() end })
-Sec14_2:AddToggle({ Name = "Massless grab", Default = false, Callback = function() end })
+Sec 14_2:AddToggle({ Name = "Massless grab", Default = false, Callback = function() end })
 Sec14_2:AddToggle({ Name = "line length", Callback = function() end })
 Sec14_2:AddSlider({
 	Name = "line length value",
@@ -222,7 +222,7 @@ pcall(function()
 end)
 
 local gui = Instance.new("ScreenGui")
-gui.Name = "OrionReOpen"
+gui.Name = "pacaReOpen"
 gui.Parent = CoreGui
 gui.ResetOnSpawn = false
 
@@ -249,3 +249,4 @@ end)
 ---
 
 OrionLib:Init()
+ 
