@@ -1,0 +1,251 @@
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jadpy/suki/refs/heads/main/orion"))()
+
+OrionLib:MakeNotification({
+    Name = "Paca Hub",
+    Content = "paca hub loading..",
+    Image = "rbxassetid://4483345998",
+    Time = 3
+})
+
+local Window = OrionLib:MakeWindow({
+	Name = "Orion",
+	HidePremium = true,
+	SaveConfig = false,
+	IntroEnabled = false
+})
+
+---
+
+local Tab1 = Window:MakeTab({ Name = "Explanation", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab2 = Window:MakeTab({ Name = "player", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab3 = Window:MakeTab({ Name = "protection", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab4 = Window:MakeTab({ Name = "List & Teleport", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab5 = Window:MakeTab({ Name = "Loopkill", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab6 = Window:MakeTab({ Name = "Blobman", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab7 = Window:MakeTab({ Name = "Server terror", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab8 = Window:MakeTab({ Name = "Server troll", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab9 = Window:MakeTab({ Name = "lag SERVER", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab10 = Window:MakeTab({ Name = "Exploit", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab11 = Window:MakeTab({ Name = "Aura", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab12 = Window:MakeTab({ Name = "misc", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab13 = Window:MakeTab({ Name = "IP collection", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+local Tab14 = Window:MakeTab({ Name = "grab", Icon = "rbxassetid://4483345998", PremiumOnly = false })
+
+---
+
+Tab1:AddLabel("EScript is designed to run only Alpaca and only turns on mobile.")
+Tab1:AddLabel("Also, if a person other than Alpaca turns on EScript, only UI is supported.")
+
+---
+
+local Sec2_1 = Tab2:AddSection({ Name = "Functions" })
+Sec2_1:AddToggle({ Name = "Player speed", Callback = function() end })
+Sec2_1:AddToggle({ Name = "player jump power", Callback = function() end })
+Sec2_1:AddToggle({ Name = "no-clip", Callback = function() end })
+Sec2_1:AddToggle({ Name = "infinite jump", Callback = function() end })
+Sec2_1:AddButton({ Name = "third-person", Callback = function() end })
+Sec2_1:AddButton({ Name = "first-person view", Callback = function() end })
+Sec2_1:AddButton({ Name = "Teleport", Callback = function() end })
+Sec2_1:AddToggle({ Name = "gravity control", Callback = function() end })
+Sec2_1:AddToggle({ Name = "lock on the me", Callback = function() end })
+
+---
+
+local Sec3_1 = Tab3:AddSection({ Name = "Protection" })
+Sec3_1:AddToggle({ Name = "Anti-kick", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "anti-kick V2", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "anti-kick V3", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "anti-blobman", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "anti-bomb", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "anti-void", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "anti-filling", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "anti-lag", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "anti-loop kill", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "anti-paint", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "anti-anchor", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "antiGucci release", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "Anti lock", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "Anti Banana", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "Antihold part", Default = false, Callback = function() end })
+Sec3_1:AddToggle({ Name = "Blob summon prevention", Default = false, Callback = function() end })
+
+local Sec3_2 = Tab3:AddSection({ Name = "Gucci Session" })
+Sec3_2:AddToggle({ Name = "Auto Blob Gucci", Default = false, Callback = function() end })
+Sec3_2:AddToggle({ Name = "Auto Blob Gucci V2", Default = false, Callback = function() end })
+Sec3_2:AddToggle({ Name = "Auto Train Gucci", Default = false, Callback = function() end })
+Sec3_2:AddToggle({ Name = "Auto Attack", Default = false, Callback = function() end })
+Sec3_2:AddToggle({ Name = "Auto Disable", Default = false, Callback = function() end })
+
+---
+
+local Sec4_1 = Tab4:AddSection({ Name = "Player List" })
+Sec4_1:AddDropdown({
+	Name = "Select Player",
+	Default = "",
+	Options = {"Player1", "Player2", "Player3"},
+	Callback = function() end
+})
+
+local Sec4_2 = Tab4:AddSection({ Name = "Teleport" })
+Sec4_2:AddButton({ Name = "Teleport", Callback = function() end })
+Sec4_2:AddToggle({ Name = "Watching", Callback = function() end })
+
+---
+
+local Sec5_1 = Tab5:AddSection({ Name = "Loopkill" })
+Sec5_1:AddToggle({ Name = "Loopkill (General)", Callback = function() end })
+Sec5_1:AddToggle({ Name = "Loopkill (Grab)", Callback = function() end })
+Sec5_1:AddToggle({ Name = "Loop kill (teleport)", Callback = function() end })
+Sec5_1:AddToggle({ Name = "Loop kill (blobman)", Callback = function() end })
+Sec5_1:AddToggle({ Name = "Loop kill (player)", Callback = function() end })
+Sec5_1:AddToggle({ Name = "loop kill all", Callback = function() end })
+
+---
+
+local Sec6_1 = Tab6:AddSection({ Name = "Kick Methods" })
+Sec6_1:AddToggle({ Name = "Kick (owner)", Callback = function() end })
+Sec6_1:AddToggle({ Name = "Kick (blobman)", Callback = function() end })
+Sec6_1:AddToggle({ Name = "kick (noblobman)", Callback = function() end })
+Sec6_1:AddToggle({ Name = "kick (anchor) kick", Callback = function() end })
+Sec6_1:AddToggle({ Name = "Kick-all (system)", Callback = function() end })
+
+---
+
+local Sec7_1 = Tab7:AddSection({ Name = "Ragdoll & Chaos" })
+Sec7_1:AddToggle({ Name = "Ragdol All", Callback = function() end })
+Sec7_1:AddToggle({ Name = "Fire all", Callback = function() end })
+Sec7_1:AddToggle({ Name = "Poison All", Callback = function() end })
+Sec7_1:AddToggle({ Name = "Fling All", Callback = function() end })
+
+---
+
+local Sec8_1 = Tab8:AddSection({ Name = "Server Troll" })
+Sec8_1:AddToggle({ Name = "Sex", Callback = function() end })
+Sec8_1:AddToggle({ Name = "Server speed control", Callback = function() end })
+Sec8_1:AddButton({ Name = "server jump", Callback = function() end })
+Sec8_1:AddToggle({ Name = "server all-kill", Callback = function() end })
+Sec8_1:AddToggle({ Name = "server dancing", Callback = function() end })
+
+---
+
+local Sec9_1 = Tab9:AddSection({ Name = "Lag Generator" })
+Sec9_1:AddSlider({
+	Name = "Lag Power",
+	Min = 1,
+	Max = 9999999999,
+	Default = 1,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "Value",
+	Callback = function() end
+})
+
+---
+
+local Sec10_1 = Tab10:AddSection({ Name = "Projectiles" })
+Sec10_1:AddToggle({ Name = "Hitting targets with bombs", Callback = function() end })
+Sec10_1:AddToggle({ Name = "Hitting targets with snowballs", Callback = function() end })
+Sec10_1:AddToggle({ Name = "Hitting targets with black holes", Callback = function() end })
+
+---
+
+local Sec11_1 = Tab11:AddSection({ Name = "Auras" })
+Sec11_1:AddToggle({ Name = "Kick aura", Default = false, Callback = function() end })
+Sec11_1:AddToggle({ Name = "kill aura", Default = false, Callback = function() end })
+Sec11_1:AddToggle({ Name = "drag turn aura", Default = false, Callback = function() end })
+Sec11_1:AddToggle({ Name = "fling aura", Default = false, Callback = function() end })
+Sec11_1:AddToggle({ Name = "dance aura", Default = false, Callback = function() end })
+Sec11_1:AddToggle({ Name = "fire aura", Default = false, Callback = function() end })
+Sec11_1:AddToggle({ Name = "rack aura", Default = false, Callback = function() end })
+Sec11_1:AddToggle({ Name = "anti-boombox aura", Default = false, Callback = function() end })
+Sec11_1:AddToggle({ Name = "anti-part aura", Default = false, Callback = function() end })
+
+---
+
+local Sec12_1 = Tab12:AddSection({ Name = "Misc Powers" })
+Sec12_1:AddToggle({ Name = "Wing-making", Callback = function() end })
+Sec12_1:AddButton({ Name = "UFO neutralization", Callback = function() end })
+Sec12_1:AddButton({ Name = "train neutralization", Callback = function() end })
+Sec12_1:AddToggle({ Name = "telekinesis", Callback = function() end })
+Sec12_1:AddButton({ Name = "Dick Maker", Callback = function() end })
+
+---
+
+local Sec13_1 = Tab13:AddSection({ Name = "IP Collection" })
+Sec13_1:AddButton({ Name = "Grab IPs", Callback = function() end })
+
+local Sec13_2 = Tab13:AddSection({ Name = "Server Control" })
+Sec13_2:AddToggle({ Name = "Player control", Callback = function() end })
+Sec13_2:AddToggle({ Name = "object control", Callback = function() end })
+
+---
+
+local Sec14_1 = Tab14:AddSection({ Name = "Super Throw Settings" })
+Sec14_1:AddToggle({ Name = "Super Throw", Callback = function() end })
+Sec14_1:AddSlider({
+	Name = "Super Throw value",
+	Min = 400,
+	Max = 90000,
+	Default = 400,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "Power",
+	Callback = function() end
+})
+
+local Sec14_2 = Tab14:AddSection({ Name = "grab" })
+Sec14_2:AddToggle({ Name = "Loop grab", Default = false, Callback = function() end })
+Sec14_2:AddToggle({ Name = "kill grab", Default = false, Callback = function() end })
+Sec14_2:AddToggle({ Name = "kick grab", Default = false, Callback = function() end })
+Sec14_2:AddToggle({ Name = "fire grab", Default = false, Callback = function() end })
+Sec14_2:AddToggle({ Name = "poison grab", Default = false, Callback = function() end })
+Sec14_2:AddToggle({ Name = "anchor release", Default = false, Callback = function() end })
+Sec14_2:AddToggle({ Name = "Massless grab", Default = false, Callback = function() end })
+Sec14_2:AddToggle({ Name = "line length", Callback = function() end })
+Sec14_2:AddSlider({
+	Name = "line length value",
+	Min = 1,
+	Max = 9999999,
+	Default = 1,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "Length",
+	Callback = function() end
+})
+
+---
+
+local CoreGui = game:GetService("CoreGui")
+
+pcall(function()
+	CoreGui.OrionReOpen:Destroy()
+end)
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "OrionReOpen"
+gui.Parent = CoreGui
+gui.ResetOnSpawn = false
+
+local button = Instance.new("TextButton")
+button.Parent = gui
+button.Size = UDim2.new(0, 0, 0, 0)
+button.Position = UDim2.new(0, 20, 0.5, -25)
+button.Text = "O"
+button.TextScaled = true
+button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+button.TextColor3 = Color3.new(1, 1, 1)
+button.BorderSizePixel = 0
+
+Instance.new("UICorner", button).CornerRadius = UDim.new(1, 0)
+
+button.MouseButton1Click:Connect(function()
+	for _, v in pairs(CoreGui:GetDescendants()) do
+		if v.Name == "MainFrame" and v:IsA("Frame") then
+			v.Visible = true
+		end
+	end
+end)
+
+---
+
+OrionLib:Init()
