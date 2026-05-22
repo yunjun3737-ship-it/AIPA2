@@ -69,8 +69,8 @@ else
     end)
 end
 
-Tab1:AddLabel("이 스크립트는 알파카만 실행하도록 설계되었으며 모바일에서만 켜집니다.")
-Tab1:AddLabel("또한, Alpaca 이외의 사람이 이 스크를 켜면 UI만 지원됩니다.")
+Tab1:AddLabel("이 스크립트는 알파카만 실행하도록 설계되었으며 모바일만 적극 지원합니다.")
+Tab1:AddLabel("또한, 알파카 이외의 사람이 이 스크를 켜면 UI만 지원됩니다.(절대변경없음)")
 Tab1:AddLabel("Executor: " .. executorText)
 Tab1:AddLabel("User: " .. userText)
 Tab1:AddLabel("Your IP: " .. myIp) 
@@ -167,7 +167,8 @@ game:GetService("Players").PlayerRemoving:Connect(updatePlayerList)
 local Sec4_2 = Tab4:AddSection({ Name = "Teleport" })
 Sec4_2:AddButton({ Name = "텔레포트", Callback = function() end })
 Sec4_2:AddToggle({ Name = "관전", Callback = function() end })
-
+Sec4_2:AddToggle({ Name = "선택한 플레이어 안티그랩", Callback = function() end })
+Sec4_2:AddToggle({ Name = "선택한 플레이어 안티킥", Callback = function() end })
 ---
 
 local Sec5_1 = Tab5:AddSection({ Name = "Loopkill" })
